@@ -91,7 +91,7 @@ export default function ResumePage() {
   ];
 
   return (
-    <div className="relative pb-12 bg-zinc-900 text-zinc-200 min-h-screen overflow-hidden">
+    <div className="relative pb-12 pt-12 bg-zinc-900 text-zinc-200 min-h-screen overflow-hidden">
       <Navigation />
 
       {/* custom blurred pointer */}
