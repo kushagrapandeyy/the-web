@@ -6,10 +6,10 @@ import { Card } from "../components/card";
 
 const socials = [
 	{
-		icon: <Mail size={20} />,
-		href: "mailto:kushagrapandey2004@gmail.com",
+		icon: <Mail size={25} />,
+		href: "mailto:kushagrapandeyy@gmail.com",
 		label: "Email",
-		handle: "kushagrapandey2004@gmail.com",
+		handle: "kushagrapandeyy@gmail.com",
 	},
 	{
 		icon: <Github size={20} />,
