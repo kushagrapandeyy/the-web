@@ -6,7 +6,7 @@ import { Card } from "../components/card";
 
 const socials = [
   {
-    icon: <Mail size={25} />,
+    icon: <Mail size={19} />,
     href: "mailto:kushagrapandeyy@gmail.com",
     label: "Email",
     handle: "kushagrapandeyy@gmail.com",
