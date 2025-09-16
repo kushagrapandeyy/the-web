@@ -1,0 +1,32 @@
+---
+title: kushagrapandey.com
+description: Personal portfolio and profile in React/Next.js with subtle motion, particles, and type treatment to keep things fast and minimal while showcasing work.
+date: "2025-01-15"
+url: https://kushagrapandey.com
+role: Designer & Full-Stack Dev
+tags: ["Next.js", "Tailwind", "MDX", "Animations"]
+published: true
+---
+
+[![](/ProjectPngs/portfolio.png)](https://kushagrapandey.com)
+
+---
+
+## About this project
+
+**You’re on it.** This site is my TypeScript + Next.js portfolio with MDX content, Tailwind styling, and Contentlayer for type-safe content. Deployed on **Vercel** with edge caching + incremental revalidation.
+
+### Why this build?
+- **Fast, minimal UI** with subtle motion.
+- **MDX-first authoring**: add a file → it’s live.
+- **Type safety** end-to-end via Contentlayer.
+
+---
+
+## Core stack
+
+- **Next.js (App Router):** `app/projects/[slug]` for detail, `app/projects/page.tsx` for the grid.
+- **TypeScript:** strict types for content + components.
+- **Tailwind CSS:** utility styling; `@tailwindcss/typography` for MDX.
+- **Contentlayer:** compiles MDX, generates `allProjects` + computed `slug`.
+- **Vercel:** CDN, fast builds, `revalidate` for fresh lists.
