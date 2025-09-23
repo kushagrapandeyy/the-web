@@ -9,7 +9,6 @@ import { Navigation } from "../components/nav";
 export default function ResumePage() {
   const cursorRef = useRef<HTMLDivElement>(null);
 
-  // Move our custom blurred pointer
   useEffect(() => {
     const move = (e: MouseEvent) => {
       if (cursorRef.current) {
@@ -20,6 +19,15 @@ export default function ResumePage() {
     return () => document.removeEventListener("mousemove", move);
   }, []);
 
+  const SectionCard = ({ title, children }: { title: string; children: React.ReactNode }) => (
+    <div className="bg-white/5 backdrop-blur-md border border-white/20 shadow-lg rounded-xl p-6 hover:scale-[1.01] transition-transform duration-300">
+      <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent text-center">
+        {title}
+      </h2>
+      <div className="space-y-3 text-sm">{children}</div>
+    </div>
+  );
+
   const workExperience = [
     {
       title: "Production Assistant",
@@ -27,21 +35,20 @@ export default function ResumePage() {
       date: "Oct 2024 – Present",
       location: "Tempe, AZ",
       bullets: [
-        "Created high-quality videography and photography aligning with ASU’s brand identity.",
-        "Led pre-production, logistics, and post-production—boosting efficiency by 25%.",
-        "Integrated automation tools and live-streaming systems to enhance workflow by 30%."
+        "Produced visuals aligning with ASU’s brand, enhancing its digital presence.",
+        "Directed pre-production, logistics, and post-production—boosting efficiency by 25%.",
+        "Integrated automation tools and live-streaming systems—improving workflows by 30%."
       ]
     },
     {
-      title: "Director of Technical Services",
-      company: "Unnamed LLP",
+      title: "Co-Founder",
+      company: "Firmlytic Solutions Pvt. Ltd.",
       date: "Jan 2024 – Present",
       location: "New Delhi, India",
       bullets: [
-        "Built and managed full-stack web app with end-to-end testing, using AWS S3, DynamoDB, EC2.",
-        "Led mobile app (Swift/Kotlin) and UI/UX design—reducing user friction by 35%.",
-        "Developed analytics dashboards to improve operational efficiency by 25% and cut resolution time by 15%.",
-        "Optimized performance/security with Cloudflare—reducing load times by 40%."
+        "Architected and scaled an AI-driven legal platform to 500+ DAU with 99.9% uptime.",
+        "Automated workflows via AWS Lambda, cutting manual effort by 40% and latency to <200ms.",
+        "Enhanced security using Cloudflare WAF and IAM—reducing incident exposure by 35%."
       ]
     },
     {
@@ -50,8 +57,8 @@ export default function ResumePage() {
       date: "Aug 2023 – Jan 2024",
       location: "New Delhi, India",
       bullets: [
-        "Implemented document-management system—boosting productivity by 35% and cutting retrieval times by 45%.",
-        "Drove digital transformation, increasing online presence by 20% and optimizing web/data processes."
+        "Built Spring Boot microservice for document management—retrieval speed +45%.",
+        "Led digital transformation—boosted digital presence by 20% and optimized web/data pipelines."
       ]
     },
     {
@@ -60,8 +67,9 @@ export default function ResumePage() {
       date: "Jun 2023 – Aug 2023",
       location: "Hyderabad, India",
       bullets: [
-        "Built Python-based cybersecurity tool—improving efficiency by 40% (APIs, JSON, Pandas).",
-        "Designed UI with HTML, CSS, JS, and Beautiful Soup to enhance user interaction."
+        "Developed Python-based scraping framework—collected 10k+ LinkedIn profiles daily at 95% accuracy.",
+        "Automated pipelines with multithreading/proxy rotation—reduced collection time by 60%.",
+        "Built MongoDB storage with real-time filtering—streamlined analysis workflows."
       ]
     }
   ];
@@ -72,43 +80,48 @@ export default function ResumePage() {
       company: "F2.8 Films",
       date: "Aug 2024 – Present",
       location: "Delhi, India",
-      text: "Directing IMDb-featured film productions and spearheading new industry-leading projects."
+      text: "Directed a 35-member team for an IMDb-featured film, overseeing end-to-end production."
     },
     {
       title: "Director of Media & Productions",
       company: "VentureVerse",
-      date: "Aug 2024 – Present",
+      date: "Aug 2024 – May 2025",
       location: "Tempe, AZ",
-      text: "Leading content strategy to engage and empower the next generation of ASU innovators."
+      text: "Designed and executed a content strategy that increased event attendance by 50%."
     },
     {
       title: "Member",
       company: "Software Developers Association",
       date: "Aug 2022 – Present",
       location: "Tempe, AZ",
-      text: "Participated in technical workshops and networking events with engineers from Google and Microsoft."
+      text: "Engaged in hackathons, networking with Google & Microsoft engineers, and technical workshops."
     }
   ];
 
   return (
-    <div className="relative pb-12 pt-12 bg-zinc-900 text-zinc-200 min-h-screen overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-zinc-900 via-black to-zinc-900 text-zinc-200">
       <Navigation />
 
       {/* custom blurred pointer */}
-      <div ref={cursorRef} className="cursor-ball" />
+      <div
+        ref={cursorRef}
+        className="cursor-ball fixed top-0 left-0 w-32 h-32 rounded-full bg-blue-500/20 blur-3xl pointer-events-none"
+      />
 
-      <div className="max-w-4xl px-4 py-12 mx-auto lg:px-6 space-y-10">
+      <main className="max-w-5xl px-6 py-16 mx-auto space-y-16">
         {/* Header */}
-        <header className="space-y-3 text-center">
-          <h1 className="text-4xl font-bold text-white">Kushagra Pandey</h1>
+        <header className="text-center space-y-3">
+          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            Kushagra Pandey
+          </h1>
           <div className="flex flex-wrap justify-center gap-6 text-sm text-zinc-400">
-            <Link href="https://www.linkedin.com/in/kushagrapandeyy/" target="_blank" className="flex items-center gap-1">
+            <Link href="https://www.linkedin.com/in/kushagrapandeyy/" target="_blank" className="flex items-center gap-1 hover:text-blue-400">
               <Linkedin size={16} /> LinkedIn
             </Link>
-            <a href="mailto:kushagrapandey2004@gmail.com" className="flex items-center gap-1">
+            <a href="mailto:kushagrapandey2004@gmail.com" className="flex items-center gap-1 hover:text-blue-400">
               <Mail size={16} /> kushagrapandey2004@gmail.com
             </a>
-            <a href="tel:6232816677" className="flex items-center gap-1">
+            <a href="tel:6232816677" className="flex items-center gap-1 hover:text-blue-400">
               <Phone size={16} /> (623) 281-6677
             </a>
             <span className="flex items-center gap-1">
@@ -118,57 +131,54 @@ export default function ResumePage() {
         </header>
 
         {/* Education */}
-        <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-center">Education</h2>
-          <div className="border border-white p-4 text-left space-y-2 text-sm leading-relaxed">
-            <p className="font-medium">
-              Arizona State University, Ira A. Fulton Schools of Engineering — B.S. Computer Science; Minor in Film & Media Production{" "}
-              <span className="text-zinc-400">• May 2026</span>
-            </p>
-            <p>GPA 3.52 / 4.0 • Dean’s List Academic Achievement Award</p>
-            <p>
-              Relevant Coursework: Data Structures & Algorithms; Digital Design Fundamentals; Database Management; Foundations of Data Visualization; OOP; Software Engineering; Theoretical CS; Assembly Programming; Information Assurance
-            </p>
-          </div>
-        </section>
+        <SectionCard title="Education">
+          <p className="font-medium">
+            Arizona State University — B.S. Computer Science; Minor in Film & Media Production{" "}
+            <span className="text-zinc-400">• May 2026</span>
+          </p>
+          <p>GPA 3.00 (Cumulative) • Dean’s List Academic Achievement Award</p>
+          <p>
+            <span className="font-semibold">Relevant Coursework:</span> Data Structures & Algorithms, Digital Design, Database Management, Data Visualization, OOP, Software Engineering, Theoretical CS, Assembly, Information Assurance.
+          </p>
+        </SectionCard>
 
         {/* Technical Skills */}
-        <section className="space-y-6">
-          <h2 className="text-2xl font-semibold text-center">Technical Skills</h2>
-          <div className="border border-white p-4 text-left space-y-2 text-sm leading-relaxed">
-            <p>
-              <strong>Programming:</strong> Java, JavaScript, HTML, CSS, Bash, Scheme, C, C++, Python, MySQL, PostgreSQL, MIPS Assembly, PHP, JavaFX, AngularJS, ReactJS, TypeScript, Swift, Kotlin, Cloud Computing, Docker, Kubernetes
-            </p>
-            <p>
-              <strong>Methodologies &amp; Tools:</strong> Figma, Git/GitHub, VS Code, Microsoft Office, Data Modeling, Agile, DevSecOps
-            </p>
-          </div>
-        </section>
+        <SectionCard title="Technical Skills">
+          <p>
+            <strong>Languages & Frameworks:</strong> Java, C++, Python, JavaScript, TypeScript, PHP, Swift, Kotlin, React, Angular, Node, Express, JavaFX, HTML5, CSS3
+          </p>
+          <p>
+            <strong>Cloud & DevOps:</strong> AWS (EC2, S3, DynamoDB, Lambda), Docker, Kubernetes, Jenkins, Cloudflare, CI/CD pipelines
+          </p>
+          <p>
+            <strong>Databases & Data:</strong> PostgreSQL, MySQL, MongoDB, Redis, D3.js
+          </p>
+        </SectionCard>
 
         {/* Work Experience */}
-        <section className="space-y-8">
-          <h2 className="text-2xl font-semibold text-center">Work Experience</h2>
+        <SectionCard title="Work Experience">
           {workExperience.map((item, idx) => (
-            <div key={idx} className="border border-white p-4 text-left space-y-1 text-sm leading-relaxed">
-              <p className="font-medium">{item.title} — {item.company}</p>
-              <p className="text-zinc-400 text-xs">{item.date} • {item.location}</p>
-              {item.bullets.map((b, i) => <p key={i}>{b}</p>)}
+            <div key={idx} className="pb-3 border-b border-white/10 last:border-none">
+              <p className="font-semibold">{item.title} — {item.company}</p>
+              <p className="text-xs text-zinc-400">{item.date} • {item.location}</p>
+              <ul className="list-disc list-inside text-zinc-300 mt-1 space-y-1">
+                {item.bullets.map((b, i) => <li key={i}>{b}</li>)}
+              </ul>
             </div>
           ))}
-        </section>
+        </SectionCard>
 
         {/* Leadership Experience */}
-        <section className="space-y-8">
-          <h2 className="text-2xl font-semibold text-center">Leadership Experience</h2>
+        <SectionCard title="Leadership Experience">
           {leadership.map((item, idx) => (
-            <div key={idx} className="border border-white p-4 text-left space-y-1 text-sm leading-relaxed">
-              <p className="font-medium">{item.title} — {item.company}</p>
-              <p className="text-zinc-400 text-xs">{item.date} • {item.location}</p>
+            <div key={idx} className="pb-3 border-b border-white/10 last:border-none">
+              <p className="font-semibold">{item.title} — {item.company}</p>
+              <p className="text-xs text-zinc-400">{item.date} • {item.location}</p>
               <p>{item.text}</p>
             </div>
           ))}
-        </section>
-      </div>
+        </SectionCard>
+      </main>
     </div>
   );
 }
