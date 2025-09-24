@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     default: "Kushagra Pandey",
     template: "%s | kushagrapandey.com",
   },
-  description: "Co-founder of unkey.dev and founder of planetfall.io",
+  description: "Founder of Firmlytic Solutions. Developer based in Phoenix, AZ.",
   openGraph: {
     title: "kushagrapandey.com",
     description:
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     siteName: "kushagrapandey.com",
     images: [
       {
-        url: "https://chronark.com/og.png",
+        url: "https://www.kushagrapandey.com/me.jpg",
         width: 1920,
         height: 1080,
       },

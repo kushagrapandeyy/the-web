@@ -39,9 +39,9 @@ export default function ResumePage() {
     <div className="relative min-h-screen bg-gradient-to-br from-zinc-900 via-black to-zinc-900 text-zinc-200">
       <Navigation />
 
-      {/* custom blurred pointer */}
+      {/* custom blurred pointer 
       <div ref={cursorRef} className="cursor-ball fixed top-0 left-0 w-36 h-36 rounded-full bg-blue-500/10 blur-[100px] pointer-events-none" />
-
+      */}
       <main className="max-w-5xl px-6 py-16 mx-auto space-y-16">
         {/* Header */}
         <header className="text-center space-y-3">
@@ -75,7 +75,6 @@ export default function ResumePage() {
           </p>
           {/*<p>GPA 3.00 (Cumulative)</p>*/}
           <ul className="list-disc list-inside text-sm space-y-1">
-            <p></p>
             <li>Dean's List Academic Achievement Award.</li>
             <li>Relevant Coursework: Data Structures and Algorithms, Digital Design Fundamentals, Database Management, Foundations of Data Visualization, Object-Oriented Programming, Intro to Software Engineering, Intro to Theoretical Computer Science, Computer Language/Assembly Language Programming, Computer Security/Information Assurance, Embedded Microprocessor Systems, Understanding Innovation in Corporate Technology.</li>
           </ul>
@@ -141,7 +140,7 @@ export default function ResumePage() {
           <div className="pb-3 border-b border-white/10 last:border-none">
             <p className="font-semibold">VentureVerse — Director of Media and Productions</p>
             <p className="text-xs text-zinc-400">August 2024 – May 2025 • Tempe, Arizona</p>
-            <p>Developed content strategy, increasing event attendance by 50%.</p>
+            <p>Designed and executed a comprehensive content strategy that drove a 50% increase in event attendance.</p>
           </div>
 
           <div>
