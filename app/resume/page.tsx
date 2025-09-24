@@ -73,7 +73,7 @@ export default function ResumePage() {
             ARIZONA STATE UNIVERSITY, Ira A. Fulton Schools of Engineering — Bachelor of Science, Computer Science; Minor in Film and Media Production
             <span className="text-zinc-400"> • August 2022 - May 2026 • Tempe, Arizona</span>
           </p>
-          <p>GPA 3.00 (Cumulative)</p>
+          {/*<p>GPA 3.00 (Cumulative)</p>*/}
           <ul className="list-disc list-inside text-sm space-y-1">
             <li>Dean's List Academic Achievement Award.</li>
             <li>Relevant Coursework: Data Structures and Algorithms, Digital Design Fundamentals, Database Management, Foundations of Data Visualization, Object-Oriented Programming, Intro to Software Engineering, Intro to Theoretical Computer Science, Computer Language/Assembly Language Programming, Computer Security/Information Assurance, Embedded Microprocessor Systems, Understanding Innovation in Corporate Technology.</li>
