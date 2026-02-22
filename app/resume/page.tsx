@@ -1,740 +1,711 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence, useMotionTemplate, useMotionValue, useSpring, useScroll, useTransform } from "framer-motion";
-import { Mail, Linkedin, MapPin, ExternalLink, ChevronDown } from "lucide-react";
+import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, useMotionTemplate, AnimatePresence } from "framer-motion";
+import { ExternalLink, ChevronDown, ArrowUpRight } from "lucide-react";
 import { Navigation } from "../components/nav";
 
-const InteractiveCard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+// ─── Utilities ───────────────────────────────────────────────────────────────
+
+const ease = [0.16, 1, 0.3, 1] as const;
+
+// Clip-path text reveal from left
+const ClipReveal: React.FC<{ children: React.ReactNode; delay?: number; className?: string }> = ({
+  children, delay = 0, className = "",
+}) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  return (
+    <div ref={ref} style={{ overflow: "hidden" }} className={className}>
+      <motion.div
+        initial={{ y: "110%", opacity: 0 }}
+        animate={inView ? { y: "0%", opacity: 1 } : {}}
+        transition={{ duration: 0.75, delay, ease }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+};
+
+// Fade slide in
+const Reveal: React.FC<{ children: React.ReactNode; delay?: number; direction?: "up" | "left" | "right" }> = ({
+  children, delay = 0, direction = "up",
+}) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const from =
+    direction === "left" ? { opacity: 0, x: -28, y: 0 } :
+      direction === "right" ? { opacity: 0, x: 28, y: 0 } :
+        { opacity: 0, y: 24, x: 0 };
+  return (
+    <motion.div ref={ref}
+      initial={from}
+      animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
+      transition={{ duration: 0.7, delay, ease }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Magnetic shimmer card
+const Card: React.FC<{ children: React.ReactNode; className?: string; accent?: string }> = ({
+  children, className = "", accent = "rgba(255,255,255,0.03)",
+}) => {
   const mouseX = useSpring(0, { stiffness: 500, damping: 100 });
   const mouseY = useSpring(0, { stiffness: 500, damping: 100 });
-
-  function onMouseMove({ currentTarget, clientX, clientY }: any) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
-
-  const maskImage = useMotionTemplate`radial-gradient(280px at ${mouseX}px ${mouseY}px, white, transparent)`;
-  const style = { maskImage, WebkitMaskImage: maskImage };
-
+  const maskImage = useMotionTemplate`radial-gradient(300px at ${mouseX}px ${mouseY}px, ${accent}, transparent)`;
   return (
     <div
-      onMouseMove={onMouseMove}
-      className="overflow-hidden relative duration-700 border rounded-lg hover:bg-zinc-800/10 group hover:border-zinc-400/50 border-zinc-700/50"
+      className={`relative rounded-xl border border-zinc-800/50 bg-zinc-950/60 overflow-hidden hover:border-zinc-700/50 transition-colors duration-500 ${className}`}
+      onMouseMove={(e) => {
+        const { left, top } = e.currentTarget.getBoundingClientRect();
+        mouseX.set(e.clientX - left);
+        mouseY.set(e.clientY - top);
+      }}
     >
-      <div className="pointer-events-none">
-        <motion.div
-          className="absolute inset-0 z-10 bg-gradient-to-br opacity-100 via-zinc-100/10 transition duration-1000 group-hover:opacity-50"
-          style={style}
-        />
-        <motion.div
-          className="absolute inset-0 z-10 opacity-0 mix-blend-overlay transition duration-1000 group-hover:opacity-100"
-          style={style}
-        />
-      </div>
+      <motion.div className="pointer-events-none absolute inset-0 z-10" style={{ backgroundImage: maskImage }} />
       {children}
     </div>
   );
 };
 
-// Advanced scroll-based reveal with parallax - optimized for readability
-const ScrollReveal: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => {
-  const ref = React.useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 1.3", "end 0.3"] });
-  
-  const opacity = useTransform(scrollYProgress, [0, 0.4, 1], [0, 0.6, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [40, 0]);
-  const blur = useTransform(scrollYProgress, [0, 0.3], [6, 0]);
-  
+// Animated skill bar
+const SkillBar: React.FC<{ label: string; level: number; color?: string; delay?: number }> = ({
+  label, level, color = "#818cf8", delay = 0,
+}) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   return (
-    <motion.div
-      ref={ref}
-      style={{ opacity, y }}
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1], delay }}
-    >
-      <motion.div style={{ filter: blur }}>
-        {children}
-      </motion.div>
-    </motion.div>
+    <div ref={ref} className="space-y-1.5">
+      <div className="flex justify-between items-center">
+        <span className="text-xs text-zinc-400">{label}</span>
+        <span className="text-[10px] text-zinc-700 font-mono">{level}%</span>
+      </div>
+      <div className="h-px bg-zinc-900 rounded-full overflow-hidden">
+        <motion.div
+          className="h-full rounded-full"
+          style={{ background: `linear-gradient(90deg, ${color}cc, ${color})` }}
+          initial={{ width: 0 }}
+          animate={inView ? { width: `${level}%` } : {}}
+          transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
+        />
+      </div>
+    </div>
   );
 };
 
-// Highlight item with staggered animation - safer for readability
-const AnimatedHighlight: React.FC<{ text: string; index: number }> = ({ text, index }) => {
-  const ref = React.useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.9", "start 0.1"] });
-  
-  const x = useTransform(scrollYProgress, [0, 1], [-30, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7, 1], [0, 0.5, 1]);
-  
-  return (
-    <motion.div
-      ref={ref}
-      style={{ 
-        opacity,
-        x,
-      }}
-    >
-      <li className="text-xs text-zinc-400 leading-relaxed">
-        • {text}
-      </li>
-    </motion.div>
-  );
-};
-
-interface ExperienceItem {
-  company: string;
-  title: string;
-  period: string;
-  location: string;
-  highlights: string[];
-  tags: string[];
-}
-
-interface ProjectItem {
-  name: string;
-  period: string;
-  description: string;
-  highlights: string[];
-  tech: string[];
-}
-
-interface CertificationItem {
-  name: string;
-  issuer: string;
-  url: string;
-  description: string;
-}
-
-const experiences: ExperienceItem[] = [
-  {
-    company: "Firmlytic Solutions Private Limited",
-    title: "Founder",
-    period: "January 2024 - Present",
-    location: "New Delhi, India",
-    tags: ["React", "Node.js", "AWS", "DynamoDB", "Lambda"],
-    highlights: [
-      "Architected and scaled an AI-driven legal platform (React, Node.js, AWS) serving 500+ Daily Active Users with 99.9% uptime",
-      "Designed serverless REST APIs using AWS Lambda and DynamoDB, automating document workflows and reducing manual effort by 40%",
-      "Implemented Cloudflare WAF and least-privilege IAM policies to mitigate security risks and protect sensitive user data"
-    ]
-  },
-  {
-    company: "Arizona State University",
-    title: "Production Assistant",
-    period: "October 2024 - Present",
-    location: "Tempe, Arizona",
-    tags: ["Automation", "Production"],
-    highlights: [
-      "Automated internal media workflows reducing production cycles by 30%, implementing Python scripts for asset management and automated file processing",
-      "Leading pre-production planning, equipment logistics, and post-production coordination for high-volume media projects and university broadcasts",
-      "Architected custom workflow management tools with React frontend and Node.js backend to streamline team collaboration and reduce manual overhead"
-    ]
-  },
-  {
-    company: "SS Pandey & Associates",
-    title: "Junior Developer",
-    period: "August 2023 - January 2024",
-    location: "New Delhi, India",
-    tags: ["Spring Boot", "Microservices"],
-    highlights: [
-      "Built and deployed Spring Boot microservice for document lifecycle management with JWT authentication, reducing data retrieval latency by 45% through query optimization",
-      "Designed RESTful API endpoints for document ingestion, processing, and retrieval workflows handling 10K+ daily transactions",
-      "Contributed to cloud migration initiatives, optimizing database queries and implementing caching strategies to improve platform performance by 20%"
-    ]
-  },
-  {
-    company: "CyberSophy",
-    title: "Software Intern",
-    period: "June 2023 - August 2023",
-    location: "Hyderabad, India",
-    tags: ["Python", "MongoDB"],
-    highlights: [
-      "Engineered distributed web scraping framework in Python processing 10,000+ profiles daily with 95% data accuracy and built-in error recovery",
-      "Designed MongoDB schema with strategic indexing and aggregation pipelines for real-time filtering, enabling sub-100ms query responses on 5M+ documents",
-      "Implemented data validation and deduplication logic reducing storage overhead by 35% while maintaining data integrity"
-    ]
-  }
-];
-
-const projects: ProjectItem[] = [
-  {
-    name: "Lyra - AI-Powered Dating App",
-    period: "August 2025 - May 2026",
-    description: "Capstone Final Year Project",
-    tech: ["FastAPI", "PostgreSQL", "React", "Python", "TypeScript", "Expo"],
-    highlights: [
-      "Built a scalable, full-stack matchmaking platform using FastAPI, PostgreSQL, React, Python, TypeScript, and Expo",
-      "Architected modular REST APIs for onboarding, personalized recommendations, and real-time messaging",
-      "Developed an AI-based ranking algorithm using weighted preference scoring and implemented secure authentication, protected routes, and backend request validation"
-    ]
-  },
-  {
-    name: "Grocery Price Tracking Application",
-    period: "January 2025 - May 2026",
-    description: "Database Management Project",
-    tech: ["PostgreSQL", "Node.js", "React"],
-    highlights: [
-      "Developed a full-stack price monitoring system using PostgreSQL, Node.js, and React, enabling basket tracking and store comparison",
-      "Implemented query-optimized schema design for anomaly detection through efficient aggregations",
-      "Designed watchlists and alert workflows with performance-focused queries to support low-latency data retrieval"
-    ]
-  }
-];
-
-const certifications: CertificationItem[] = [
-  {
-    name: "Vertex Pipelines: Qwik Start",
-    issuer: "Google Cloud - Verified",
-    url: "https://coursera.org/share/5a994ca1be192c787bc488cc9c37eade",
-    description: "Built modular ML pipelines using Kubeflow Pipelines on Vertex AI with automated training, evaluation, and conditional deployment."
-  },
-  {
-    name: "Introduction to Docker",
-    issuer: "Google Cloud - Verified",
-    url: "https://coursera.org/share/756528e70c349650df8df12d756e23d6",
-    description: "Built and deployed containerized applications using Docker. Managed images, registries, and container lifecycle workflows for reproducible deployments."
-  }
-];
-
-// Parallax Card component - subtle and safe
-const ParallaxCard: React.FC<{ children: React.ReactNode; offset?: number }> = ({ children, offset = 0 }) => {
-  const ref = React.useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 1.1", "start 0.2"] });
-  
-  const y = useTransform(scrollYProgress, [0, 1], [offset * 0.3, offset * -0.3]);
-  
-  return (
-    <motion.div ref={ref} style={{ y }}>
-      {children}
-    </motion.div>
-  );
-};
-
-// Skill tag with staggered animation
-const SkillTag: React.FC<{ skill: string; index: number }> = ({ skill, index }) => {
-  const ref = React.useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 1", "start 0.5"] });
-  
-  const scale = useTransform(scrollYProgress, [0, 0.7], [0.8, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
-  
+// Tag
+const Tag: React.FC<{ label: string; index?: number }> = ({ label, index = 0 }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-20px" });
   return (
     <motion.span
       ref={ref}
-      style={{ scale, opacity }}
-      className="text-xs px-2.5 py-1 bg-zinc-800/40 rounded text-zinc-300"
+      initial={{ opacity: 0, scale: 0.85 }}
+      animate={inView ? { opacity: 1, scale: 1 } : {}}
+      transition={{ duration: 0.35, delay: index * 0.035, ease }}
+      className="text-xs px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800/80 text-zinc-500 hover:text-zinc-200 hover:border-zinc-600 transition-colors duration-300 cursor-default"
     >
-      {skill}
+      {label}
     </motion.span>
   );
 };
 
-export default function ResumePage() {
-  const [expandedRole, setExpandedRole] = useState<number | null>(null);
-  const containerRef = React.useRef(null);
-  const { scrollYProgress } = useScroll({ container: containerRef });
+// Section label above divider
+const SectionLabel: React.FC<{ label: string }> = ({ label }) => (
+  <Reveal>
+    <div className="flex items-center gap-4 mb-12">
+      <span className="text-[10px] text-zinc-600 uppercase tracking-[0.25em] font-mono">{label}</span>
+      <motion.div
+        className="flex-1 h-px"
+        style={{ background: "linear-gradient(90deg, rgba(99,102,241,0.3), transparent)" }}
+        initial={{ scaleX: 0, originX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, ease }}
+      />
+      <div className="w-1 h-1 rounded-full bg-indigo-500/40" />
+    </div>
+  </Reveal>
+);
+
+// ─── Data ─────────────────────────────────────────────────────────────────────
+
+const experiences = [
+  {
+    company: "Firmlytic Solutions",
+    title: "Founder & Lead Engineer",
+    period: "Jan 2024 – Present",
+    location: "New Delhi, India",
+    tags: ["React", "Node.js", "AWS", "DynamoDB", "Lambda", "Cloudflare"],
+    color: "#818cf8",
+    highlights: [
+      "Architected and scaled an AI-driven legal platform (React, Node.js, AWS) serving 500+ Daily Active Users with 99.9% uptime",
+      "Designed serverless REST APIs using AWS Lambda + DynamoDB, automating document workflows and reducing manual effort by 40%",
+      "Implemented Cloudflare WAF and least-privilege IAM policies to protect sensitive user data",
+    ],
+  },
+  {
+    company: "Arizona State University",
+    title: "Production Assistant",
+    period: "Oct 2024 – Present",
+    location: "Tempe, AZ",
+    tags: ["Python", "React", "Node.js", "Automation"],
+    color: "#38bdf8",
+    highlights: [
+      "Automated internal media workflows reducing production cycles by 30% with Python asset-management scripts",
+      "Architected custom workflow management tools with React + Node.js to streamline team collaboration",
+      "Leading pre-production, equipment logistics, and post-production coordination for high-volume projects",
+    ],
+  },
+  {
+    company: "SS Pandey & Associates",
+    title: "Junior Developer",
+    period: "Aug 2023 – Jan 2024",
+    location: "New Delhi, India",
+    tags: ["Spring Boot", "Java", "Microservices", "JWT"],
+    color: "#34d399",
+    highlights: [
+      "Built Spring Boot microservice for document lifecycle management with JWT auth, cutting retrieval latency by 45%",
+      "Designed RESTful APIs for document ingestion handling 10K+ daily transactions",
+      "Contributed to cloud migration and implemented caching strategies improving performance by 20%",
+    ],
+  },
+  {
+    company: "CyberSophy",
+    title: "Software Intern",
+    period: "Jun 2023 – Aug 2023",
+    location: "Hyderabad, India",
+    tags: ["Python", "MongoDB", "Web Scraping"],
+    color: "#fb923c",
+    highlights: [
+      "Engineered distributed web scraping framework processing 10,000+ profiles daily with 95% accuracy",
+      "Designed MongoDB schema with strategic indexing enabling sub-100ms queries on 5M+ documents",
+      "Implemented deduplication logic reducing storage overhead by 35%",
+    ],
+  },
+];
+
+const skillGroups = [
+  {
+    label: "Frontend",
+    color: "#818cf8",
+    skills: [
+      { label: "React / Next.js", level: 92 },
+      { label: "TypeScript", level: 88 },
+      { label: "CSS / Tailwind", level: 85 },
+    ],
+  },
+  {
+    label: "Backend",
+    color: "#34d399",
+    skills: [
+      { label: "Node.js / FastAPI", level: 87 },
+      { label: "Spring Boot / Java", level: 78 },
+      { label: "Python", level: 85 },
+    ],
+  },
+  {
+    label: "Cloud & Data",
+    color: "#38bdf8",
+    skills: [
+      { label: "AWS (Lambda, DynamoDB)", level: 82 },
+      { label: "PostgreSQL / MongoDB", level: 84 },
+      { label: "Docker / Kubernetes", level: 72 },
+    ],
+  },
+];
+
+const allSkillTags = {
+  Languages: ["Java", "Python", "C++", "JavaScript", "TypeScript", "Swift"],
+  "Cloud & DevOps": ["AWS Lambda", "Google Cloud", "Docker", "Kubernetes", "Cloudflare", "Redis"],
+  "Databases": ["PostgreSQL", "MongoDB", "DynamoDB", "MySQL", "Redis"],
+  "Frameworks": ["React", "Next.js", "FastAPI", "Spring Boot", "Node.js", "Expo"],
+};
+
+const certifications = [
+  {
+    name: "Vertex Pipelines: Qwik Start",
+    issuer: "Google Cloud · Verified",
+    url: "https://coursera.org/share/5a994ca1be192c787bc488cc9c37eade",
+    description: "Modular ML pipelines on Vertex AI with automated training, evaluation, and conditional deployment.",
+    icon: "G",
+    color: "#4285f4",
+  },
+  {
+    name: "Introduction to Docker",
+    issuer: "Google Cloud · Verified",
+    url: "https://coursera.org/share/756528e70c349650df8df12d756e23d6",
+    description: "Containerized application deployment, image management, and container lifecycle workflows.",
+    icon: "D",
+    color: "#2496ed",
+  },
+];
+
+// ─── Timeline Experience Entry ─────────────────────────────────────────────────
+const TimelineEntry: React.FC<{ exp: typeof experiences[0]; index: number; isLast: boolean }> = ({
+  exp, index, isLast,
+}) => {
+  const [open, setOpen] = useState(index === 0);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-black text-white overflow-x-hidden">
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: -20 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.7, delay: index * 0.07, ease }}
+      className="relative pl-8"
+    >
+      {/* Timeline line */}
+      {!isLast && (
+        <motion.div
+          className="absolute left-[11px] top-6 w-px"
+          style={{ background: `linear-gradient(180deg, ${exp.color}50, transparent)` }}
+          initial={{ height: 0 }}
+          animate={inView ? { height: "calc(100% + 24px)" } : {}}
+          transition={{ duration: 0.8, delay: index * 0.07 + 0.3, ease }}
+        />
+      )}
+
+      {/* Dot */}
+      <motion.div
+        className="absolute left-0 top-1.5 w-[11px] h-[11px] rounded-full border-2"
+        style={{
+          borderColor: exp.color,
+          background: open ? exp.color : "transparent",
+          boxShadow: open ? `0 0 12px ${exp.color}60` : "none",
+        }}
+        animate={{
+          background: open ? exp.color : "transparent",
+          boxShadow: open ? `0 0 12px ${exp.color}60` : "none",
+        }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* Card */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full text-left group"
+      >
+        <div className="border border-zinc-800/50 rounded-xl bg-zinc-950/40 hover:border-zinc-700/50 transition-colors duration-300 overflow-hidden">
+          <div className="p-5">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="flex items-baseline gap-2.5 flex-wrap mb-1">
+                  <h3 className="font-semibold text-zinc-100 text-sm group-hover:text-white transition-colors">
+                    {exp.title}
+                  </h3>
+                  <span className="text-xs font-mono" style={{ color: `${exp.color}99` }}>
+                    {exp.company}
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-600 font-mono">{exp.period} · {exp.location}</p>
+                {!open && (
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    {exp.tags.slice(0, 3).map((t) => (
+                      <span key={t} className="text-[10px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500">{t}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <motion.div
+                animate={{ rotate: open ? 180 : 0 }}
+                transition={{ duration: 0.25 }}
+                className="flex-shrink-0 mt-0.5"
+              >
+                <ChevronDown size={14} className="text-zinc-700 group-hover:text-zinc-500 transition-colors" />
+              </motion.div>
+            </div>
+
+            <AnimatePresence initial={false}>
+              {open && (
+                <motion.div
+                  key="body"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.4, ease }}
+                  style={{ overflow: "hidden" }}
+                >
+                  <div className="pt-4 mt-4 border-t border-zinc-800/50 space-y-2.5">
+                    {exp.highlights.map((h, i) => (
+                      <motion.p
+                        key={i}
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.07, duration: 0.4 }}
+                        className="text-xs text-zinc-400 leading-relaxed pl-3"
+                        style={{ borderLeft: `2px solid ${exp.color}30` }}
+                      >
+                        {h}
+                      </motion.p>
+                    ))}
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {exp.tags.map((t, i) => <Tag key={t} label={t} index={i} />)}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </button>
+    </motion.div>
+  );
+};
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
+export default function ResumePage() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef });
+  const gradientStop = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  return (
+    <div ref={containerRef} className="min-h-screen bg-black text-white relative">
       <Navigation />
 
-      <main className="max-w-7xl px-6 py-20 mx-auto space-y-16">
-        {/* Header with parallax */}
-        <ScrollReveal>
-          <header className="pt-8 space-y-4">
-            <div className="flex items-start gap-8 flex-col-reverse lg:flex-row">
-              <div className="flex-1">
-                <motion.h1 
-                  className="text-4xl font-bold text-zinc-100"
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-                >
-                  Kushagra Pandey
-                </motion.h1>
-                <motion.p 
-                  className="text-zinc-400 text-sm max-w-2xl mt-2"
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.1, ease: [0.33, 1, 0.68, 1] }}
-                >
-                  Full-stack engineer and technical founder with experience building AI-driven applications from frontend interface to scalable backend architecture. Passionate about modular system design, performance-aware engineering, and building products that are both technically sound and user-centered.
-                </motion.p>
+      {/* Fixed scroll progress bar (left edge) */}
+      <motion.div
+        className="fixed left-0 top-0 w-[2px] bg-gradient-to-b from-indigo-400 via-violet-400 to-transparent origin-top z-50"
+        style={{ scaleY: scrollYProgress }}
+      />
+
+      {/* Ambient */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 70% 35% at 50% 0%, rgba(99,102,241,0.05) 0%, transparent 70%)" }}
+      />
+
+      <main className="relative z-10 max-w-4xl mx-auto px-6 pb-28">
+
+        {/* ═══════════════════════════════════════════════════════════
+              INTRO — full viewport, bold
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="flex flex-col justify-center min-h-[85vh] pt-28 pb-16">
+          <div className="flex items-start justify-between gap-8 flex-col lg:flex-row">
+            <div className="flex-1 space-y-6">
+
+              <div>
+                <ClipReveal>
+                  <p className="text-xs text-zinc-600 font-mono tracking-widest uppercase mb-4">
+                    Software Engineer
+                  </p>
+                </ClipReveal>
+                <ClipReveal delay={0.05}>
+                  <h1
+                    className="text-5xl sm:text-6xl font-bold leading-[1.04] tracking-tight"
+                    style={{
+                      background: "linear-gradient(135deg, #f1f5f9 25%, #c7d2fe 60%, #818cf8 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    Kushagra<br />Pandey
+                  </h1>
+                </ClipReveal>
               </div>
+
+              <ClipReveal delay={0.1}>
+                <p className="text-zinc-400 text-sm max-w-md leading-relaxed">
+                  Full-stack engineer with experience building AI-driven applications from frontend interface to scalable backend architecture. Passionate about modular system design, performance-aware engineering, and products that are technically sound and user-centered.
+                </p>
+              </ClipReveal>
+
+              <Reveal delay={0.2}>
+                <div className="flex flex-wrap items-center gap-5 text-xs">
+                  <a href="https://www.linkedin.com/in/kushagrapandeyy/" target="_blank" rel="noopener noreferrer"
+                    className="text-zinc-500 hover:text-white transition-colors flex items-center gap-1">
+                    LinkedIn <ExternalLink size={10} />
+                  </a>
+                  <a href="mailto:kushagrapandeyy@gmail.com"
+                    className="text-zinc-500 hover:text-white transition-colors">
+                    kushagrapandeyy@gmail.com
+                  </a>
+                  <span className="text-zinc-700">Tempe, AZ</span>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.25}>
+                <div
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(52,211,153,0.08), rgba(52,211,153,0.03))",
+                    border: "1px solid rgba(52,211,153,0.2)",
+                    color: "#34d399",
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+                    style={{ boxShadow: "0 0 6px rgba(52,211,153,0.5)" }} />
+                  Open to SWE Roles · May 2026
+                </div>
+              </Reveal>
+            </div>
+
+            {/* Photo + education callout */}
+            <div className="flex flex-col items-end gap-5">
               <motion.img
                 src="/me.jpg"
                 alt="Kushagra Pandey"
-                className="w-32 h-32 lg:w-40 lg:h-40 rounded-xl object-cover flex-shrink-0 border border-zinc-700/50 shadow-lg shadow-zinc-900/50"
-                initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
+                className="w-28 h-28 lg:w-36 lg:h-36 rounded-xl object-cover border border-zinc-800 shadow-xl shadow-black/60"
+                initial={{ opacity: 0, scale: 0.82, rotate: -4 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-                whileHover={{ scale: 1.05, rotate: 2 }}
+                transition={{ duration: 0.9, ease }}
+                whileHover={{ scale: 1.04, rotate: 1.5 }}
               />
+              <Reveal direction="right" delay={0.15}>
+                <div className="text-right space-y-0.5">
+                  <p className="text-xs text-zinc-300 font-medium">Arizona State University</p>
+                  <p className="text-xs text-zinc-600">B.S. Computer Science · '26</p>
+                  <p className="text-xs text-zinc-700">Dean's List</p>
+                </div>
+              </Reveal>
             </div>
+          </div>
 
-            <motion.div 
-              className="flex items-center gap-6 text-sm pt-4 flex-wrap"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+          {/* Scroll invitation */}
+          <motion.div
+            className="flex items-center gap-2 mt-14"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
+            <motion.div
+              animate={{ y: [0, 5, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              <Link 
-                href="https://www.linkedin.com/in/kushagrapandeyy/" 
-                target="_blank"
-                className="text-zinc-400 hover:text-white transition-colors duration-200"
-              >
-                LinkedIn
-              </Link>
-              <a 
-                href="mailto:kushagrapandeyy@gmail.com"
-                className="text-zinc-400 hover:text-white transition-colors duration-200"
-              >
-                Email
-              </a>
-              <span className="text-zinc-500">
-                Tempe, AZ
-              </span>
+              <ChevronDown size={14} className="text-zinc-700" />
             </motion.div>
-          </header>
-        </ScrollReveal>
+            <span className="text-[10px] text-zinc-700 font-mono tracking-widest uppercase">Scroll to explore</span>
+          </motion.div>
+        </section>
 
-        <motion.div 
-          className="w-full h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent"
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2 }}
-        />
-
-        {/* Education & Skills */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 auto-rows-max lg:auto-rows-fr">
-          <ScrollReveal>
-            <ParallaxCard>
-              <InteractiveCard>
-                <div className="relative p-6 md:p-8">
-                  <div className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">
-                    Education
-                  </div>
-                  <h2 className="text-2xl font-bold text-zinc-100 mb-3">
-                    Arizona State University
-                  </h2>
-                  <p className="text-sm text-zinc-300 mb-4">
-                    Bachelor of Science in Computer Science
-                  </p>
-                  <div className="space-y-2 text-sm text-zinc-400">
-                    <p>Minor in Film and Media Production</p>
-                    <p>August 2022 - May 2026</p>
-                    <p className="pt-2 text-zinc-300">✓ Dean's List Academic Achievement Award</p>
-                  </div>
-                </div>
-              </InteractiveCard>
-            </ParallaxCard>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.1}>
-            <ParallaxCard offset={20}>
-              <InteractiveCard>
-                <div className="relative p-6 md:p-8">
-                  <div className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">
-                    Core Stack
-                  </div>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-xs font-medium text-zinc-300 mb-2">Frontend</p>
-                      <div className="flex flex-wrap gap-2">
-                        {["React", "TypeScript", "Tailwind CSS"].map((skill, i) => (
-                          <SkillTag key={skill} skill={skill} index={i} />
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-zinc-300 mb-2">Backend</p>
-                      <div className="flex flex-wrap gap-2">
-                        {["Node.js", "FastAPI", "Spring Boot"].map((skill, i) => (
-                          <SkillTag key={skill} skill={skill} index={i + 3} />
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-zinc-300 mb-2">Cloud & Infrastructure</p>
-                      <div className="flex flex-wrap gap-2">
-                        {["AWS Lambda", "DynamoDB", "PostgreSQL"].map((skill, i) => (
-                          <SkillTag key={skill} skill={skill} index={i + 6} />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </InteractiveCard>
-            </ParallaxCard>
-          </ScrollReveal>
-        </div>
-
-        {/* Featured Experience */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-50px" }}
-          transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
-        >
-          <ParallaxCard offset={-12}>
-            <div>
-              <div className="mb-4">
-                <h2 className="text-xl font-semibold text-zinc-100">Work Experience</h2>
-              </div>
-              <InteractiveCard>
-                <div className="relative p-6 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  <div className="lg:col-span-2">
-                    <div className="text-xs text-zinc-500 uppercase tracking-widest mb-3">Featured</div>
-                    <h2 className="text-3xl font-bold text-zinc-100 mb-2">
-                      Firmlytic Solutions
-                    </h2>
-                    <p className="text-sm text-zinc-400 mb-1">Founder</p>
-                    <p className="text-xs text-zinc-500 mb-4">January 2024 - Present • New Delhi, India</p>
-                    
-                    <ul className="space-y-3">
-                      {experiences[0].highlights.map((h, i) => (
-                        <motion.li
-                          key={i}
-                          className="text-xs text-zinc-400 leading-relaxed"
-                          initial={{ opacity: 0, x: 20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: false, margin: "-100px" }}
-                          transition={{ delay: i * 0.08, duration: 0.4 }}
-                        >
-                          • {h}
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <div className="text-xs font-semibold text-zinc-300 uppercase tracking-widest mb-3">Tech Stack</div>
-                    <div className="space-y-2">
-                      {experiences[0].tags.map((tag, i) => (
-                        <motion.div 
-                          key={tag} 
-                          className="text-xs px-3 py-2 bg-zinc-800/40 rounded border border-zinc-700/50 text-zinc-300"
-                          initial={{ opacity: 0, x: 20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: false, margin: "-100px" }}
-                          transition={{ delay: i * 0.08, duration: 0.4 }}
-                        >
-                          {tag}
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </InteractiveCard>
-            </div>
-          </ParallaxCard>
-        </motion.div>
-
-        {/* Other Experience */}
-        <ScrollReveal>
+        {/* ═══════════════════════════════════════════════════════════
+              SKILLS — visual bars + tags
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="py-16 space-y-14 border-t border-zinc-900">
           <div>
-            <div className="mb-4">
-              <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">Other Roles</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {experiences.slice(1).map((exp, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: idx * 0.12, ease: [0.33, 1, 0.68, 1] }}
-                  className="h-full"
-                >
-                  <ParallaxCard offset={idx * 8}>
-                    <InteractiveCard>
-                      <button
-                        onClick={() => setExpandedRole(expandedRole === idx ? null : idx)}
-                        className="w-full text-left relative p-6 focus:outline-none group"
-                      >
-                        <div className="flex items-start justify-between gap-4">
-                          <div className="flex-1">
-                            <h3 className="font-semibold text-zinc-100 text-sm mb-1 group-hover:text-white transition-colors">
-                              {exp.title}
-                            </h3>
-                            <p className="text-xs text-zinc-400 mb-2">
-                              {exp.company}
-                            </p>
-                            <p className="text-xs text-zinc-500 mb-3">
-                              {exp.period} • {exp.location}
-                            </p>
-                            
-                            {expandedRole !== idx && (
-                              <ul className="space-y-1">
-                                {exp.highlights.slice(0, 1).map((h, i) => (
-                                  <li key={i} className="text-xs text-zinc-400 leading-relaxed line-clamp-2">
-                                    • {h}
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                          </div>
-                          <motion.div
-                            animate={{ rotate: expandedRole === idx ? 180 : 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="flex-shrink-0 mt-1"
-                          >
-                            <ChevronDown size={16} className="text-zinc-600 group-hover:text-zinc-500" />
-                          </motion.div>
-                        </div>
+            <ClipReveal>
+              <p className="text-3xl sm:text-4xl font-bold text-zinc-100 leading-tight mb-1">
+                What I
+                <span
+                  style={{
+                    background: "linear-gradient(135deg, #818cf8, #a78bfa)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                > Build With</span>
+              </p>
+            </ClipReveal>
+            <Reveal delay={0.05}>
+              <p className="text-zinc-600 text-sm mt-2">Depth across the full stack</p>
+            </Reveal>
+          </div>
 
-                        {expandedRole === idx && (
-                          <div className="border-t border-zinc-700/30 pt-4 mt-4">
-                            <ul className="space-y-2 mb-4">
-                              {exp.highlights.map((h, i) => (
-                                <li
-                                  key={i}
-                                  className="text-xs text-zinc-400 leading-relaxed"
-                                >
-                                  • {h}
-                                </li>
-                              ))}
-                            </ul>
+          {/* Bars */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {skillGroups.map((group, gi) => (
+              <Reveal key={group.label} delay={gi * 0.1}>
+                <Card className="p-6" accent={`${group.color}15`}>
+                  <p className="text-[10px] text-zinc-600 uppercase tracking-widest font-mono mb-5">
+                    {group.label}
+                  </p>
+                  <div className="space-y-4">
+                    {group.skills.map((s, si) => (
+                      <SkillBar
+                        key={s.label}
+                        label={s.label}
+                        level={s.level}
+                        color={group.color}
+                        delay={gi * 0.12 + si * 0.08}
+                      />
+                    ))}
+                  </div>
+                </Card>
+              </Reveal>
+            ))}
+          </div>
 
-                            <div className="flex flex-wrap gap-1.5">
-                              {exp.tags.map((tag) => (
-                                <span 
-                                  key={tag}
-                                  className="text-xs px-2 py-1 rounded bg-zinc-800/50 border border-zinc-700/50 text-zinc-300"
-                                >
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </button>
-                    </InteractiveCard>
-                  </ParallaxCard>
-                </motion.div>
+          {/* All tags */}
+          <Card className="p-7">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {Object.entries(allSkillTags).map(([cat, items]) => (
+                <div key={cat}>
+                  <p className="text-[10px] text-zinc-600 uppercase tracking-widest font-mono mb-3">{cat}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {items.map((item, i) => <Tag key={item} label={item} index={i} />)}
+                  </div>
+                </div>
               ))}
             </div>
+          </Card>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════
+              EXPERIENCE — vertical timeline
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="py-16 border-t border-zinc-900">
+          <div className="mb-12">
+            <ClipReveal>
+              <p className="text-3xl sm:text-4xl font-bold text-zinc-100 leading-tight mb-1">
+                Where I've
+                <span
+                  style={{
+                    background: "linear-gradient(135deg, #34d399, #38bdf8)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                > Shipped</span>
+              </p>
+            </ClipReveal>
+            <Reveal delay={0.05}>
+              <p className="text-zinc-600 text-sm mt-2">4 roles · 3 countries</p>
+            </Reveal>
           </div>
-        </ScrollReveal>
 
-        {/* Projects */}
-        <ScrollReveal>
-          <div>
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-zinc-100">Key Projects</h2>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Featured Project */}
-              <ScrollReveal>
-                <ParallaxCard offset={-10}>
-                  <Link href="/projects/Capstone">
-                    <InteractiveCard>
-                      <div className="relative p-6 md:p-8 cursor-pointer">
-                        <div className="text-xs text-zinc-500 uppercase tracking-widest mb-3">Featured Project</div>
-                        <h2 className="text-2xl font-bold text-zinc-100 mb-3">
-                          {projects[0].name}
-                        </h2>
-                        <p className="text-sm text-zinc-400 mb-1">{projects[0].description}</p>
-                        <p className="text-xs text-zinc-500 mb-4">{projects[0].period}</p>
-                        
-                        <ul className="space-y-2 mb-6">
-                          {projects[0].highlights.map((h, i) => (
-                            <motion.li 
-                              key={i} 
-                              className="text-sm text-zinc-400"
-                              initial={{ opacity: 0, x: -10 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: i * 0.08 }}
-                            >
-                              • {h}
-                            </motion.li>
-                          ))}
-                        </ul>
-
-                        <div className="flex flex-wrap gap-2">
-                          {projects[0].tech.map((tech, i) => (
-                            <motion.span 
-                              key={tech} 
-                              className="text-xs px-2.5 py-1 rounded bg-zinc-800/50 border border-zinc-700/50 text-zinc-300"
-                              initial={{ opacity: 0, y: 5 }}
-                              whileInView={{ opacity: 1, y: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: i * 0.05 }}
-                            >
-                              {tech}
-                            </motion.span>
-                          ))}
-                        </div>
-                      </div>
-                    </InteractiveCard>
-                  </Link>
-                </ParallaxCard>
-              </ScrollReveal>
-
-              {/* Other Project */}
-              <ScrollReveal delay={0.1}>
-                <ParallaxCard offset={10}>
-                  <Link href="/projects/priceTracker">
-                    <InteractiveCard>
-                      <div className="relative p-6 md:p-8 cursor-pointer">
-                        <div className="text-xs text-zinc-500 uppercase tracking-widest mb-3">Project</div>
-                        <h2 className="text-2xl font-bold text-zinc-100 mb-3">
-                          {projects[1].name}
-                        </h2>
-                        <p className="text-sm text-zinc-400 mb-1">{projects[1].description}</p>
-                        <p className="text-xs text-zinc-500 mb-4">{projects[1].period}</p>
-                        
-                        <ul className="space-y-2 mb-6">
-                          {projects[1].highlights.map((h, i) => (
-                            <motion.li 
-                              key={i} 
-                              className="text-sm text-zinc-400"
-                              initial={{ opacity: 0, x: -10 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: i * 0.08 }}
-                            >
-                              • {h}
-                            </motion.li>
-                          ))}
-                        </ul>
-
-                        <div className="flex flex-wrap gap-2">
-                          {projects[1].tech.map((tech, i) => (
-                            <motion.span 
-                              key={tech} 
-                              className="text-xs px-2.5 py-1 rounded bg-zinc-800/50 border border-zinc-700/50 text-zinc-300"
-                              initial={{ opacity: 0, y: 5 }}
-                              whileInView={{ opacity: 1, y: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: i * 0.05 }}
-                            >
-                              {tech}
-                            </motion.span>
-                          ))}
-                        </div>
-                      </div>
-                    </InteractiveCard>
-                  </Link>
-                </ParallaxCard>
-              </ScrollReveal>
-            </div>
+          <div className="space-y-4">
+            {experiences.map((exp, i) => (
+              <TimelineEntry key={exp.company} exp={exp} index={i} isLast={i === experiences.length - 1} />
+            ))}
           </div>
-        </ScrollReveal>
+        </section>
 
-        {/* All Skills */}
-        <ScrollReveal>
-          <ParallaxCard offset={15}>
-            <InteractiveCard>
-              <div className="relative p-6 md:p-8">
-                <div className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-6">
-                  Complete Technical Skills
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <p className="text-sm font-medium text-zinc-300 mb-3">Languages</p>
-                    <div className="flex flex-wrap gap-2">
-                      {["Java", "Python", "C++", "JavaScript", "TypeScript", "Swift"].map((skill, i) => (
-                        <SkillTag key={skill} skill={skill} index={i} />
-                      ))}
+        {/* ═══════════════════════════════════════════════════════════
+              PROJECTS
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="py-16 border-t border-zinc-900">
+          <div className="mb-12">
+            <ClipReveal>
+              <p className="text-3xl sm:text-4xl font-bold text-zinc-100 leading-tight mb-1">
+                What I've
+                <span
+                  style={{
+                    background: "linear-gradient(135deg, #a78bfa, #f0abfc)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                > Launched</span>
+              </p>
+            </ClipReveal>
+            <Reveal delay={0.05}>
+              <p className="text-zinc-600 text-sm mt-2">Selected projects</p>
+            </Reveal>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              {
+                name: "Lyra — AI Dating Platform",
+                href: "/projects/Capstone",
+                stack: ["FastAPI", "PostgreSQL", "React", "Expo"],
+                desc: "Capstone project. Full-stack matchmaking platform with AI ranking, real-time messaging, and secure auth.",
+                label: "Capstone · 2025–26",
+                color: "#a78bfa",
+              },
+              {
+                name: "Grocery Price Tracker",
+                href: "/projects/priceTracker",
+                stack: ["PostgreSQL", "Node.js", "React"],
+                desc: "Query-optimized price monitoring with basket tracking, store comparison, and alert workflows.",
+                label: "DB Engineering · 2025",
+                color: "#34d399",
+              },
+            ].map((p, i) => (
+              <Reveal key={p.name} delay={i * 0.1}>
+                <Link href={p.href}>
+                  <Card className="p-6 hover:border-zinc-700/80 group cursor-pointer h-full" accent={`${p.color}12`}>
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest">{p.label}</p>
+                      <ArrowUpRight size={13} className="text-zinc-700 group-hover:text-zinc-400 transition-colors" />
                     </div>
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: false }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                  >
-                    <p className="text-sm font-medium text-zinc-300 mb-3">Cloud & DevOps</p>
-                    <div className="flex flex-wrap gap-2">
-                      {["AWS", "Google Cloud", "Docker", "Kubernetes", "Cloudflare"].map((skill, i) => (
-                        <SkillTag key={skill} skill={skill} index={i + 6} />
-                      ))}
+                    <h3 className="text-sm font-semibold text-zinc-200 group-hover:text-white transition-colors mb-2">
+                      {p.name}
+                    </h3>
+                    <p className="text-xs text-zinc-500 leading-relaxed mb-4">{p.desc}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {p.stack.map((t, i) => <Tag key={t} label={t} index={i} />)}
                     </div>
-                  </motion.div>
+                  </Card>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
 
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: false }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                  >
-                    <p className="text-sm font-medium text-zinc-300 mb-3">Databases</p>
-                    <div className="flex flex-wrap gap-2">
-                      {["PostgreSQL", "MongoDB", "Redis", "MySQL"].map((skill, i) => (
-                        <SkillTag key={skill} skill={skill} index={i + 12} />
-                      ))}
-                    </div>
-                  </motion.div>
-                </div>
-              </div>
-            </InteractiveCard>
-          </ParallaxCard>
-        </ScrollReveal>
+          <Reveal delay={0.2}>
+            <div className="mt-5">
+              <Link href="/projects"
+                className="text-xs text-zinc-600 hover:text-white transition-colors flex items-center gap-1.5">
+                View all projects <ArrowUpRight size={11} />
+              </Link>
+            </div>
+          </Reveal>
+        </section>
 
-        {/* Certifications */}
-        <ScrollReveal>
-          <ParallaxCard offset={-8}>
-            <InteractiveCard>
-              <div className="relative p-6 md:p-8">
-                <div className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-6">
-                  Certifications
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {certifications.map((cert, idx) => (
-                    <motion.div
-                      key={cert.name}
-                      initial={{ opacity: 0, y: 15, filter: "blur(4px)" }}
-                      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      viewport={{ once: false }}
-                      transition={{ delay: idx * 0.12, duration: 0.5 }}
-                    >
-                      <a
-                        href={cert.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group"
+        {/* ═══════════════════════════════════════════════════════════
+              CERTIFICATIONS
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="py-16 border-t border-zinc-900">
+          <SectionLabel label="Certifications" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {certifications.map((cert, i) => (
+              <Reveal key={cert.name} delay={i * 0.08}>
+                <a href={cert.url} target="_blank" rel="noopener noreferrer" className="block group">
+                  <Card className="p-6 hover:border-zinc-700/80" accent={`${cert.color}15`}>
+                    <div className="flex items-start gap-3">
+                      <div
+                        className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0"
+                        style={{ background: `${cert.color}15`, color: cert.color, border: `1px solid ${cert.color}30` }}
                       >
-                        <h3 className="font-semibold text-zinc-100 group-hover:text-white transition-colors flex items-center gap-2 text-sm mb-1">
-                          {cert.name}
-                          <ExternalLink size={14} className="text-zinc-500 group-hover:text-zinc-400" />
-                        </h3>
-                        <p className="text-xs text-zinc-400 mb-2">{cert.issuer}</p>
-                        <p className="text-sm text-zinc-400">{cert.description}</p>
-                      </a>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </InteractiveCard>
-          </ParallaxCard>
-        </ScrollReveal>
-
-        {/* CTA */}
-        <ScrollReveal>
-          <div className="pt-8 text-center">
-            <motion.a
-              href="/contact"
-              whileHover={{ scale: 1.08, letterSpacing: "0.05em" }}
-              whileTap={{ scale: 0.95 }}
-              className="text-zinc-400 hover:text-white transition-colors text-sm inline-block"
-            >
-              Get in touch
-            </motion.a>
+                        {cert.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2 mb-1">
+                          <h3 className="text-sm font-semibold text-zinc-200 group-hover:text-white transition-colors leading-tight">
+                            {cert.name}
+                          </h3>
+                          <ExternalLink size={11} className="text-zinc-700 group-hover:text-zinc-400 transition-colors mt-0.5 flex-shrink-0" />
+                        </div>
+                        <p className="text-[10px] text-zinc-600 font-mono mb-2">{cert.issuer}</p>
+                        <p className="text-xs text-zinc-500 leading-relaxed">{cert.description}</p>
+                      </div>
+                    </div>
+                  </Card>
+                </a>
+              </Reveal>
+            ))}
           </div>
-        </ScrollReveal>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════
+              FOOTER CTA
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="py-12 border-t border-zinc-900">
+          <Reveal>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <p className="text-zinc-300 font-medium text-sm">Let's build something.</p>
+                <p className="text-zinc-600 text-xs mt-1">Open to full-time SWE roles starting May 2026</p>
+              </div>
+              <Link
+                href="/contact"
+                className="group flex items-center gap-2 text-xs text-zinc-500 hover:text-white transition-colors border border-zinc-800 hover:border-zinc-600 rounded-lg px-4 py-2.5"
+              >
+                Get in touch
+                <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Link>
+            </div>
+          </Reveal>
+        </section>
+
       </main>
     </div>
   );

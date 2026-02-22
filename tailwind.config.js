@@ -41,6 +41,9 @@ module.exports = {
 				title: "title 3s ease-out forwards",
 				"fade-left": "fade-left 3s ease-in-out forwards",
 				"fade-right": "fade-right 3s ease-in-out forwards",
+				marquee: "marquee 35s linear infinite",
+				"glow-pulse": "glow-pulse 6s ease-in-out infinite",
+				"badge-pulse": "badge-pulse 2s ease-in-out infinite",
 			},
 			keyframes: {
 				"fade-in": {
@@ -100,6 +103,18 @@ module.exports = {
 						"line-height": "100%",
 						opacity: "100%",
 					},
+				},
+				marquee: {
+					"0%": { transform: "translateX(0)" },
+					"100%": { transform: "translateX(-50%)" },
+				},
+				"glow-pulse": {
+					"0%, 100%": { opacity: "0.4", transform: "scale(1)" },
+					"50%": { opacity: "0.7", transform: "scale(1.08)" },
+				},
+				"badge-pulse": {
+					"0%, 100%": { opacity: "1", transform: "scale(1)" },
+					"50%": { opacity: "0.75", transform: "scale(0.95)" },
 				},
 			},
 		},
