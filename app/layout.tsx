@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "kushagrapandey.com",
     description:
-      "Co-Founder of Firmlytic Solutions, a software development company. I am a developer based in Phoenix, AZ. Currently a Senior at Arizona State University-Tempe.",
+      "I am a developer based in Phoenix, AZ. Currently a Senior at Arizona State University-Tempe.",
     url: "https://kushagrapandey.com",
     siteName: "kushagrapandey.com",
     images: [
