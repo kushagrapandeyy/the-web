@@ -35,7 +35,7 @@ export default async function ProjectsPage() {
   
   // Ensure featured/top projects exist, with fallbacks
   const featured = allProjects.find((p) => p.slug === "firmlyticSolutions") || publishedProjects[0];
-  const top2 = allProjects.find((p) => p.slug === "capstone") || publishedProjects[1];
+  const top2 = allProjects.find((p) => p.slug === "Capstone") || publishedProjects[1];
   const top3 = allProjects.find((p) => p.slug === "kushagrapandey") || publishedProjects[2];
 
   const sorted = publishedProjects
