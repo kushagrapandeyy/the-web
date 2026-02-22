@@ -604,7 +604,7 @@ export default function ResumePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
               {
-                name: "Lyra — AI Dating Platform",
+                name: "Lyra - AI Dating Platform",
                 href: "/projects/Capstone",
                 stack: ["FastAPI", "PostgreSQL", "React", "Expo"],
                 desc: "Capstone project. Full-stack matchmaking platform with AI ranking, real-time messaging, and secure auth.",
