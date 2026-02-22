@@ -532,7 +532,7 @@ export default function ResumePage() {
               {/* Featured Project */}
               <ScrollReveal>
                 <ParallaxCard offset={-10}>
-                  <Link href="/projects/capstone">
+                  <Link href="/projects/Capstone">
                     <InteractiveCard>
                       <div className="relative p-6 md:p-8 cursor-pointer">
                         <div className="text-xs text-zinc-500 uppercase tracking-widest mb-3">Featured Project</div>
