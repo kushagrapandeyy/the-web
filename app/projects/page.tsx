@@ -13,14 +13,22 @@ const redis = Redis.fromEnv();
 export const revalidate = 60;
 
 export default async function ProjectsPage() {
-  const views = (
-    await redis.mget<number[]>(
+  let views: Record<string, number> = {};
+  
+  try {
+    const viewsArray = await redis.mget<number[]>(
       ...allProjects.map((p) => ["pageviews", "projects", p.slug].join(":"))
-    )
-  ).reduce((acc, v, i) => {
-    acc[allProjects[i].slug] = v ?? 0;
-    return acc;
-  }, {} as Record<string, number>);
+    );
+    views = viewsArray.reduce((acc, v, i) => {
+      acc[allProjects[i].slug] = v ?? 0;
+      return acc;
+    }, {} as Record<string, number>);
+  } catch (error) {
+    // If Redis fails, just use zero views for all projects
+    allProjects.forEach((p) => {
+      views[p.slug] = 0;
+    });
+  }
 
   // Ensure featured/top projects exist
   const featured = allProjects.find((p) => p.slug === "firmlyticSolutions");
