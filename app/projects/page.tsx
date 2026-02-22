@@ -30,18 +30,16 @@ export default async function ProjectsPage() {
     });
   }
 
-  // Ensure featured/top projects exist
-  const featured = allProjects.find((p) => p.slug === "firmlyticSolutions");
-  const top2 = allProjects.find((p) => p.slug === "capstone");
-  const top3 = allProjects.find((p) => p.slug === "kushagrapandey");
+  // Get published projects
+  const publishedProjects = allProjects.filter((p) => p.published);
+  
+  // Ensure featured/top projects exist, with fallbacks
+  const featured = allProjects.find((p) => p.slug === "firmlyticSolutions") || publishedProjects[0];
+  const top2 = allProjects.find((p) => p.slug === "capstone") || publishedProjects[1];
+  const top3 = allProjects.find((p) => p.slug === "kushagrapandey") || publishedProjects[2];
 
-  if (!featured || !top2 || !top3) {
-    throw new Error("Missing required featured/top projects");
-  }
-
-  const sorted = allProjects
-    .filter((p) => p.published)
-    .filter((p) => ![featured.slug, top2.slug, top3.slug].includes(p.slug))
+  const sorted = publishedProjects
+    .filter((p) => ![featured?.slug, top2?.slug, top3?.slug].filter(Boolean).includes(p.slug))
     .sort(
       (a, b) =>
         new Date(b.date ?? Number.POSITIVE_INFINITY).getTime() -
@@ -51,7 +49,9 @@ export default async function ProjectsPage() {
   return (
     <div className="relative pb-16">
       <Navigation />
-      <ProjectsContent featured={featured} top2={top2} top3={top3} sorted={sorted} views={views} />
+      {featured && top2 && top3 && (
+        <ProjectsContent featured={featured} top2={top2} top3={top3} sorted={sorted} views={views} />
+      )}
     </div>
   );
 }
