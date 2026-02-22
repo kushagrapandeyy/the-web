@@ -1,56 +1,52 @@
 ---
-title: Lyra - Next-Generation Dating App
-description: Production-grade dating platform with intelligent matchmaking, scalable backend architecture, and modern UX.
+title: Lyra
+description: A full-stack matchmaking platform exploring scalable backend design and intelligent recommendation systems.
 date: "2025-12-01"
 role: Lead Developer
-tags: ["FastAPI", "PostgreSQL", "Recommender Systems", "React", "TypeScript", "Cloud Architecture"]
+tags: ["FastAPI", "PostgreSQL", "Recommender Systems", "React", "TypeScript"]
 status: "in-progress"
 published: true
 ---
 
 ![](/ProjectPngs/capstone-dating.png)
 
-Dating apps are increasingly commoditized—everyone's building the same swipe interface. This capstone explores what happens when you combine thoughtful UX with a scalable, intelligent backend. The goal: a system where good matches actually feel intentional, not algorithmic.
+Lyra is my senior-year Computer Science capstone project, focused on scalable system design and intelligent matchmaking architecture.
 
-## **The Backend Architecture**
+## Backend Architecture
 
-**FastAPI + Microservice Design**
-Core service running on async ASGI, structured around four domain models: authentication, profiles, messaging, and recommendations. Each service exposes clean REST endpoints with schema validation via Pydantic. Request/response serialization handles profile images through Cloudinary URLs to avoid serving large blobs.
+**FastAPI + PostgreSQL**
 
-**Database: PostgreSQL with Strategic Design**
-Schema optimized for the actual query patterns:
-- `profiles` table indexed on (user_id, active) for feed queries
-- `preferences` normalized to separate table for efficient filtering
-- `matches` with composite index on (user_id, created_at) for pagination
-- `messages` partitioned by user_id for scalability
+Modular service-oriented structure with validated RESTful APIs for:
+- Authentication (secure token-based access control)
+- Profile management (user preferences, photos, metadata)
+- Recommendation generation (compatibility scoring)
+- Messaging workflows (real-time conversations)
 
-Result: 200ms feed queries instead of 5+ seconds from a naive schema.
+## Recommendation Engine
 
-**Matching Algorithm**
-Two-stage filtering:
-1. Explicit constraints: age ± range, distance ≤ radius, interest intersection ≥ 3
-2. Compatibility scoring: weighted overlap on preferences + interaction history signal
+**Compatibility-Driven Ranking**
 
-Weights calibrated from user feedback—highest engagement comes from users with 60-80% preference alignment, not 100%.
+Combines explicit user preferences with behavioral signals. Algorithm approach:
+- Constraint-based filtering (eliminate incompatible matches)
+- Weighted scoring (preference alignment + interaction history)
+- Ranking by compatibility percentile
 
-**Real-time Messaging**
-WebSocket connection pooling per user. Messages persisted to PostgreSQL with cursor-based pagination. Delivery status tracked (sent/read) to enable read receipts without polling.
+Produces personalized recommendations balanced between diversity and relevance.
 
-## **The Frontend**
+## Frontend Implementation
 
 **React + TypeScript**
-State management through context for global auth, user profile, and recommendations. Feed rendering uses virtualization for infinite scroll without DOM explosion. Profile cards animate in with staggered entrance—keeps UX lively without motion sickness.
 
-**Expo Mobile**
-Native experience on iOS/Android. Share auth tokens between web/mobile. Image picker integrates with Cloudinary upload widget for instant preview.
+Type-safe components with clean state management. Features:
+- Dynamic feed updates with infinite scroll
+- Optimistic interaction handling (swipe feedback before API response)
+- Real-time messaging UI with typing indicators
+- Smooth animations and transitions
 
-**Optimistic Updates**
-Swipe actions update UI instantly before server confirmation. Failures gracefully revert with user notification. Messaging shows "sending..." state with automatic retry on connection restore.
+## Engineering Focus
 
-## **What Actually Mattered**
-
-Database normalization and query optimization compounds. Bad schema = every feature slow. Good schema = features that feel instant. Strategic indexing cut response times by 25x.
-
-API design shapes frontend velocity. Clean endpoints grouped by domain made frontend development 3x faster than if the API exposed raw query results.
-
-Async processing everywhere—uploads, image resizing, recommendation computation. Connection pooling prevents cascading failures. These aren't flashy but they're what separates "works" from "works at scale."
+This capstone demonstrates:
+- Production-aware system design (scalability, maintainability)
+- Intelligent algorithm implementation (recommendation systems)
+- Full-stack capability (backend + frontend + database)
+- Clean architecture principles (modular, testable code)

@@ -42,9 +42,27 @@ export default async function PostPage({ params }: Props) {
       <ReportView slug={project.slug} />
 
       <ProjectScrollReveal>
-        <article className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless">
-          <Mdx code={project.body.code} />
-        </article>
+        <div className="px-4 py-12 mx-auto max-w-6xl">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <article className="lg:col-span-2 prose prose-zinc prose-quoteless">
+              <Mdx code={project.body.code} />
+            </article>
+            
+            <aside className="lg:col-span-1 pt-12">
+              <div className="sticky top-8 bg-white border border-zinc-200 rounded-lg p-6 shadow-sm">
+                <h3 className="text-xs font-semibold text-zinc-900 uppercase tracking-widest mb-4">Core Stack</h3>
+                <div className="space-y-2">
+                  {project.tags && project.tags.map((tag: string) => (
+                    <div key={tag} className="text-sm text-zinc-600 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full"></span>
+                      {tag}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
       </ProjectScrollReveal>
     </div>
   );

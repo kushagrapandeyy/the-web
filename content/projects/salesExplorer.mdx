@@ -1,30 +1,20 @@
 ---
-title: Chocolate Sales Data Explorer
-description: Interactive data visualization dashboard uncovering insights across regions, categories, and time periods.
+title: Sales Analytics Dashboard
+description: Data visualization platform combining Python analysis with React frontend.
 date: "2024-09-10"
 role: Developer & Data Analyst
-tags: ["D3.js", "Vega-Lite", "React", "Python", "Matplotlib", "Data Visualization"]
+tags: ["React", "D3.js", "Python", "Pandas", "PostgreSQL"]
 published: true
 ---
 
 ![](/ProjectPngs/chocolate-sales-explorer.png)
 
-Raw data is boring. Numbers don't tell a story until you actually explore them. This project is about turning sales data into something you can interact with and learn from.
+## Interactive Analytics Platform
 
-**The Web Dashboard**
+**Frontend:** React + D3.js dashboards with multi-dimensional filtering (categories, regions, date ranges). Real-time chart updates, custom tooltips, responsive SVG visualizations.
 
-Built in React with D3.js and Vega-Lite for visualization. Filterable views across product categories, regions, and time windows. Multiple chart types: line charts, bar comparisons, heat maps. Responsive tooltips showing detailed breakdowns on hover. Real-time filtering without page reloads because nobody wants to wait for the page to reload.
+**Backend:** Python pipeline—Pandas for data transformation, statistical analysis (z-tests for regional differences, correlation for seasonality). NumPy for vectorized computation on 50K+ transactions.
 
-**The Analysis Pipeline**
+**Insights:** 40% Q4 sales lift (holiday spike), 20% summer decline, 3x higher LTV for repeat customers. Regional price elasticity varies by segment.
 
-Python notebooks for exploratory analysis. Used Pandas for data transformation, Matplotlib and Seaborn for publication-quality charts. Did statistical testing to separate signal from noise.
-
-**What the Data Revealed**
-
-Seasonal patterns in chocolate sales—spike before holidays, dip in summer. Regional differences in product preferences. Premium products focused in wealthy regions. Customer cohort behavior: repeat buyers have 3x higher lifetime value than one-time purchasers.
-
-The last insight is the important one. Once you see it, it changes how you think about the business. Not "how do we sell more chocolate" but "how do we turn one-time buyers into repeat customers."
-
-**Why This Matters**
-
-The technical skills here bridge software and business. As an engineer, I can take raw data and make it understandable. I can identify patterns. I can present findings clearly. That's valuable in any company—you're not just building features, you're helping people understand their own business.
+**Why it matters:** Demonstrates full-stack data work—collection, transformation, statistical analysis, and visualization that drives decisions.

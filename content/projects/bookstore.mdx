@@ -1,46 +1,22 @@
 ---
 title: Online Bookstore Platform
-description: Full-stack e-commerce storefront with intelligent filtering, pagination, and seamless checkout.
+description: Full-stack e-commerce with advanced filtering and database-driven product discovery.
 date: "2023-03-30"
-role: Developer
-tags: ["React", "TypeScript", "Node.js", "PostgreSQL", "E-Commerce", "UX"]
+role: Full-Stack Developer
+tags: ["React", "TypeScript", "Node.js", "PostgreSQL"]
 published: true
 ---
 
 ![](/ProjectPngs/online-bookstore.png)
 
-Building an e-commerce site is straightforward until you realize most users abandon it if they can't find what they want in under a minute. This is the story of doing that part right.
+## E-Commerce Product Discovery at Scale
 
-**The Core Problem**
+**Frontend:** React + TypeScript with faceted filtering (price, genre, condition, author). Debounced search, optimistic UI updates, client-side cart state via Context.
 
-Product discovery matters more than you think. Users come looking for specific books. The filtering and search experience determines whether they stay or leave.
+**Backend:** Express API with request validation (Joi). Parameterized queries prevent SQL injection. JWT auth with secure token handling.
 
-**How We Approached It**
+**Database:** PostgreSQL with composite indexes on frequently-filtered columns. Proper schema normalization: books → editions → inventory → orders. Query optimization via EXPLAIN ANALYZE prevents N+1 problems.
 
-Built faceted filtering across multiple dimensions: price, condition, author, genre, publication year. You can combine filters without redundant queries ("Show me paperbacks under $20 by Asimov" works instantly). Added autocomplete suggestions for author names so you don't have to remember exact spellings.
+**Performance:** Sub-200ms API response time for filtered product lists. Pagination implemented server-side with proper sorting at database level.
 
-**The Pagination Challenge**
-
-Server-side pagination (not client-side) because you can't load a million books at once. Used cursor-based pagination for reliability—offset-based pagination breaks if new books are added while someone's scrolling. Optimized database queries with strategic indexes so pagination doesn't timeout.
-
-**Product Pages**
-
-Rich details: ISBN, condition grading, shipping info, seller ratings. Customer reviews with sorting. Related product recommendations. High-resolution cover images with zoom because people want to see what they're buying.
-
-**Checkout**
-
-Minimal form fields—only what's actually necessary. Multiple payment options. Order summary with final price transparency. Post-purchase confirmation with tracking links.
-
-**Technical Decisions**
-
-Frontend: React + TypeScript with component-driven architecture. State management for cart and filters. Debounced search preventing excessive API calls. Optimistic UI updates so it feels fast.
-
-Backend: Node.js with RESTful API. Robust input validation before database queries. Efficient querying with proper joins and indexes.
-
-Database: PostgreSQL with normalized schema (books, editions, inventory, users, orders). B-tree indexes on frequently-filtered columns.
-
-**What Mattered Most**
-
-The performance difference between bad and good pagination is the difference between a feature people use and one they don't. The filtering UX difference is whether people find the book they want or give up. Those details compound.
-
-This is full-stack work done right: scalable systems, optimized queries, and UX that respects user time.
+**Key challenge solved:** Making filter combinations work instantly by combining filters in single parameterized query rather than sequential requests.

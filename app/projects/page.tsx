@@ -24,7 +24,7 @@ export default async function ProjectsPage() {
 
   // Ensure featured/top projects exist
   const featured = allProjects.find((p) => p.slug === "firmlyticSolutions");
-  const top2 = allProjects.find((p) => p.slug === "sspandey");
+  const top2 = allProjects.find((p) => p.slug === "capstone");
   const top3 = allProjects.find((p) => p.slug === "kushagrapandey");
 
   if (!featured || !top2 || !top3) {

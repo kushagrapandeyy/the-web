@@ -263,7 +263,7 @@ export default function ResumePage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.1, ease: [0.33, 1, 0.68, 1] }}
                 >
-                  Full-stack developer and founder building AI-driven platforms that solve real problems in legal tech. Passionate about scalable systems, clean architecture, and creating products that engineers respect. Seeking opportunities to grow as a builder—whether founding or contributing to early-stage companies that are pushing boundaries.
+                  Full-stack engineer and technical founder with experience building AI-driven applications from frontend interface to scalable backend architecture. Passionate about modular system design, performance-aware engineering, and building products that are both technically sound and user-centered.
                 </motion.p>
               </div>
               <motion.img
@@ -291,7 +291,7 @@ export default function ResumePage() {
                 LinkedIn
               </Link>
               <a 
-                href="mailto:kushagrapandey2004@gmail.com"
+                href="mailto:kushagrapandeyy@gmail.com"
                 className="text-zinc-400 hover:text-white transition-colors duration-200"
               >
                 Email
@@ -459,108 +459,60 @@ export default function ResumePage() {
                       >
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1">
-                            <motion.h3 
-                              className="font-semibold text-zinc-100 text-sm mb-1 group-hover:text-white transition-colors"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ duration: 0.4 }}
-                            >
+                            <h3 className="font-semibold text-zinc-100 text-sm mb-1 group-hover:text-white transition-colors">
                               {exp.title}
-                            </motion.h3>
-                            <motion.p 
-                              className="text-xs text-zinc-400 mb-2"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ duration: 0.4, delay: 0.05 }}
-                            >
+                            </h3>
+                            <p className="text-xs text-zinc-400 mb-2">
                               {exp.company}
-                            </motion.p>
-                            <motion.p 
-                              className="text-xs text-zinc-500 mb-3"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ duration: 0.4, delay: 0.1 }}
-                            >
+                            </p>
+                            <p className="text-xs text-zinc-500 mb-3">
                               {exp.period} • {exp.location}
-                            </motion.p>
+                            </p>
                             
                             {expandedRole !== idx && (
-                              <motion.ul 
-                                className="space-y-1"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.4, delay: 0.15 }}
-                              >
+                              <ul className="space-y-1">
                                 {exp.highlights.slice(0, 1).map((h, i) => (
                                   <li key={i} className="text-xs text-zinc-400 leading-relaxed line-clamp-2">
                                     • {h}
                                   </li>
                                 ))}
-                              </motion.ul>
+                              </ul>
                             )}
                           </div>
                           <motion.div
                             animate={{ rotate: expandedRole === idx ? 180 : 0 }}
-                            transition={{ duration: 0.4, ease: "easeInOut" }}
+                            transition={{ duration: 0.3 }}
                             className="flex-shrink-0 mt-1"
                           >
                             <ChevronDown size={16} className="text-zinc-600 group-hover:text-zinc-500" />
                           </motion.div>
                         </div>
 
-                        <AnimatePresence mode="wait">
-                          {expandedRole === idx && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                              animate={{ opacity: 1, height: "auto", marginTop: 16 }}
-                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                              transition={{ 
-                                duration: 0.5, 
-                                ease: [0.4, 0, 0.2, 1],
-                                opacity: { duration: 0.3 }
-                              }}
-                              className="border-t border-zinc-700/30 pt-4 overflow-hidden"
-                            >
-                              <motion.ul 
-                                className="space-y-2"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.15, duration: 0.3 }}
-                              >
-                                {exp.highlights.map((h, i) => (
-                                  <motion.li
-                                    key={i}
-                                    initial={{ opacity: 0, x: -15, filter: "blur(5px)" }}
-                                    animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                                    transition={{ delay: 0.15 + i * 0.06, duration: 0.4 }}
-                                    className="text-xs text-zinc-400 leading-relaxed"
-                                  >
-                                    • {h}
-                                  </motion.li>
-                                ))}
-                              </motion.ul>
+                        {expandedRole === idx && (
+                          <div className="border-t border-zinc-700/30 pt-4 mt-4">
+                            <ul className="space-y-2 mb-4">
+                              {exp.highlights.map((h, i) => (
+                                <li
+                                  key={i}
+                                  className="text-xs text-zinc-400 leading-relaxed"
+                                >
+                                  • {h}
+                                </li>
+                              ))}
+                            </ul>
 
-                              <motion.div 
-                                className="flex flex-wrap gap-1.5 pt-3"
-                                initial={{ opacity: 0, y: 8 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.25, duration: 0.3 }}
-                              >
-                                {exp.tags.map((tag, i) => (
-                                  <motion.span 
-                                    key={tag} 
-                                    className="text-xs px-2 py-1 rounded bg-zinc-800/50 border border-zinc-700/50 text-zinc-300"
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.3 + i * 0.05, duration: 0.3 }}
-                                  >
-                                    {tag}
-                                  </motion.span>
-                                ))}
-                              </motion.div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                            <div className="flex flex-wrap gap-1.5">
+                              {exp.tags.map((tag) => (
+                                <span 
+                                  key={tag}
+                                  className="text-xs px-2 py-1 rounded bg-zinc-800/50 border border-zinc-700/50 text-zinc-300"
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </button>
                     </InteractiveCard>
                   </ParallaxCard>
