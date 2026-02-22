@@ -567,7 +567,7 @@ export default function ResumePage() {
               </p>
             </ClipReveal>
             <Reveal delay={0.05}>
-              <p className="text-zinc-600 text-sm mt-2">4 roles · 3 countries</p>
+              <p className="text-zinc-600 text-sm mt-2">4 roles · 2 countries</p>
             </Reveal>
           </div>
 

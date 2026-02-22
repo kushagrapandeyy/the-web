@@ -146,7 +146,7 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
           <div className="flex items-end justify-between flex-wrap gap-6">
             <Reveal delay={0.05}>
               <h1 className="text-5xl sm:text-6xl font-bold text-white leading-[1.05] tracking-tight">
-                Things I've{" "}
+                What I've{" "}
                 <span
                   style={{
                     background: "linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c084fc 100%)",
@@ -155,13 +155,13 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
                     backgroundClip: "text",
                   }}
                 >
-                  Built
+                  Engineered
                 </span>
               </h1>
             </Reveal>
             <Reveal delay={0.1} direction="right">
               <p className="text-zinc-600 text-sm leading-relaxed max-w-xs text-right">
-                AI platforms · full-stack systems · scalable infrastructure
+                AI platforms · Full-stack systems
               </p>
             </Reveal>
           </div>
