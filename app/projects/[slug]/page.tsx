@@ -5,6 +5,7 @@ import { Header } from "./header";
 import "./mdx.css";
 import { ReportView } from "./view";
 import { Redis } from "@upstash/redis";
+import { ProjectScrollReveal } from "./scroll-reveal";
 
 export const revalidate = 60;
 
@@ -40,9 +41,11 @@ export default async function PostPage({ params }: Props) {
       <Header project={project} views={views} />
       <ReportView slug={project.slug} />
 
-      <article className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless">
-        <Mdx code={project.body.code} />
-      </article>
+      <ProjectScrollReveal>
+        <article className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless">
+          <Mdx code={project.body.code} />
+        </article>
+      </ProjectScrollReveal>
     </div>
   );
 }

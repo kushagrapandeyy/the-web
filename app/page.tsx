@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Particles from "./components/particles";
 
 const navigation = [
@@ -184,11 +185,19 @@ export default function Home() {
 
         <div className="relative z-20 max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="flex justify-center">
-            <img
-              src="/me.jpg"
-              alt="Kushagra Pandey"
-              className="w-72 h-72 object-cover rounded-xl border-4 border-white/10 shadow-lg"
-            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="relative group"
+            >
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-1000" />
+              <img
+                src="/me.jpg"
+                alt="Kushagra Pandey"
+                className="relative w-80 h-80 object-cover rounded-xl border border-white/20 shadow-2xl"
+              />
+            </motion.div>
           </div>
           <div className="space-y-6 text-center md:text-left">
             <h2 className="text-4xl font-bold text-white font-mono">
