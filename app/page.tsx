@@ -915,7 +915,7 @@ export default function Home() {
                 </p>
                 <div className="mt-6 pt-4 border-t border-white/[0.05]">
                   <span className="text-xs text-zinc-600 font-mono">
-                    B.S. Computer Science · Minor Film & Media Production
+                    B.Sc Computer Science · Minor Film & Media Production
                   </span>
                 </div>
               </div>
