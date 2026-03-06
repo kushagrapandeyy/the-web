@@ -471,18 +471,21 @@ export default function ResumePage() {
 
           {/* Scroll invitation */}
           <motion.div
-            className="flex items-center gap-2 mt-14"
+            className="flex items-center gap-3 mt-14"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
           >
             <motion.div
-              animate={{ y: [0, 5, 0] }}
+              animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              <ChevronDown size={14} className="text-zinc-700" />
+              <ChevronDown size={55} className="text-zinc-400" />
             </motion.div>
-            <span className="text-[10px] text-zinc-700 font-mono tracking-widest uppercase">Scroll to explore</span>
+
+            <span className="text-sm text-zinc-400 font-mono tracking-widest uppercase">
+              Scroll to explore
+            </span>
           </motion.div>
         </section>
 
