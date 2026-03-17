@@ -366,6 +366,11 @@ export default function ResumePage() {
   const { scrollYProgress } = useScroll({ target: containerRef });
   const gradientStop = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
+  const scrollToSkills = () => {
+    const el = document.getElementById("skills-section");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div ref={containerRef} className="min-h-screen bg-black text-white relative">
       <Navigation />
@@ -470,8 +475,9 @@ export default function ResumePage() {
           </div>
 
           {/* Scroll invitation */}
-          <motion.div
-            className="flex items-center gap-3 mt-14"
+          <motion.button
+            onClick={scrollToSkills}
+            className="flex items-center gap-3 mt-14 group cursor-pointer focus:outline-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
@@ -479,20 +485,22 @@ export default function ResumePage() {
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              whileHover={{ scale: 1.1 }}
+              className="p-1 rounded-full group-hover:bg-white/5 transition-colors"
             >
-              <ChevronDown size={55} className="text-zinc-400" />
+              <ChevronDown size={55} className="text-zinc-500 group-hover:text-indigo-400 transition-colors" />
             </motion.div>
 
-            <span className="text-sm text-zinc-400 font-mono tracking-widest uppercase">
+            <span className="text-sm text-zinc-500 group-hover:text-zinc-300 font-mono tracking-widest uppercase transition-colors">
               Scroll to explore
             </span>
-          </motion.div>
+          </motion.button>
         </section>
 
         {/* ═══════════════════════════════════════════════════════════
               SKILLS — visual bars + tags
         ═══════════════════════════════════════════════════════════ */}
-        <section className="py-16 space-y-14 border-t border-zinc-900">
+        <section id="skills-section" className="py-16 space-y-14 border-t border-zinc-900">
           <div>
             <ClipReveal>
               <p className="text-3xl sm:text-4xl font-bold text-zinc-100 leading-tight mb-1">

@@ -2,15 +2,10 @@
 
 import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, useSpring, animate, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, animate, useInView, AnimatePresence } from "framer-motion";
 import Particles from "./components/particles";
+import { Navigation } from "./components/nav";
 
-// ─── Navigation ─────────────────────────────────────────────────────────────
-const navigation = [
-  { name: "Projects", href: "/projects" },
-  { name: "Contact", href: "/contact" },
-  { name: "Resume", href: "/resume" },
-];
 
 // ─── Typewriter roles ────────────────────────────────────────────────────────
 const roles = [
@@ -128,39 +123,74 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 // Dev Mode Canvas — interactive physics ball-pit + Kushagra Pandey name block
-const BALL_KEYWORDS = [
-  "React", "TypeScript", "Next.js", "FastAPI", "AWS",
-  "Docker", "Redis", "Postgres", "Framer", "Canvas",
-  "Node.js", "Python", "Spring", "Vertex AI", "k8s",
-  "useRef", "rAF", "DynamoDB", "Expo", "Cloudflare",
-];
-const BALL_COLORS = [
-  "#818cf8", "#38bdf8", "#34d399", "#f472b6",
-  "#fb923c", "#a78bfa", "#60a5fa", "#4ade80",
-];
+// --- Chronos Game Constants ---
+const RIFT_SPAWN_INTERVAL = 1400; // ms
+const FRAGMENT_SPAWN_INTERVAL = 2000; // ms
+const MAX_RIFTS = 12;
 
-type PhysBall = {
-  x: number; y: number; vx: number; vy: number;
-  r: number; mass: number; color: string; label: string;
-  trail: [number, number][]; isName?: boolean;
+type GameEntity = {
+  x: number;
+  y: number;
+  r: number;
+  vx: number;
+  vy: number;
+  color: string;
+  type: "rift" | "fragment";
+  opacity: number;
+  pulse: number;
 };
 
-function DevModeCanvas({ active }: { active: boolean }) {
+function ChronosGame({ active, onScoreUpdate, onExit, timedOut, onContinue }: {
+  active: boolean;
+  onScoreUpdate: (score: number) => void;
+  onExit: () => void;
+  timedOut: boolean;
+  onContinue: () => void;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animRef = useRef<number>(0);
-  const ballsRef = useRef<PhysBall[]>([]);
-  const mouseRef = useRef<{ x: number; y: number; down: boolean }>({
-    x: -9999, y: -9999, down: false,
-  });
+  const requestRef = useRef<number>(0);
+  const entitiesRef = useRef<GameEntity[]>([]);
+  const auraRef = useRef({ x: 0, y: 0, r: 25, vx: 0, vy: 0 });
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const scoreRef = useRef(0);
+  const lastSpawnRef = useRef({ rift: 0, fragment: 0 });
+  const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
+    if (gameOver || timedOut) {
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Enter") {
+          if (gameOver) {
+            setGameOver(false);
+            scoreRef.current = 0;
+            entitiesRef.current = [];
+            onScoreUpdate(0);
+          } else {
+            onContinue();
+          }
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      const t = setTimeout(onExit, 5000);
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+        clearTimeout(t);
+      };
+    }
+  }, [gameOver, timedOut, onExit, onContinue, onScoreUpdate]);
+
+  useEffect(() => {
+    if (!active) {
+      setGameOver(false);
+      scoreRef.current = 0;
+      entitiesRef.current = [];
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
-    const W = () => canvas.width;
-    const H = () => canvas.height;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -169,220 +199,205 @@ function DevModeCanvas({ active }: { active: boolean }) {
     resize();
     window.addEventListener("resize", resize);
 
-    // Mouse listeners on canvas
     const onMove = (e: MouseEvent) => {
-      const r = canvas.getBoundingClientRect();
-      mouseRef.current.x = e.clientX - r.left;
-      mouseRef.current.y = e.clientY - r.top;
+      mouseRef.current.x = e.clientX;
+      mouseRef.current.y = e.clientY;
     };
-    const onDown = () => { mouseRef.current.down = true; };
-    const onUp = () => { mouseRef.current.down = false; };
-    canvas.addEventListener("mousemove", onMove);
-    canvas.addEventListener("mousedown", onDown);
-    canvas.addEventListener("mouseup", onUp);
+    window.addEventListener("mousemove", onMove);
 
-    const GRAVITY = 0.22;
-    const FRICTION = 0.988;
-    const FLOOR_BOUNCE = 0.62;
-    const WALL_BOUNCE = 0.68;
+    const spawnEntity = (type: "rift" | "fragment", time: number) => {
+      const margin = 100;
+      let x, y;
+      const side = Math.floor(Math.random() * 4);
+      if (side === 0) { x = Math.random() * canvas.width; y = -margin; }
+      else if (side === 1) { x = canvas.width + margin; y = Math.random() * canvas.height; }
+      else if (side === 2) { x = Math.random() * canvas.width; y = canvas.height + margin; }
+      else { x = -margin; y = Math.random() * canvas.height; }
 
-    // Small tech balls
-    const small: PhysBall[] = Array.from({ length: 18 }, (_, i) => {
-      const r = 24 + Math.random() * 22;
-      return {
-        x: r + Math.random() * (window.innerWidth - 2 * r),
-        y: -r - Math.random() * 320,
-        vx: (Math.random() - 0.5) * 5,
-        vy: 1 + Math.random() * 3,
-        r, mass: r * r,
-        color: BALL_COLORS[i % BALL_COLORS.length],
-        label: BALL_KEYWORDS[i % BALL_KEYWORDS.length],
-        trail: [],
-      };
-    });
+      const angle = Math.atan2(auraRef.current.y - y, auraRef.current.x - x);
+      const speed = type === "rift" ? 1.5 + Math.random() * 2 : 1.0 + Math.random();
 
-    // Name block — heavy, drops from above center
-    const nameBall: PhysBall = {
-      x: window.innerWidth / 2,
-      y: -180,
-      vx: (Math.random() - 0.5) * 2,
-      vy: 1.5,
-      r: 110,
-      mass: 800000,  // very heavy — barely moves when small balls hit it
-      color: "#818cf8",
-      label: "Kushagra Pandey",
-      trail: [],
-      isName: true,
-    };
-
-    ballsRef.current = [...small, nameBall];
-
-    const draw = () => {
-      ctx.fillStyle = "rgba(0,0,0,0.16)";
-      ctx.fillRect(0, 0, W(), H());
-
-      const balls = ballsRef.current;
-      const { x: mx, y: my, down: md } = mouseRef.current;
-
-      // --- Physics tick ---
-      balls.forEach(b => {
-        // Mouse interaction: move = repel, hold = attract
-        const ddx = b.x - mx, ddy = b.y - my;
-        const mdist = Math.sqrt(ddx * ddx + ddy * ddy);
-        const reach = 180;
-        if (mdist < reach && mdist > 0) {
-          const strength = ((reach - mdist) / reach) * (md ? -0.7 : 0.4);
-          b.vx += (ddx / mdist) * strength;
-          b.vy += (ddy / mdist) * strength;
-        }
-
-        b.vy += GRAVITY;
-        b.vx *= FRICTION;
-        b.x += b.vx;
-        b.y += b.vy;
-
-        if (b.y + b.r > H()) { b.y = H() - b.r; b.vy *= -FLOOR_BOUNCE; b.vx += (Math.random() - 0.5) * 1.2; }
-        if (b.y - b.r < 0) { b.y = b.r; b.vy *= -0.45; }
-        if (b.x + b.r > W()) { b.x = W() - b.r; b.vx *= -WALL_BOUNCE; }
-        if (b.x - b.r < 0) { b.x = b.r; b.vx *= -WALL_BOUNCE; }
-
-        b.trail.push([b.x, b.y]);
-        if (b.trail.length > (b.isName ? 4 : 12)) b.trail.shift();
+      entitiesRef.current.push({
+        x, y, r: type === "rift" ? 15 + Math.random() * 15 : 8,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        color: type === "rift" ? "#f43f5e" : "#34d399",
+        type, opacity: 0, pulse: 0,
       });
+      lastSpawnRef.current[type] = time;
+    };
 
-      // --- Ball-ball collision (mass-weighted impulse) ---
-      for (let i = 0; i < balls.length; i++) {
-        for (let j = i + 1; j < balls.length; j++) {
-          const a = balls[i], bj = balls[j];
-          const dx = bj.x - a.x, dy = bj.y - a.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const minD = a.r + bj.r;
-          if (dist < minD && dist > 0) {
-            const nx = dx / dist, ny = dy / dist;
-            const ov = (minD - dist) / 2;
-            const total = a.mass + bj.mass;
-            a.x -= nx * ov * (bj.mass / total) * 2;
-            a.y -= ny * ov * (bj.mass / total) * 2;
-            bj.x += nx * ov * (a.mass / total) * 2;
-            bj.y += ny * ov * (a.mass / total) * 2;
-            const relV = (a.vx - bj.vx) * nx + (a.vy - bj.vy) * ny;
-            if (relV > 0) {
-              const imp = relV * 2 / total;
-              a.vx -= imp * bj.mass * nx; a.vy -= imp * bj.mass * ny;
-              bj.vx += imp * a.mass * nx; bj.vy += imp * a.mass * ny;
-            }
+    const update = (time: number) => {
+      if (gameOver || timedOut) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Smooth Aura (Player) movement
+      const aura = auraRef.current;
+      const dx = mouseRef.current.x - aura.x;
+      const dy = mouseRef.current.y - aura.y;
+      aura.vx += dx * 0.04;
+      aura.vy += dy * 0.04;
+      aura.vx *= 0.88;
+      aura.vy *= 0.88;
+      aura.x += aura.vx;
+      aura.y += aura.vy;
+
+      // Spawning
+      if (time - lastSpawnRef.current.rift > RIFT_SPAWN_INTERVAL && entitiesRef.current.filter(e => e.type === "rift").length < MAX_RIFTS) {
+        spawnEntity("rift", time);
+      }
+      if (time - lastSpawnRef.current.fragment > FRAGMENT_SPAWN_INTERVAL) {
+        spawnEntity("fragment", time);
+      }
+
+      // Entities update & draw
+      entitiesRef.current = entitiesRef.current.filter(e => {
+        e.x += e.vx;
+        e.y += e.vy;
+        e.opacity = Math.min(e.opacity + 0.05, 1);
+        e.pulse += 0.05;
+
+        // Collision detection
+        const dist = Math.sqrt((e.x - aura.x) ** 2 + (e.y - aura.y) ** 2);
+        if (dist < e.r + aura.r) {
+          if (e.type === "rift") {
+            setGameOver(true);
+            return false;
+          } else {
+            scoreRef.current += 10;
+            onScoreUpdate(scoreRef.current);
+            return false;
           }
         }
-      }
 
-      // --- Draw trails (small balls only) ---
-      balls.forEach(b => {
-        if (b.isName || b.trail.length < 2) return;
-        ctx.beginPath();
-        ctx.moveTo(b.trail[0][0], b.trail[0][1]);
-        b.trail.forEach(([tx, ty]) => ctx.lineTo(tx, ty));
-        ctx.strokeStyle = b.color + "38";
-        ctx.lineWidth = b.r * 0.55;
-        ctx.lineCap = "round";
-        ctx.lineJoin = "round";
-        ctx.stroke();
-      });
-
-      // --- Draw balls ---
-      balls.forEach(b => {
-        if (b.isName) {
-          // Outer glow
-          const grd = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r * 1.7);
-          grd.addColorStop(0, "rgba(99,102,241,0.25)");
-          grd.addColorStop(1, "transparent");
-          ctx.beginPath(); ctx.arc(b.x, b.y, b.r * 1.7, 0, Math.PI * 2);
-          ctx.fillStyle = grd; ctx.fill();
-
-          // Circle body
-          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(15,14,50,0.85)";
-          ctx.fill();
-          ctx.strokeStyle = "rgba(129,140,248,0.7)";
-          ctx.lineWidth = 2.5;
-          ctx.stroke();
-
-          // Name text (two lines)
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillStyle = "#e0e7ff";
-          ctx.font = `bold ${Math.round(b.r * 0.3)}px 'Inter', 'Helvetica Neue', sans-serif`;
-          ctx.fillText("Kushagra", b.x, b.y - b.r * 0.17);
-          ctx.fillText("Pandey", b.x, b.y + b.r * 0.22);
-
-          // Tiny label
-          ctx.font = `${Math.round(b.r * 0.12)}px 'Courier New', monospace`;
-          ctx.fillStyle = "rgba(129,140,248,0.5)";
-          ctx.fillText("[ physics object ]", b.x, b.y + b.r * 0.58);
-        } else {
-          // Glow halo
-          const grd = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r * 2.2);
-          grd.addColorStop(0, b.color + "50");
-          grd.addColorStop(1, "transparent");
-          ctx.beginPath(); ctx.arc(b.x, b.y, b.r * 2.2, 0, Math.PI * 2);
-          ctx.fillStyle = grd; ctx.fill();
-
-          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-          ctx.fillStyle = b.color + "18"; ctx.fill();
-          ctx.strokeStyle = b.color + "cc"; ctx.lineWidth = 1.5; ctx.stroke();
-
-          ctx.font = `bold ${Math.round(b.r * 0.42)}px 'Courier New', monospace`;
-          ctx.fillStyle = b.color;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText(b.label, b.x, b.y);
+        // Boundary check (remove if too far away)
+        const margin = 200;
+        if (e.x < -margin || e.x > canvas.width + margin || e.y < -margin || e.y > canvas.height + margin) {
+          return false;
         }
+
+        // Rendering Entity
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.r + Math.sin(e.pulse) * 2, 0, Math.PI * 2);
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = e.color;
+        ctx.fillStyle = e.color + Math.floor(e.opacity * 255).toString(16).padStart(2, '0');
+        ctx.fill();
+
+        return true;
       });
 
-      // Mouse cursor ring
-      if (mx > 0 && mx < W() && my > 0 && my < H()) {
-        ctx.beginPath();
-        ctx.arc(mx, my, 10, 0, Math.PI * 2);
-        ctx.strokeStyle = md ? "rgba(165,180,252,0.8)" : "rgba(99,102,241,0.45)";
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-        ctx.fillStyle = md ? "rgba(165,180,252,0.15)" : "rgba(99,102,241,0.08)";
-        ctx.fill();
-      }
+      // Rendering Aura
+      ctx.beginPath();
+      ctx.arc(aura.x, aura.y, aura.r, 0, Math.PI * 2);
+      ctx.shadowBlur = 30;
+      ctx.shadowColor = "#818cf8";
+      const auraGrd = ctx.createRadialGradient(aura.x, aura.y, 0, aura.x, aura.y, aura.r);
+      auraGrd.addColorStop(0, "rgba(129, 140, 248, 0.8)");
+      auraGrd.addColorStop(1, "rgba(129, 140, 248, 0.2)");
+      ctx.fillStyle = auraGrd;
+      ctx.fill();
+      ctx.strokeStyle = "rgba(129, 140, 248, 0.6)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
 
-      // Debug footer
-      ctx.font = '9px \'Courier New\', monospace';
-      ctx.fillStyle = 'rgba(99,102,241,0.35)';
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'alphabetic';
-      ctx.fillText(`balls: ${balls.length - 1} + name block | move = repel, hold = attract`, 16, H() - 12);
+      // Mouse connection line
+      ctx.beginPath();
+      ctx.moveTo(aura.x, aura.y);
+      ctx.lineTo(mouseRef.current.x, mouseRef.current.y);
+      ctx.strokeStyle = "rgba(129, 140, 248, 0.15)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
 
-      animRef.current = requestAnimationFrame(draw);
+      requestRef.current = requestAnimationFrame(update);
     };
 
-    if (active) draw();
-    else ctx.clearRect(0, 0, W(), H());
+    requestRef.current = requestAnimationFrame(update);
 
     return () => {
-      cancelAnimationFrame(animRef.current);
+      cancelAnimationFrame(requestRef.current);
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("mousemove", onMove);
-      canvas.removeEventListener("mousedown", onDown);
-      canvas.removeEventListener("mouseup", onUp);
+      window.removeEventListener("mousemove", onMove);
     };
-  }, [active]);
+  }, [active, gameOver, timedOut, onScoreUpdate, onExit]);
+
+  if (!active) return null;
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 z-[60]"
-      style={{
-        opacity: active ? 1 : 0,
-        transition: "opacity 0.6s ease",
-        mixBlendMode: "screen",
-        pointerEvents: active ? "auto" : "none",
-        cursor: active ? "crosshair" : "default",
-      }}
-    />
+    <>
+      {/* Layer 1: Game Canvas (Base) */}
+      <div className="fixed inset-0 z-[100] pointer-events-none">
+        <canvas ref={canvasRef} className="w-full h-full pointer-events-auto cursor-none" />
+      </div>
+
+      {/* Layer 2: Temporal Stability HUD */}
+      <div className="fixed top-24 left-1/2 -translate-x-1/2 pointer-events-none z-[150]">
+        <div className="px-6 py-3 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 shadow-2xl flex flex-col items-center">
+          <div className="text-zinc-500 text-[10px] font-mono uppercase tracking-[0.2em] mb-1">Temporal Stability</div>
+          <div className="text-3xl font-bold gradient-text-vivid leading-none">{scoreRef.current}</div>
+        </div>
+      </div>
+
+      {/* Layer 3: Results / Game Over (Above CTA Toggle) */}
+      {(gameOver || timedOut) && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          onClick={onExit}
+          className="fixed inset-0 flex items-center justify-center bg-black/80 backdrop-blur-xl pointer-events-auto cursor-pointer z-[250]"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            onClick={(e) => e.stopPropagation()}
+            className="text-center p-10 rounded-3xl border border-white/10 bg-zinc-900/80 shadow-2xl cursor-default max-w-sm w-full mx-6"
+          >
+            <h2 className="text-4xl font-bold text-white mb-2">
+              {gameOver ? "Stability Collapsed" : "Continue Research?"}
+            </h2>
+            <p className="text-zinc-400 mb-8">
+              {gameOver
+                ? `Final Score: ${scoreRef.current}`
+                : "Simulation window paused. Would you like to continue?"}
+            </p>
+
+            <div className="flex flex-col gap-3">
+              {gameOver ? (
+                <button
+                  onClick={() => {
+                    setGameOver(false);
+                    scoreRef.current = 0;
+                    entitiesRef.current = [];
+                    onScoreUpdate(0);
+                  }}
+                  className="w-full px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-500 transition-colors font-medium text-sm flex items-center justify-center gap-2"
+                >
+                  Restart Simulation <span className="text-[10px] opacity-50 px-1.5 py-0.5 rounded border border-white/20">ENTER</span>
+                </button>
+              ) : (
+                <button
+                  onClick={onContinue}
+                  className="w-full px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-500 transition-colors font-medium text-sm flex items-center justify-center gap-2"
+                >
+                  Continue <span className="text-[10px] opacity-50 px-1.5 py-0.5 rounded border border-white/20">ENTER</span>
+                </button>
+              )}
+              <button
+                onClick={onExit}
+                className="w-full px-6 py-3 border border-white/10 text-zinc-400 rounded-xl hover:bg-white/5 transition-colors font-medium text-sm"
+              >
+                Exit Simulation
+              </button>
+            </div>
+
+            <p className="mt-8 text-[10px] text-zinc-600 font-mono uppercase tracking-[0.2em]">
+              Auto-dismissing in 5s...
+            </p>
+          </motion.div>
+        </motion.div>
+      )}
+    </>
   );
 }
 
@@ -393,7 +408,7 @@ function ScrollProgress() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-[2px] z-[100] origin-left"
+      className="fixed top-0 left-0 right-0 h-[2px] z-[310] origin-left"
       style={{
         scaleX,
         background: "linear-gradient(90deg, #6366f1, #a78bfa, #38bdf8)",
@@ -402,40 +417,6 @@ function ScrollProgress() {
   );
 }
 
-// ─── Home Nav (scroll-aware blur) ──────────────────────────────────────────────
-function HomeNav() {
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-  return (
-    <nav
-      className="fixed top-0 left-0 w-full z-50 transition-all duration-500"
-      style={{
-        backdropFilter: scrolled ? "blur(20px) saturate(180%)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(20px) saturate(180%)" : "none",
-        background: scrolled
-          ? "linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.6))"
-          : "transparent",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
-      }}
-    >
-      <ul className="flex items-center justify-center gap-8 py-4">
-        {navigation.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="text-sm text-zinc-500 hover:text-white transition-colors duration-300 tracking-widest uppercase font-light"
-          >
-            {item.name}
-          </Link>
-        ))}
-      </ul>
-    </nav>
-  );
-}
 
 // ─── Scramble-decode name ────────────────────────────────────────────────────
 const SCRAMBLE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjklmnpqrstuvwxyz01@#$*+=⌥⌘←→{}[]()";
@@ -531,19 +512,32 @@ export default function Home() {
   const [scrambleDone, setScrambleDone] = useState(false);
   const [devMode, setDevMode] = useState(false);
   const [devBtnHovered, setDevBtnHovered] = useState(false);
+  const [gameScore, setGameScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [gameTimedOut, setGameTimedOut] = useState(false);
+  const [isIndefinite, setIsIndefinite] = useState(false);
 
   const mainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
+    const saved = localStorage.getItem("chronos-high-score");
+    if (saved) setHighScore(parseInt(saved, 10));
   }, []);
 
-  // Auto-kill dev mode after 15s
+  const handleScoreUpdate = useCallback((score: number) => {
+    setGameScore(score);
+    if (score > highScore) {
+      setHighScore(score);
+      localStorage.setItem("chronos-high-score", score.toString());
+    }
+  }, [highScore]);
+
   useEffect(() => {
-    if (!devMode) return;
-    const t = setTimeout(() => setDevMode(false), 15000);
+    if (!devMode || isIndefinite) return;
+    const t = setTimeout(() => setGameTimedOut(true), 15000);
     return () => clearTimeout(t);
-  }, [devMode]);
+  }, [devMode, isIndefinite]);
 
   const scrollToNext = useCallback(() => {
     const el = document.getElementById("about-section");
@@ -555,24 +549,71 @@ export default function Home() {
       {/* ── Scroll progress ─────────────────────────────── */}
       <ScrollProgress />
 
-      {/* ── Dev Mode Canvas overlay ──────────────────────── */}
-      <DevModeCanvas active={devMode} />
+      {/* ── Chronos Virtual Simulation Layer ──────────────────────── */}
+      <ChronosGame
+        active={devMode}
+        onScoreUpdate={handleScoreUpdate}
+        onExit={() => {
+          setDevMode(false);
+          setGameTimedOut(false);
+          setIsIndefinite(false);
+        }}
+        timedOut={gameTimedOut}
+        onContinue={() => {
+          setGameTimedOut(false);
+          setIsIndefinite(true);
+        }}
+      />
 
       {/* ── Fixed Nav (scroll-aware blur) ──────────────────────── */}
-      <HomeNav />
+      <Navigation />
 
       {/* ══════════════════════════════════════════════════
           HERO SECTION
       ══════════════════════════════════════════════════ */}
       <section
         id="hero-section"
-        className="relative h-screen w-full flex flex-col items-center justify-center"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 20% 40%, rgba(99,102,241,0.12) 0%, transparent 60%), radial-gradient(ellipse 70% 50% at 80% 70%, rgba(139,92,246,0.09) 0%, transparent 60%), #000",
-          overflow: "clip",
-        }}
+        className="relative h-screen w-full flex flex-col items-center justify-center bg-black overflow-clip"
       >
+        {/* Tarantula Nebula Backdrop Layer */}
+        <AnimatePresence>
+          {mounted && scrambleDone && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 3.5, ease: "easeInOut" }}
+              className="absolute inset-0 z-0 pointer-events-none"
+              style={{
+                background: `
+                  radial-gradient(ellipse 110% 80% at 50% 50%, rgba(10, 15, 25, 0.98) 0%, #000 100%),
+                  radial-gradient(ellipse 65% 55% at 5% 5%, rgba(13, 148, 136, 0.28) 0%, transparent 80%),
+                  radial-gradient(ellipse 65% 55% at 95% 95%, rgba(217, 119, 6, 0.22) 0%, transparent 80%),
+                  radial-gradient(ellipse 55% 50% at 90% 10%, rgba(6, 182, 212, 0.2) 0%, transparent 75%),
+                  radial-gradient(ellipse 55% 50% at 10% 90%, rgba(245, 158, 11, 0.15) 0%, transparent 75%),
+                  radial-gradient(circle at 50% 50%, rgba(240, 249, 255, 0.1) 0%, transparent 45%)
+                `,
+              }}
+            >
+              {/* Central R136 Star Cluster Core (Subtle) */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[radial-gradient(circle,rgba(56,189,248,0.08)_0%,transparent_65%)] opacity-50 mix-blend-screen animate-pulse-slow" />
+
+              {/* Nebula Filament Textures */}
+              <div className="absolute inset-0 opacity-25 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" />
+              {/* Peripheral Nebula Filaments & Clouds */}
+              <div
+                className="absolute inset-0 opacity-50 mix-blend-screen"
+                style={{
+                  backgroundImage: `
+                    radial-gradient(circle at 15% 15%, rgba(45, 212, 191, 0.12) 0%, transparent 40%),
+                    radial-gradient(circle at 85% 85%, rgba(251, 191, 36, 0.1) 0%, transparent 40%),
+                    radial-gradient(circle at 85% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 35%),
+                    radial-gradient(circle at 15% 85%, rgba(217, 119, 6, 0.08) 0%, transparent 35%)
+                  `
+                }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
         {/* Fine dot grid */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -583,12 +624,13 @@ export default function Home() {
           }}
         />
 
-        {/* Particles */}
+        {/* Particles (Cosmic Stars) */}
         <Particles
-          className="absolute inset-0 z-[3] animate-fade-in"
-          quantity={50}
-          staticity={45}
-          ease={55}
+          className={`absolute inset-0 z-[3] transition-opacity duration-[2.5s] ${scrambleDone ? "opacity-100" : "opacity-30"}`}
+          quantity={scrambleDone ? 180 : 40}
+          staticity={60}
+          ease={50}
+          refresh={scrambleDone}
         />
 
         {/* ── Content ──────────────────────────────── */}
@@ -1022,7 +1064,10 @@ export default function Home() {
           }}
         />
 
-        <div className="max-w-2xl mx-auto px-6 text-center relative z-[70]">
+        <div
+          className="max-w-2xl mx-auto px-6 text-center relative"
+          style={{ zIndex: devMode ? 200 : 70 }}
+        >
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -1040,11 +1085,17 @@ export default function Home() {
             className="text-3xl sm:text-4xl font-bold text-white mb-4"
           >
             {devMode ? (
-              <span className="gradient-text-vivid">It's alive. Physics, collisions, gravity.</span>
+              <span className="gradient-text-vivid">Aura Active. Collecting Light.</span>
             ) : (
               <>
                 See the code{" "}
                 <span className="gradient-text-vivid">come alive.</span>
+                <div className="mt-4 text-base font-medium text-zinc-400 flex flex-col items-center gap-1">
+                  <span>High Score: {highScore}</span>
+                  <span className="text-zinc-600 text-xs font-mono uppercase tracking-widest animate-pulse">
+                    Come and try to break the high score
+                  </span>
+                </div>
               </>
             )}
           </motion.h2>
@@ -1057,8 +1108,8 @@ export default function Home() {
             className="text-zinc-500 text-sm mb-10 leading-relaxed"
           >
             {devMode
-              ? "Physics ball-pit: gravity, wall bounce, collision. Auto-stops in 15s or press Stop."
-              : "Toggle developer mode to see a real-time physics simulation rendered with Canvas 2D. Pure React, zero dependencies."}
+              ? `High Score: ${highScore} · Collect fragments to increase stability. Avoid the red rifts.`
+              : "Experience 'Chronos,' an interactive high-performance canvas simulation demonstrating smooth physical momentum and real-time entity management."}
 
           </motion.p>
 
@@ -1106,7 +1157,7 @@ export default function Home() {
             </motion.span>
 
             <span className="relative z-10">
-              {devMode ? "Stop" : "Enter Developer Mode"}
+              {devMode ? "Stop Simulation" : "Enter Interactive Mode"}
             </span>
 
             {/* Pulsing dot when active */}
@@ -1126,16 +1177,16 @@ export default function Home() {
               transition={{ duration: 0.5 }}
               className="text-xs text-zinc-700 font-mono mt-5"
             >
-              requestAnimationFrame loop · Canvas 2D API · gravity + collision physics
+              requestAnimationFrame · high-speed collision detection · local-storage persistent high-score
             </motion.p>
           )}
         </div>
-      </section>
+      </section >
 
       {/* ══════════════════════════════════════════════════
           CLOSING CTA
       ══════════════════════════════════════════════════ */}
-      <section className="relative py-28 bg-black border-t border-white/[0.04] overflow-hidden">
+      < section className="relative py-28 bg-black border-t border-white/[0.04] overflow-hidden" >
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
           style={{
@@ -1209,7 +1260,7 @@ export default function Home() {
             Tempe, AZ · Arizona State University · CS '26
           </motion.p>
         </div>
-      </section>
-    </div>
+      </section >
+    </div >
   );
 }
