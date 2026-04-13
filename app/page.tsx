@@ -770,7 +770,7 @@ export default function Home() {
               <img
                 src="/me.jpg"
                 alt="Kushagra Pandey"
-                className="w-64 h-64 sm:w-72 sm:h-72 object-cover rounded-[14px] block"
+                className="w-64 h-64 sm:w-72 sm:h-72 object-cover object-[center_20%] rounded-[14px] block"
               />
             </div>
           </motion.div>

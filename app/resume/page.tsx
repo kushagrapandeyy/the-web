@@ -458,7 +458,7 @@ export default function ResumePage() {
               <motion.img
                 src="/me.jpg"
                 alt="Kushagra Pandey"
-                className="w-28 h-28 lg:w-36 lg:h-36 rounded-xl object-cover border border-zinc-800 shadow-xl shadow-black/60"
+                className="w-28 h-28 lg:w-36 lg:h-36 rounded-xl object-cover object-[center_20%] border border-zinc-800 shadow-xl shadow-black/60"
                 initial={{ opacity: 0, scale: 0.82, rotate: -4 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{ duration: 0.9, ease }}
