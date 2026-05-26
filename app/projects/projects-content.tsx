@@ -55,6 +55,7 @@ const ProjectCard: React.FC<{
       initial={{ opacity: 0, y: 36 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+      className="h-full"
     >
       <motion.div
         onMouseMove={onMove}
@@ -229,12 +230,12 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
         </ProjectCard>
 
         {/* ── Tier 2: 60/40 split ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 mt-5">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 mt-5 items-stretch">
           {/* 60% */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 flex flex-col">
             <ProjectCard delay={0.08} accent="rgba(56,189,248,0.12)">
-              <Link href={`/projects/${top2.slug}`} className="block">
-                <article className="p-7 md:p-9">
+              <Link href={`/projects/${top2.slug}`} className="block h-full">
+                <article className="p-7 md:p-9 h-full flex flex-col">
                   <div className="flex justify-between gap-2 items-center mb-5">
                     <span className="text-xs text-zinc-600 font-mono">
                       {top2.date ? formatDate(top2.date) : "SOON"}
@@ -247,7 +248,7 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
                   <h2 className="text-2xl font-bold text-zinc-200 group-hover:text-white transition-colors duration-300 mb-3 leading-snug">
                     {top2.title}
                   </h2>
-                  <p className="text-zinc-500 text-sm leading-relaxed group-hover:text-zinc-400 transition-colors duration-300">
+                  <p className="text-zinc-500 text-sm leading-relaxed group-hover:text-zinc-400 transition-colors duration-300 flex-1">
                     {top2.description}
                   </p>
                   <div className="mt-6 flex items-center gap-1.5 text-xs text-zinc-700 group-hover:text-sky-400 transition-colors duration-300">
@@ -260,9 +261,9 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
           </div>
 
           {/* 40% */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 flex flex-col">
             <ProjectCard delay={0.14} accent="rgba(52,211,153,0.12)">
-              <Link href={`/projects/${top3.slug}`} className="block">
+              <Link href={`/projects/${top3.slug}`} className="block h-full">
                 <article className="p-7 md:p-9 h-full flex flex-col">
                   <div className="flex justify-between gap-2 items-center mb-5">
                     <span className="text-xs text-zinc-600 font-mono">
@@ -273,10 +274,10 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
                       {formatViews(views[top3.slug] ?? 0)}
                     </span>
                   </div>
-                  <h2 className="text-xl font-bold text-zinc-200 group-hover:text-white transition-colors duration-300 mb-3 leading-snug flex-1">
+                  <h2 className="text-xl font-bold text-zinc-200 group-hover:text-white transition-colors duration-300 mb-3 leading-snug">
                     {top3.title}
                   </h2>
-                  <p className="text-zinc-500 text-sm leading-relaxed group-hover:text-zinc-400 transition-colors duration-300 line-clamp-3">
+                  <p className="text-zinc-500 text-sm leading-relaxed group-hover:text-zinc-400 transition-colors duration-300 line-clamp-3 flex-1">
                     {top3.description}
                   </p>
                   <div className="mt-6 flex items-center gap-1.5 text-xs text-zinc-700 group-hover:text-emerald-400 transition-colors duration-300">

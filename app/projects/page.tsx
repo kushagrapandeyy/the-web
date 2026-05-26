@@ -38,13 +38,20 @@ export default async function ProjectsPage() {
   const top2 = allProjects.find((p) => p.slug === "Capstone") || publishedProjects[1];
   const top3 = allProjects.find((p) => p.slug === "kushagrapandey") || publishedProjects[2];
 
-  const sorted = publishedProjects
-    .filter((p) => ![featured?.slug, top2?.slug, top3?.slug].filter(Boolean).includes(p.slug))
+  const rest = publishedProjects
+    .filter((p) => ![featured?.slug, top2?.slug, top3?.slug].filter(Boolean).includes(p.slug));
+  
+  const mskProject = rest.find((p) => p.slug === "onlineBrand");
+  const otherProjects = rest
+    .filter((p) => p.slug !== "onlineBrand")
     .sort(
       (a, b) =>
         new Date(b.date ?? Number.POSITIVE_INFINITY).getTime() -
         new Date(a.date ?? Number.POSITIVE_INFINITY).getTime()
     );
+
+  // MSK Fragrance pinned to bottom
+  const sorted = mskProject ? [...otherProjects, mskProject] : otherProjects;
 
   return (
     <div className="relative pb-16">

@@ -1,6 +1,6 @@
 ---
 title: Firmlytic Solutions
-description: AI-powered legal platform to serve law firms with intelligent document management and retrieval.
+description: A full-stack legal operations platform modernizing how law firms manage cases, clients, and internal workflows.
 date: "2025-06-01"
 url: https://sainyamitra.in
 role: Founder
@@ -13,19 +13,33 @@ published: true
 
 ## The Problem
 
-Legal practice in India runs heavily dependent on a lot of paperwork and multiple steps. Case files, precedents, matter notes, contracts, all sitting in folders. There's no centralized system that assists lawyers as well as clients to track their cases effectively while being able to get real-time updates and all of their paperwork remotely accessible at all times.
+The Indian legal system is still largely paper-driven. A law firm handling dozens of active cases at once has no reliable way to centralize case files, communicate updates to clients, track internal assignments, or access precedents without physically digging through folders. Lawyers spend a disproportionate amount of time on coordination overhead, scheduling, billing, document retrieval, rather than legal work.
+
+Clients on the other end have almost no visibility into their own cases. They receive updates sporadically and often have to call the office to find out what's happening. The gap between how complex legal proceedings actually are and how little structure exists around managing them is significant.
 
 ## Solution
 
-Built a full-stack platform with React frontend and Node.js backend running on AWS. Implemented intelligent document management with search, audit trails, and role-based access control. The system processes documents asynchronously, handles concurrent users, and maintains compliance with Indian legal requirements.
+Firmlytic is a legal operations platform built to close that gap. Rather than digitizing paperwork, the goal was to rebuild the workflow from scratch, making it easier for both the firm and the client to navigate a case from intake to resolution.
 
-**Key Achievements:**
-- Scaled to 500+ daily active users in beta
-- Processing ~50 documents per day
-- Improved attorney productivity by ~30% (less time searching, more time on actual legal work)
-- Audit trail system critical for professional liability insurance compliance
+**Case Management Portal** : Each case gets its own workspace: documents, hearings, deadlines, assigned attorneys, and status history in one place. Lawyers can update case progress in real time, and clients see those updates through their own access-controlled view without needing to call in.
+
+**Live Case Updates** : The system pushes structured status updates to clients as cases progress through stages. Instead of a static status field, updates are logged chronologically with context, so a client can read exactly what happened at the last hearing and what's due next.
+
+**AI Research & Document Assistant** : An embedded assistant that lets lawyers query the case file or search for relevant precedents conversationally. It handles document summarization, clause extraction, and contextual Q&A across uploaded materials, reducing time spent on research without replacing the attorney's judgment.
+
+**CRM & Client Management** : A purpose-built CRM tracking every client interaction: communication history, retainers, billing milestones, and case associations. Firms can see their full client portfolio at a glance without maintaining separate spreadsheets.
+
+**Payroll & Internal Operations** : Internally, the platform handles staff payroll processing and manages attorney workload distribution. Partners can assign cases, track associate capacity, and run billing reports from the same system rather than stitching together separate tools.
+
+**Key Outcomes:**
+
+- 500+ daily active users across beta law firms
+- ~50 documents processed per day through the document pipeline
+- Estimated 30% reduction in attorney time spent on non-legal coordination
+- Audit trail system used for professional liability compliance
 
 **Stack:** React, Node.js, AWS (Lambda, DynamoDB, S3), Cloudflare, TypeScript
 
 **Current Status**
-MVP launched with law firms in beta. System handles concurrent users without degradation. Positive feedback on audit trail accuracy and search capabilities.
+
+The platform is incorporated and in active production. Law firms are using it daily to manage live cases. Development continues in parallel — the core case management and client portal features are stable; AI research features are iterating based on attorney feedback.

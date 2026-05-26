@@ -10,8 +10,8 @@ import { Navigation } from "./components/nav";
 // ─── Typewriter roles ────────────────────────────────────────────────────────
 const roles = [
   "Full-Stack Engineer",
-  "Creative Technologist",
   "CS @ ASU '26",
+  "Building things that work",
 ];
 
 // ─── Skills data ─────────────────────────────────────────────────────────────
@@ -787,8 +787,8 @@ export default function Home() {
               who I am
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white leading-snug">
-              I don't aim to just write code,{" "}
-              <span className="gradient-text-vivid">I craft experiences.</span>
+              Recent CS Grad who ships{" "}
+              <span className="gradient-text-vivid">real software.</span>
             </h2>
             <p className="text-zinc-400 leading-relaxed text-[15px]">
               I'm{" "}
@@ -799,19 +799,16 @@ export default function Home() {
               <span className="font-medium bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
                 full-stack engineer
               </span>{" "}
-              early in my career, already building{" "}
+              with 2 years of professional experience. I've built production systems with real users, from {" "}
               <span className="font-medium bg-gradient-to-r from-indigo-300 to-purple-400 bg-clip-text text-transparent">
-                scalable, AI-driven systems
-              </span>.
-              {" "}I ship products with intent and design{" "}
-              <span className="font-medium bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
-                architecture built to scale
-              </span>.
+                serverless APIs on AWS
+              </span>{" "}
+              to end-to-end web applications.
             </p>
             <p className="text-zinc-500 leading-relaxed text-sm">
-              Computer Science student at{" "}
-              <span className="text-amber-300/80 font-medium">Arizona State University </span>
-              with a minor in Film & Media Production.
+              B.Sc Computer Science at{" "}
+              <span className="text-amber-300/80 font-medium">Arizona State University</span>
+              {" "}· Minor in Film & Media Production.
             </p>
             <div className="flex gap-4 pt-2 flex-wrap">
               <Link
@@ -856,7 +853,7 @@ export default function Home() {
               technical depth
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
-              The Stack Behind the Vision
+              The Stack I Use
             </h2>
           </motion.div>
 
@@ -948,12 +945,10 @@ export default function Home() {
                 style={{ boxShadow: "inset 0 0 40px rgba(99,102,241,0.07)" }}
               >
                 <p className="text-xs text-zinc-600 uppercase tracking-widest font-mono mb-4">
-                  my edge
+                  in short
                 </p>
                 <p className="text-zinc-300 text-sm leading-relaxed flex-1">
-                  I bring engineering rigor, product instinct, and creative vision
-                  together. Whether architecting serverless APIs or building
-                  pixel-perfect interfaces, I optimize for what actually matters.
+                  I'm comfortable end-to-end, from writing backend services to deploying them on AWS to building the frontend that consumes them.
                 </p>
                 <div className="mt-6 pt-4 border-t border-white/[0.05]">
                   <span className="text-xs text-zinc-600 font-mono">
@@ -1016,7 +1011,7 @@ export default function Home() {
             philosophy
           </motion.p>
 
-          {["Good software is invisible.", "Great software is unforgettable."].map(
+          {["Write code that solves the actual problem.", "Keep it simple. Make it fast. Ship it."].map(
             (line, i) => (
               <motion.p
                 key={i}
@@ -1043,9 +1038,7 @@ export default function Home() {
             transition={{ duration: 0.9, delay: 0.5 }}
             className="text-zinc-600 text-sm leading-relaxed max-w-md mx-auto mt-8"
           >
-            I'm drawn to the intersection of technically rigorous systems and
-            human-centered experiences. Precision and beauty aren't opposites,
-            the best products are both.
+            Good engineering is mostly about trade-offs. Understand the problem first, pick the right tool, and make sure someone else can read your code in six months.
           </motion.p>
         </div>
       </section>

@@ -425,7 +425,7 @@ export default function ResumePage() {
 
               <Reveal delay={0.2}>
                 <div className="flex flex-wrap items-center gap-5 text-xs">
-                  <a href="https://www.linkedin.com/in/kushagrapandeyy/" target="_blank" rel="noopener noreferrer"
+                  <a href="https://www.linkedin.com/in/kushagra--pandey/" target="_blank" rel="noopener noreferrer"
                     className="text-zinc-500 hover:text-white transition-colors flex items-center gap-1">
                     LinkedIn <ExternalLink size={10} />
                   </a>

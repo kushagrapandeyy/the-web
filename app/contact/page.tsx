@@ -17,8 +17,8 @@ const contactLinks = [
   },
   {
     label: "LinkedIn",
-    value: "/in/kushagrapandeyy",
-    href: "https://www.linkedin.com/in/kushagrapandeyy/",
+    value: "/in/kushagra--pandey",
+    href: "https://www.linkedin.com/in/kushagra--pandey/",
     description: "Professional background & network",
     icon: "◈",
     color: "#38bdf8",
