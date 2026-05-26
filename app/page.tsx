@@ -11,7 +11,7 @@ import { Navigation } from "./components/nav";
 const roles = [
   "Full-Stack Engineer",
   "CS @ ASU '26",
-  "Building things that work",
+  "Building Products that Scale",
 ];
 
 // ─── Skills data ─────────────────────────────────────────────────────────────

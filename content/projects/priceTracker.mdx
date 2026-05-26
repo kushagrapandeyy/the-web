@@ -15,9 +15,9 @@ published: true
 
 **Database Design:** PostgreSQL with materialized views for pre-aggregated price statistics. Composite indexes on (product, store, date). Schema normalized with fact table (prices) + dimensions (products, stores).
 
-**Critical Optimization:** Initial basket comparison aggregated raw prices on-demand (8+ seconds). Moved to materialized view approach—query pre-computed totals instead. Result: 8s → 150ms (50x improvement).
+**Critical Optimization:** Initial basket comparison aggregated raw prices on-demand (8+ seconds). Moved to materialized view approach, query pre-computed totals instead. Result: 8s → 150ms (50x improvement).
 
-**Anomaly Detection:** Z-score algorithm flags prices >2σ from 30-day rolling average. Async processing—scraping completes immediately, detection runs in background.
+**Anomaly Detection:** Z-score algorithm flags prices >2σ from 30-day rolling average. Async processing, scraping completes immediately, detection runs in background.
 
 **Frontend:** React search with debounced input, basket comparison with store breakdown, watchlist alerts.
 
