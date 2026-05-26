@@ -149,19 +149,6 @@ const experiences = [
     ],
   },
   {
-    company: "Arizona State University",
-    title: "Production Assistant",
-    period: "Oct 2024 – Present",
-    location: "Tempe, AZ",
-    tags: ["Python", "React", "Node.js", "Automation"],
-    color: "#38bdf8",
-    highlights: [
-      "Automated internal media workflows reducing production cycles by 30% with Python asset-management scripts",
-      "Architected custom workflow management tools with React + Node.js to streamline team collaboration",
-      "Leading pre-production, equipment logistics, and post-production coordination for high-volume projects",
-    ],
-  },
-  {
     company: "SS Pandey & Associates",
     title: "Junior Developer",
     period: "Aug 2023 – Jan 2024",
@@ -185,6 +172,19 @@ const experiences = [
       "Engineered distributed web scraping framework processing 10,000+ profiles daily with 95% accuracy",
       "Designed MongoDB schema with strategic indexing enabling sub-100ms queries on 5M+ documents",
       "Implemented deduplication logic reducing storage overhead by 35%",
+    ],
+  },
+  {
+    company: "Arizona State University",
+    title: "Production Assistant",
+    period: "Oct 2024 – May 2026",
+    location: "Tempe, AZ",
+    tags: ["Python", "React", "Node.js", "Automation"],
+    color: "#38bdf8",
+    highlights: [
+      "Automated internal media workflows reducing production cycles by 30% with Python asset-management scripts",
+      "Architected custom workflow management tools with React + Node.js to streamline team collaboration",
+      "Leading pre-production, equipment logistics, and post-production coordination for high-volume projects",
     ],
   },
 ];

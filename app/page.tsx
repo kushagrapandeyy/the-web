@@ -988,62 +988,6 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════
-          PHILOSOPHY / VISION
-      ══════════════════════════════════════════════════ */}
-      <section className="relative py-32 bg-black overflow-hidden">
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse, rgba(99,102,241,0.06) 0%, transparent 70%)",
-            filter: "blur(80px)",
-          }}
-        />
-
-        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-xs text-zinc-600 uppercase tracking-widest font-mono mb-10"
-          >
-            philosophy
-          </motion.p>
-
-          {["Write code that solves the actual problem.", "Keep it simple. Make it fast. Ship it."].map(
-            (line, i) => (
-              <motion.p
-                key={i}
-                className={`text-2xl sm:text-3xl md:text-4xl font-light leading-normal mb-3 ${i === 1 ? "font-semibold gradient-text-vivid" : "text-zinc-400"
-                  }`}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.8,
-                  delay: i * 0.2,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-              >
-                "{line}"
-              </motion.p>
-            )
-          )}
-
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9, delay: 0.5 }}
-            className="text-zinc-600 text-sm leading-relaxed max-w-md mx-auto mt-8"
-          >
-            Good engineering is mostly about trade-offs. Understand the problem first, pick the right tool, and make sure someone else can read your code in six months.
-          </motion.p>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════
           DEV MODE CTA TOGGLE
       ══════════════════════════════════════════════════ */}
       <section className="relative py-28 bg-black border-t border-white/[0.04] overflow-hidden">
