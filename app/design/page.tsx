@@ -27,7 +27,7 @@ export default async function DesignPage() {
 
   const publishedProjects = allProjects.filter((p) => p.published);
 
-  const designOrder = ["tempeCameraRedesign", "startupPitch", "photoQuizGame", "checkoutRedesign"];
+  const designOrder = ["tempeCameraRedesign", "photoQuizGame", "startupPitch", "checkoutRedesign"];
   const designProjects = publishedProjects
     .filter((p) => (p as any).category === "design")
     .sort((a, b) => {
