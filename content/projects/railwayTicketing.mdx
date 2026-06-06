@@ -15,7 +15,7 @@ The problem was straightforward: build a system that lets people book train tick
 
 I built a Python backend with MySQL database handling passenger details, routes, availability checks, and ticket generation. The key was thinking about the data structure first. A normalized schema with proper relationships between passengers, trains, routes, and bookings. Validation logic to ensure consistency. Printable tickets.
 
-This was my first real exposure to databases. I learned that schema design matters. If you design the tables right, the queries are simple. If you design them wrong, nothing works. I learned about transactions—what it means to atomically book a seat and reduce availability in one operation, not two.
+This was my first real exposure to databases. I learned that schema design matters. If you design the tables right, the queries are simple. If you design them wrong, nothing works. I learned about transactions-what it means to atomically book a seat and reduce availability in one operation, not two.
 
 Did I implement perfect concurrent access patterns? No. The requirements were modest. But the way I thought about the problem was right: data first, then logic, then UI. That's the foundation of good system design.
 
@@ -48,8 +48,8 @@ Did I implement perfect concurrent access patterns? No. The requirements were mo
 ## Key Learnings
 
 This early project reinforced:
-1. **Schema design matters**—a clean, normalized structure made queries simple and data consistent
-2. **User workflows are part of the product**—the ticket layout and booking flow needed to match real-world expectations
-3. **Validation prevents problems**—checking age for children, preventing overbooking, etc. prevents downstream chaos
+1. **Schema design matters**-a clean, normalized structure made queries simple and data consistent
+2. **User workflows are part of the product**-the ticket layout and booking flow needed to match real-world expectations
+3. **Validation prevents problems**-checking age for children, preventing overbooking, etc. prevents downstream chaos
 
 While simple by today's standards, this project taught me to think like a systems builder, not just a coder.

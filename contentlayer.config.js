@@ -51,6 +51,9 @@ export const Project = defineDocumentType(() => ({
 		status: { 
 			type: 'string'
 		},
+		category: {
+			type: 'string',
+		},
 	},
 	computedFields,
 }));

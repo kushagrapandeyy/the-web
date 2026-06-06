@@ -1,18 +1,14 @@
-import Link from "next/link";
 import React from "react";
 import { allProjects } from "@/../.contentlayer/generated";
 import { Navigation } from "../components/nav";
-import { Card } from "../components/card";
-import { Article } from "./article";
 import { Redis } from "@upstash/redis";
-import { Eye } from "lucide-react";
-import { ProjectsContent } from "./projects-content";
+import { ProjectsContent } from "../projects/projects-content";
 
 const redis = Redis.fromEnv();
 
 export const revalidate = 60;
 
-export default async function ProjectsPage() {
+export default async function DesignPage() {
   let views: Record<string, number> = {};
 
   try {
@@ -24,16 +20,13 @@ export default async function ProjectsPage() {
       return acc;
     }, {} as Record<string, number>);
   } catch (error) {
-    // If Redis fails, just use zero views for all projects
     allProjects.forEach((p) => {
       views[p.slug] = 0;
     });
   }
 
-  // Get published projects
   const publishedProjects = allProjects.filter((p) => p.published);
 
-  // Separate design projects from engineering projects
   const designOrder = ["tempeCameraRedesign", "startupPitch", "photoQuizGame", "checkoutRedesign"];
   const designProjects = publishedProjects
     .filter((p) => (p as any).category === "design")
@@ -47,7 +40,6 @@ export default async function ProjectsPage() {
     });
   const engineeringProjects = publishedProjects.filter((p) => (p as any).category !== "design");
 
-  // Ensure featured/top projects exist, with fallbacks
   const featured = engineeringProjects.find((p) => p.slug === "firmlyticSolutions") || engineeringProjects[0];
   const top2 = engineeringProjects.find((p) => p.slug === "Capstone") || engineeringProjects[1];
   const top3 = engineeringProjects.find((p) => p.slug === "kushagrapandey") || engineeringProjects[2];
@@ -64,14 +56,21 @@ export default async function ProjectsPage() {
         new Date(a.date ?? Number.POSITIVE_INFINITY).getTime()
     );
 
-  // MSK Fragrance pinned to bottom
   const sorted = mskProject ? [...otherProjects, mskProject] : otherProjects;
 
   return (
     <div className="relative pb-16">
       <Navigation />
       {featured && top2 && top3 && (
-        <ProjectsContent featured={featured} top2={top2} top3={top3} sorted={sorted} views={views} designProjects={designProjects} />
+        <ProjectsContent 
+          featured={featured} 
+          top2={top2} 
+          top3={top3} 
+          sorted={sorted} 
+          views={views} 
+          designProjects={designProjects} 
+          initialTab="design" 
+        />
       )}
     </div>
   );

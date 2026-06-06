@@ -9,6 +9,7 @@ type Props = {
 		title: string;
 		description: string;
 		repository?: string;
+		category?: string;
 	};
 
 	views: number;
@@ -70,7 +71,7 @@ export const Header: React.FC<Props> = ({ project, views }) => {
 					</div>
 
 					<Link
-						href="/projects"
+						href={project.category === "design" ? "/design" : "/projects"}
 						className={`duration-200 hover:font-medium ${
 							isIntersecting
 								? " text-zinc-400 hover:text-zinc-100"

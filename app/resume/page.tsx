@@ -137,15 +137,28 @@ const SectionLabel: React.FC<{ label: string }> = ({ label }) => (
 const experiences = [
   {
     company: "Firmlytic Solutions",
-    title: "Founder & Lead Engineer",
+    title: "Founder",
     period: "Jan 2024 – Present",
     location: "New Delhi, India",
-    tags: ["React", "Node.js", "AWS", "DynamoDB", "Lambda", "Cloudflare"],
+    tags: ["React", "Node.js", "AWS", "DynamoDB", "Lambda", "Anthropic Claude API"],
     color: "#818cf8",
     highlights: [
-      "Architected and scaled an AI-driven legal platform (React, Node.js, AWS) serving 500+ Daily Active Users with 99.9% uptime",
-      "Designed serverless REST APIs using AWS Lambda + DynamoDB, automating document workflows and reducing manual effort by 40%",
-      "Implemented Cloudflare WAF and least-privilege IAM policies to protect sensitive user data",
+      "Scaled an AI legal SaaS platform on AWS (React, Node.js, Lambda, DynamoDB) to 1,000+ daily active users at 99.9% uptime, automating workflows end to end",
+      "Reduced attorney processing time by 40% by deploying Anthropic Claude APIs for document summarization, precedent finding, and clause extraction",
+      "Secured sensitive legal data through Cloudflare WAF and least-privilege IAM across AWS services",
+    ],
+  },
+  {
+    company: "Arizona State University",
+    title: "Production Assistant",
+    period: "Oct 2024 – May 2026",
+    location: "Tempe, AZ",
+    tags: ["Visual Design", "Video Production", "Workflow Tooling", "Adobe CC"],
+    color: "#38bdf8",
+    highlights: [
+      "Led internal workflow tooling to coordinate pre-production, manage equipment logistics, and synchronize post-production handoffs",
+      "Produced and captured visual content across campaigns as an on-set videographer and photographer",
+      "Delivered high-volume creative assets used across ASU’s official digital and print channels",
     ],
   },
   {
@@ -156,9 +169,9 @@ const experiences = [
     tags: ["Spring Boot", "Java", "Microservices", "JWT"],
     color: "#34d399",
     highlights: [
-      "Built Spring Boot microservice for document lifecycle management with JWT auth, cutting retrieval latency by 45%",
-      "Designed RESTful APIs for document ingestion handling 10K+ daily transactions",
-      "Contributed to cloud migration and implemented caching strategies improving performance by 20%",
+      "Migrated a LAN-based document sharing system to a Spring Boot microservice with JWT-secured REST APIs, cutting retrieval latency by 45%",
+      "Handled 10,000+ daily document transactions through the new ingestion APIs",
+      "Improved overall system performance by 20% through request caching and cloud infrastructure optimizations",
     ],
   },
   {
@@ -169,61 +182,47 @@ const experiences = [
     tags: ["Python", "MongoDB", "Web Scraping"],
     color: "#fb923c",
     highlights: [
-      "Engineered distributed web scraping framework processing 10,000+ profiles daily with 95% accuracy",
-      "Designed MongoDB schema with strategic indexing enabling sub-100ms queries on 5M+ documents",
-      "Implemented deduplication logic reducing storage overhead by 35%",
-    ],
-  },
-  {
-    company: "Arizona State University",
-    title: "Production Assistant",
-    period: "Oct 2024 – May 2026",
-    location: "Tempe, AZ",
-    tags: ["Python", "React", "Node.js", "Automation"],
-    color: "#38bdf8",
-    highlights: [
-      "Automated internal media workflows reducing production cycles by 30% with Python asset-management scripts",
-      "Architected custom workflow management tools with React + Node.js to streamline team collaboration",
-      "Leading pre-production, equipment logistics, and post-production coordination for high-volume projects",
+      "Processed 10,000+ profiles daily at 95% accuracy using a distributed Python scraping framework",
+      "Slashed query latency on a 100K+ document MongoDB collection to under 100ms through schema redesign and indexing",
     ],
   },
 ];
 
 const skillGroups = [
   {
+    label: "Design & UX",
+    color: "#c084fc",
+    skills: [
+      { label: "Figma / Prototyping", level: 90 },
+      { label: "UX Flows / Visuals", level: 88 },
+      { label: "Adobe Creative Suite", level: 85 },
+    ],
+  },
+  {
     label: "Frontend",
     color: "#818cf8",
     skills: [
       { label: "React / Next.js", level: 92 },
       { label: "TypeScript", level: 88 },
-      { label: "CSS / Tailwind", level: 85 },
+      { label: "Tailwind / CSS", level: 85 },
     ],
   },
   {
-    label: "Backend",
+    label: "Backend & Data",
     color: "#34d399",
     skills: [
       { label: "Node.js / FastAPI", level: 87 },
-      { label: "Spring Boot / Java", level: 78 },
-      { label: "Python", level: 85 },
-    ],
-  },
-  {
-    label: "Cloud & Data",
-    color: "#38bdf8",
-    skills: [
-      { label: "AWS (Lambda, DynamoDB)", level: 82 },
-      { label: "PostgreSQL / MongoDB", level: 84 },
-      { label: "Docker / Kubernetes", level: 72 },
+      { label: "Python / Java", level: 85 },
+      { label: "AWS / PostgreSQL", level: 82 },
     ],
   },
 ];
 
 const allSkillTags = {
-  Languages: ["Java", "Python", "C++", "JavaScript", "TypeScript", "Swift"],
-  "Cloud & DevOps": ["AWS Lambda", "Google Cloud", "Docker", "Kubernetes", "Cloudflare", "Redis"],
-  "Databases": ["PostgreSQL", "MongoDB", "DynamoDB", "MySQL", "Redis"],
-  "Frameworks": ["React", "Next.js", "FastAPI", "Spring Boot", "Node.js", "Expo"],
+  "Design & Product": ["Figma", "UX/UI Design", "Prototyping", "Wireframing", "Adobe CC", "Storyboarding"],
+  "Languages": ["Python", "TypeScript", "JavaScript", "Java", "Swift", "C++"],
+  "Frameworks": ["React", "Node.js", "FastAPI", "Next.js", "Spring Boot", "Expo"],
+  "Cloud & Data": ["AWS", "PostgreSQL", "MongoDB", "Docker", "Redis", "Cloudflare"],
 };
 
 const certifications = [
@@ -419,7 +418,7 @@ export default function ResumePage() {
 
               <ClipReveal delay={0.1}>
                 <p className="text-zinc-400 text-sm max-w-md leading-relaxed">
-                  Full-stack engineer with experience building AI-driven applications from frontend interface to scalable backend architecture. Passionate about modular system design, performance-aware engineering, and products that are technically sound and user-centered.
+                  Software engineer with 2+ years building client-facing systems and technical solutions. Founded a legal tech SaaS, scaled it to 1,000+ daily active users at 99.9% uptime, and shipped production software across legal tech, data infrastructure, and AI. Experienced in translating complex system behavior into intuitive user flows, prototypes, visual interfaces, and actionable experiences for end users.
                 </p>
               </ClipReveal>
 
@@ -618,7 +617,7 @@ export default function ResumePage() {
                 name: "Lyra - AI Dating Platform",
                 href: "/projects/Capstone",
                 stack: ["FastAPI", "PostgreSQL", "React", "Expo"],
-                desc: "Capstone project. Full-stack matchmaking platform with AI ranking, real-time messaging, and secure auth.",
+                desc: "Built a full-stack matchmaking app with weighted compatibility scoring, AI recommendations, and real-time chat. Prototyped mobile and web interactions balancing usability with technical constraints.",
                 label: "Capstone · 2025–26",
                 color: "#a78bfa",
               },
@@ -626,7 +625,7 @@ export default function ResumePage() {
                 name: "Grocery Price Tracker",
                 href: "/projects/priceTracker",
                 stack: ["PostgreSQL", "Node.js", "React"],
-                desc: "Query-optimized price monitoring with basket tracking, store comparison, and alert workflows.",
+                desc: "Query-optimized price monitoring tracking 50+ stores. Handled 10,000+ daily price updates, delivering basket comparisons in under 200ms.",
                 label: "DB Engineering · 2025",
                 color: "#34d399",
               },

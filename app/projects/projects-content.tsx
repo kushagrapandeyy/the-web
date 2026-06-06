@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import React, { useState, useRef } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { Eye, ArrowUpRight } from "lucide-react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { Eye, ArrowUpRight, Palette } from "lucide-react";
 
 // Scroll-based reveal
 const Reveal: React.FC<{ children: React.ReactNode; delay?: number; direction?: "up" | "left" | "right" }> = ({
@@ -116,6 +117,8 @@ type Props = {
   top3: any;
   sorted: any[];
   views: Record<string, number>;
+  designProjects?: any[];
+  initialTab?: "engineering" | "design";
 };
 
 const formatViews = (n: number) =>
@@ -124,7 +127,9 @@ const formatViews = (n: number) =>
 const formatDate = (d: string) =>
   Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(new Date(d));
 
-export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted, views }) => {
+export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted, views, designProjects = [], initialTab = "engineering" }) => {
+  const [activeTab, setActiveTab] = useState<"engineering" | "design">(initialTab);
+
   return (
     <div className="min-h-screen bg-black">
       {/* Ambient glow */}
@@ -150,35 +155,93 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
                 What I've{" "}
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c084fc 100%)",
+                    backgroundImage: activeTab === "engineering" 
+                      ? "linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c084fc 100%)"
+                      : "linear-gradient(135deg, #c084fc 0%, #fb7185 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
+                    backgroundClip: "text"
                   }}
                 >
-                  Engineered
+                  {activeTab === "engineering" ? "Engineered" : "Designed"}
                 </span>
               </h1>
             </Reveal>
             <Reveal delay={0.1} direction="right">
-              <p className="text-zinc-600 text-sm leading-relaxed max-w-xs text-right">
-                AI platforms · Full-stack systems
-              </p>
+              <div className="flex items-center p-1 bg-zinc-900/50 border border-white/5 rounded-xl backdrop-blur-md">
+                <button
+                  onClick={() => {
+                    setActiveTab("engineering");
+                    window.history.replaceState(null, '', '/projects');
+                  }}
+                  className={`relative px-5 py-2 text-sm font-medium rounded-lg transition-colors duration-300 ${
+                    activeTab === "engineering" ? "text-white" : "text-zinc-500 hover:text-zinc-300"
+                  }`}
+                >
+                  {activeTab === "engineering" && (
+                    <motion.div
+                      layoutId="active-tab"
+                      className="absolute inset-0 bg-white/10 rounded-lg"
+                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    />
+                  )}
+                  <span className="relative">Engineering</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab("design");
+                    window.history.replaceState(null, '', '/design');
+                  }}
+                  className={`relative px-5 py-2 text-sm font-medium rounded-lg transition-colors duration-300 ${
+                    activeTab === "design" ? "text-white" : "text-zinc-500 hover:text-zinc-300"
+                  }`}
+                >
+                  {activeTab === "design" && (
+                    <motion.div
+                      layoutId="active-tab"
+                      className="absolute inset-0 bg-white/10 rounded-lg"
+                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    />
+                  )}
+                  <span className="relative">Design</span>
+                </button>
+              </div>
             </Reveal>
           </div>
+
+          <Reveal delay={0.15}>
+            <p className="mt-8 text-zinc-400 text-base sm:text-lg max-w-2xl font-light">
+              Engineering + Product Design Case Studies
+              <span className="block mt-1.5 text-sm text-zinc-500 font-mono tracking-wide">
+                AI platforms · Full-stack systems · UX flows · Visual interfaces
+              </span>
+            </p>
+          </Reveal>
 
           {/* Animated divider */}
           <motion.div
             className="mt-10 h-px"
-            style={{ background: "linear-gradient(90deg, transparent, rgba(99,102,241,0.25), rgba(255,255,255,0.04), transparent)" }}
+            style={{ 
+              background: activeTab === "engineering" 
+                ? "linear-gradient(90deg, transparent, rgba(99,102,241,0.25), rgba(255,255,255,0.04), transparent)" 
+                : "linear-gradient(90deg, transparent, rgba(192,132,252,0.25), rgba(255,255,255,0.04), transparent)" 
+            }}
             initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
+            animate={{ scaleX: 1 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           />
         </div>
 
-        {/* ── Featured (full-width banner) ── */}
+        <AnimatePresence mode="wait">
+        {activeTab === "engineering" && (
+          <motion.div
+            key="engineering"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+          >
+            {/* ── Featured (full-width banner) ── */}
         <ProjectCard delay={0} featured>
           <Link href={`/projects/${featured.slug}`} className="block">
             <article className="relative p-8 md:p-12 lg:p-14">
@@ -341,6 +404,87 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
             </div>
           </>
         )}
+
+          </motion.div>
+        )}
+
+        {/* ── UX / Design Work ── */}
+        {activeTab === "design" && (
+          <motion.div
+            key="design"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+          >
+            {designProjects.length > 0 ? (
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
+                {designProjects.map((project, idx) => (
+                  <ProjectCard key={project.slug} delay={idx * 0.07} accent="rgba(192,132,252,0.12)">
+                    <Link href={`/projects/${project.slug}`} className="block h-full">
+                      <article className="h-full flex flex-col">
+                        {/* Cover image */}
+                        <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16/7" }}>
+                          <Image
+                            src={`/ProjectPngs/${project.slug}.png`}
+                            alt={project.title}
+                            fill
+                            className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                          />
+                          {/* Gradient overlay */}
+                          <div
+                            className="absolute inset-0 pointer-events-none"
+                            style={{ background: "linear-gradient(to bottom, transparent 40%, rgba(9,9,11,0.85) 100%)" }}
+                          />
+                          {/* Design badge */}
+                          <div className="absolute top-3 left-3">
+                            <span
+                              className="text-[10px] font-mono uppercase tracking-[0.18em] px-2 py-0.5 rounded-full"
+                              style={{
+                                background: "rgba(192,132,252,0.15)",
+                                border: "1px solid rgba(192,132,252,0.25)",
+                                color: "#c084fc",
+                              }}
+                            >
+                              UX Design
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Card body */}
+                        <div className="p-6 flex flex-col flex-1">
+                          <div className="flex justify-between items-start gap-3 mb-2">
+                            <h2 className="text-base font-semibold text-zinc-200 group-hover:text-white transition-colors duration-300 leading-snug">
+                              {project.title}
+                            </h2>
+                            <span className="text-zinc-700 text-xs flex items-center gap-1 shrink-0 mt-0.5">
+                              <Eye className="w-3 h-3" />
+                              {formatViews(views[project.slug] ?? 0)}
+                            </span>
+                          </div>
+                          <p className="text-zinc-600 text-sm leading-relaxed line-clamp-2 group-hover:text-zinc-500 transition-colors duration-300 flex-1">
+                            {project.description}
+                          </p>
+                          <div
+                            className="mt-4 flex items-center gap-1 text-xs font-medium transition-colors duration-300"
+                            style={{ color: "#a78bfa" }}
+                          >
+                            <span className="group-hover:opacity-100 opacity-70 transition-opacity duration-300">View case study</span>
+                            <ArrowUpRight className="w-3 h-3 group-hover:opacity-100 opacity-60 transition-opacity duration-300" />
+                          </div>
+                        </div>
+                      </article>
+                    </Link>
+                  </ProjectCard>
+                ))}
+              </div>
+            ) : (
+              <p className="text-zinc-500 text-sm mt-4">No design projects found.</p>
+            )}
+          </motion.div>
+        )}
+        </AnimatePresence>
       </div>
     </div>
   );
