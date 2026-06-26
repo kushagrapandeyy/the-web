@@ -30,7 +30,7 @@ export const Navigation: React.FC = () => {
 				className="fixed top-0 left-0 right-0 h-[2px] z-[410] origin-left pointer-events-none"
 				style={{
 					scaleX,
-					background: "linear-gradient(90deg, #6366f1, #a78bfa, #38bdf8)",
+					background: "linear-gradient(90deg, #0d9488, #06b6d4, #34d399)",
 				}}
 			/>
 

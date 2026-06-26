@@ -73,7 +73,7 @@ const ProjectCard: React.FC<{
           animate={{
             opacity: hovered ? 1 : 0,
             background: featured
-              ? "linear-gradient(135deg, rgba(99,102,241,0.5), rgba(139,92,246,0.25), transparent 60%)"
+              ? "linear-gradient(135deg, rgba(20,184,166,0.5), rgba(6,182,212,0.25), transparent 60%)"
               : `linear-gradient(135deg, ${accent}, transparent 60%)`,
           }}
           transition={{ duration: 0.4 }}
@@ -86,7 +86,7 @@ const ProjectCard: React.FC<{
           animate={{ opacity: hovered ? 1 : 0.2, scaleX: hovered ? 1 : 0.3 }}
           style={{
             background: featured
-              ? "linear-gradient(90deg, transparent, rgba(99,102,241,0.8), transparent)"
+              ? "linear-gradient(90deg, transparent, rgba(20,184,166,0.8), transparent)"
               : "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
             transformOrigin: "center",
           }}
@@ -98,7 +98,7 @@ const ProjectCard: React.FC<{
           style={{
             boxShadow: hovered
               ? featured
-                ? "0 24px 80px rgba(99,102,241,0.18), 0 0 0 1px rgba(99,102,241,0.25)"
+                ? "0 24px 80px rgba(20,184,166,0.18), 0 0 0 1px rgba(20,184,166,0.25)"
                 : "0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)"
               : "none",
             transition: "box-shadow 0.4s ease",
@@ -128,7 +128,7 @@ const formatDate = (d: string) =>
   Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(new Date(d));
 
 export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted, views, designProjects = [], initialTab = "engineering" }) => {
-  const [activeTab, setActiveTab] = useState<"engineering" | "design">(initialTab);
+  const [activeTab, setActiveTab] = useState(initialTab as "engineering" | "design");
 
   return (
     <div className="min-h-screen bg-black">
@@ -136,7 +136,7 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse 60% 40% at 50% 10%, rgba(99,102,241,0.05) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 60% 40% at 50% 10%, rgba(20,184,166,0.05) 0%, transparent 70%)",
         }}
       />
 
@@ -156,8 +156,8 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
                 <span
                   style={{
                     backgroundImage: activeTab === "engineering" 
-                      ? "linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c084fc 100%)"
-                      : "linear-gradient(135deg, #c084fc 0%, #fb7185 100%)",
+                      ? "linear-gradient(135deg, #2dd4bf 0%, #06b6d4 50%, #10b981 100%)"
+                      : "linear-gradient(135deg, #10b981 0%, #fb7185 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text"
@@ -223,8 +223,8 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
             className="mt-10 h-px"
             style={{ 
               background: activeTab === "engineering" 
-                ? "linear-gradient(90deg, transparent, rgba(99,102,241,0.25), rgba(255,255,255,0.04), transparent)" 
-                : "linear-gradient(90deg, transparent, rgba(192,132,252,0.25), rgba(255,255,255,0.04), transparent)" 
+                ? "linear-gradient(90deg, transparent, rgba(20,184,166,0.25), rgba(255,255,255,0.04), transparent)" 
+                : "linear-gradient(90deg, transparent, rgba(16,185,129,0.25), rgba(255,255,255,0.04), transparent)" 
             }}
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
@@ -253,7 +253,7 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
 
               <div className="flex items-start justify-between gap-4 mb-8">
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] text-indigo-400 font-mono uppercase tracking-[0.2em] px-2.5 py-1 rounded-full border border-indigo-400/20 bg-indigo-400/5">
+                  <span className="text-[10px] text-teal-400 font-mono uppercase tracking-[0.2em] px-2.5 py-1 rounded-full border border-teal-400/20 bg-teal-400/5">
                     Featured
                   </span>
                 </div>
@@ -274,7 +274,7 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
                 </div>
 
                 <motion.div
-                  className="flex items-center gap-2 text-indigo-400 text-sm font-medium shrink-0"
+                  className="flex items-center gap-2 text-teal-400 text-sm font-medium shrink-0"
                   initial={{ x: -4, opacity: 0.5 }}
                   whileHover={{ x: 0, opacity: 1 }}
                 >
@@ -375,7 +375,7 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
             </Reveal>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {sorted.map((project, idx) => (
-                <ProjectCard key={project.slug} delay={idx * 0.06} accent="rgba(167,139,250,0.1)">
+                <ProjectCard key={project.slug} delay={idx * 0.06} accent="rgba(6,182,212,0.1)">
                   <Link href={`/projects/${project.slug}`} className="block h-full">
                     <article className="p-6 h-full flex flex-col">
                       <div className="flex justify-between gap-2 items-center mb-4">
@@ -393,7 +393,7 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
                       <p className="text-zinc-600 text-sm leading-relaxed line-clamp-2 group-hover:text-zinc-500 transition-colors duration-300">
                         {project.description}
                       </p>
-                      <div className="mt-4 flex items-center gap-1 text-xs text-zinc-700 group-hover:text-violet-400 transition-colors duration-300">
+                      <div className="mt-4 flex items-center gap-1 text-xs text-zinc-700 group-hover:text-cyan-400 transition-colors duration-300">
                         <span>Read</span>
                         <ArrowUpRight className="w-3 h-3" />
                       </div>
@@ -420,7 +420,7 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
             {designProjects.length > 0 ? (
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
                 {designProjects.map((project, idx) => (
-                  <ProjectCard key={project.slug} delay={idx * 0.07} accent="rgba(192,132,252,0.12)">
+                  <ProjectCard key={project.slug} delay={idx * 0.07} accent="rgba(16,185,129,0.12)">
                     <Link href={`/projects/${project.slug}`} className="block h-full">
                       <article className="h-full flex flex-col">
                         {/* Cover image */}
@@ -442,9 +442,9 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
                             <span
                               className="text-[10px] font-mono uppercase tracking-[0.18em] px-2 py-0.5 rounded-full"
                               style={{
-                                background: "rgba(192,132,252,0.15)",
-                                border: "1px solid rgba(192,132,252,0.25)",
-                                color: "#c084fc",
+                                background: "rgba(16,185,129,0.15)",
+                                border: "1px solid rgba(16,185,129,0.25)",
+                                color: "#10b981",
                               }}
                             >
                               UX Design
@@ -468,7 +468,7 @@ export const ProjectsContent: React.FC<Props> = ({ featured, top2, top3, sorted,
                           </p>
                           <div
                             className="mt-4 flex items-center gap-1 text-xs font-medium transition-colors duration-300"
-                            style={{ color: "#a78bfa" }}
+                            style={{ color: "#06b6d4" }}
                           >
                             <span className="group-hover:opacity-100 opacity-70 transition-opacity duration-300">View case study</span>
                             <ArrowUpRight className="w-3 h-3 group-hover:opacity-100 opacity-60 transition-opacity duration-300" />

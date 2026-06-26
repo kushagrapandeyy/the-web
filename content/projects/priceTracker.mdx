@@ -1,9 +1,9 @@
 ---
-title: Grocery Price Tracking Platform
-description: Full-stack system combining web scraping, analytics, and product comparison.
-date: "2024-11-20"
-role: Full-Stack Developer
-tags: ["Node.js", "PostgreSQL", "React", "Web Scraping"]
+title: Grocery Price Tracker
+description: Led development of a full-stack price monitoring system tracking 50+ stores with real-time alerts. Optimized PostgreSQL for 10,000+ daily price updates.
+date: "2025-05-01"
+role: Lead Developer
+tags: ["PostgreSQL", "React", "Node.js", "Web Scraping", "Database Management"]
 published: true
 ---
 
@@ -11,14 +11,17 @@ published: true
 
 ## Real-Time Price Intelligence at Scale
 
-**Web Scraping:** Hourly scheduled scraper (Cheerio/Puppeteer) across 100+ retailers. Batch inserts to PostgreSQL (1000-record chunks) = 5000 inserts/second vs 100/second individually.
+Grocery Price Tracker is a full-stack database management and price monitoring application designed to track grocery prices across different supermarkets in real-time.
 
-**Database Design:** PostgreSQL with materialized views for pre-aggregated price statistics. Composite indexes on (product, store, date). Schema normalized with fact table (prices) + dimensions (products, stores).
+## Database & Performance Optimization
 
-**Critical Optimization:** Initial basket comparison aggregated raw prices on-demand (8+ seconds). Moved to materialized view approach, query pre-computed totals instead. Result: 8s → 150ms (50x improvement).
+- **PostgreSQL Database**: Designed the relational schema and normalized tables for prices, items, and retail stores. Optimized database performance to process over **10,000+ daily price updates**.
+- **Sub-200ms Queries**: Delivered basket price comparisons in under **200ms** by implementing smart caching, indexed aggregations, and query optimization techniques.
+- **Indexed Aggregations**: Applied composite and partial indexes on frequently queried fields like store items and prices, allowing lightning-fast data retrieval over large datasets.
 
-**Anomaly Detection:** Z-score algorithm flags prices >2σ from 30-day rolling average. Async processing, scraping completes immediately, detection runs in background.
+## Scraping & Alerting Infrastructure
 
-**Frontend:** React search with debounced input, basket comparison with store breakdown, watchlist alerts.
+- **Robust Scraping Engine**: Engineered an automated scraping pipeline to scrape and ingest product prices across **50+ stores** concurrently on a scheduled cron sequence.
+- **Smart Caching**: Built a custom Redis/in-memory caching layer to store transient store prices and reduce database workload during peak search hours.
+- **Real-Time Alerts**: Integrated an asynchronous alerting pipeline that monitors price changes and instantly notifies users of drops in their watched grocery baskets.
 
-**Scale:** 50K+ products, 100+ retailers, 2M+ price records, sub-200ms responses.

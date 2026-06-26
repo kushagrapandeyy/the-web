@@ -1,52 +1,30 @@
 ---
-title: Lyra
-description: A full-stack matchmaking platform exploring scalable backend design and intelligent recommendation systems.
-date: "2025-12-01"
-role: Lead Developer
-tags: ["FastAPI", "PostgreSQL", "Recommender Systems", "React", "TypeScript"]
-status: "in-progress"
+title: Lyra - AI-Powered Matchmaking Platform
+description: Led architecture and development of Lyra as the primary engineer. Designed the weighted matchmaking engine, built and deployed the full stack, and integrated OpenAI APIs.
+date: "2026-05-01"
+role: Primary Engineer
+tags: ["FastAPI", "PostgreSQL", "React", "Vercel", "Render", "OpenAI API", "Guardian AI"]
+status: "completed"
 published: true
 ---
 
 ![](/ProjectPngs/capstone-dating.png)
 
-Lyra was built as part of my senior Computer Science capstone, focused on scalable system design and intelligent matchmaking architecture.
+Lyra was built as part of my senior Computer Science capstone, sponsored and developed under my leadership as the primary engineer.
 
-## Backend Architecture
+## Architecture & Deployment
 
-**FastAPI + PostgreSQL**
+- **Full-Stack Implementation**: Designed and built the entire system using **FastAPI** for a fast, modern backend and **React** (with **TypeScript**) for a highly responsive, type-safe user interface.
+- **Production Infrastructure**: Containerized and deployed services using **Vercel** for the frontend and **Render** for the API server, backed by a persistent **PostgreSQL** database.
+- **Sole Contact**: Served as the sole technical point of contact for the project sponsor, managing requirements gathering, timeline commitments, and milestone delivery.
 
-Modular service-oriented structure with validated RESTful APIs for:
-- Authentication (secure token-based access control)
-- Profile management (user preferences, photos, metadata)
-- Recommendation generation (compatibility scoring)
-- Messaging workflows (real-time conversations)
+## Weighted Matchmaking Engine
 
-## Recommendation Engine
+- **Algorithmic Scoring**: Designed and built a custom weighted matchmaking engine in Python. The algorithm computes compatibility scores across multiple user preference dimensions.
+- **Intelligent Recommendations**: Integrated **OpenAI API** to power a natural recommendation engine that identifies matches based on conversational profiles and behavioral cues.
+- **Guardian AI**: Incorporated safety protocols and automated moderation (Guardian AI) using LLMs to scan and maintain community guidelines within messaging interfaces.
 
-**Compatibility-Driven Ranking**
+## Database Design
 
-Combines explicit user preferences with behavioral signals. Algorithm approach:
-- Constraint-based filtering (eliminate incompatible matches)
-- Weighted scoring (preference alignment + interaction history)
-- Ranking by compatibility percentile
-
-Produces personalized recommendations balanced between diversity and relevance.
-
-## Frontend Implementation
-
-**React + TypeScript**
-
-Type-safe components with clean state management. Features:
-- Dynamic feed updates with infinite scroll
-- Optimistic interaction handling (swipe feedback before API response)
-- Real-time messaging UI with typing indicators
-- Smooth animations and transitions
-
-## Engineering Focus
-
-This capstone demonstrates:
-- Production-aware system design (scalability, maintainability)
-- Intelligent algorithm implementation (recommendation systems)
-- Full-stack capability (backend + frontend + database)
-- Clean architecture principles (modular, testable code)
+- Optimized PostgreSQL schemas to handle complex user preferences, swiping histories, and real-time conversation records.
+- Implemented robust index structures and transactional isolation levels to ensure data integrity during simultaneous reads and writes.

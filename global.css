@@ -55,7 +55,7 @@
 }
 
 .gradient-text-vivid {
-  background: linear-gradient(135deg, #a78bfa 0%, #818cf8 40%, #38bdf8 100%);
+  background: linear-gradient(135deg, #06b6d4 0%, #0d9488 40%, #34d399 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -124,7 +124,7 @@
 .photo-glow-wrapper {
   padding: 2px;
   border-radius: 16px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4, #6366f1);
+  background: linear-gradient(135deg, #0d9488, #10b981, #06b6d4, #0d9488);
   background-size: 300% 300%;
   animation: border-spin 4s ease infinite;
 }

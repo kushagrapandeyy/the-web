@@ -96,7 +96,7 @@ function Typewriter() {
   return (
     <span className="gradient-text-vivid font-mono">
       {displayed}
-      <span className="text-indigo-400 opacity-80 animate-pulse">|</span>
+      <span className="text-teal-400 opacity-80 animate-pulse">|</span>
     </span>
   );
 }
@@ -371,14 +371,14 @@ function ChronosGame({ active, onScoreUpdate, onExit, timedOut, onContinue }: {
                     entitiesRef.current = [];
                     onScoreUpdate(0);
                   }}
-                  className="w-full px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-500 transition-colors font-medium text-sm flex items-center justify-center gap-2"
+                  className="w-full px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-500 transition-colors font-medium text-sm flex items-center justify-center gap-2"
                 >
                   Restart Simulation <span className="text-[10px] opacity-50 px-1.5 py-0.5 rounded border border-white/20">ENTER</span>
                 </button>
               ) : (
                 <button
                   onClick={onContinue}
-                  className="w-full px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-500 transition-colors font-medium text-sm flex items-center justify-center gap-2"
+                  className="w-full px-6 py-3 bg-teal-600 text-white rounded-xl hover:bg-teal-500 transition-colors font-medium text-sm flex items-center justify-center gap-2"
                 >
                   Continue <span className="text-[10px] opacity-50 px-1.5 py-0.5 rounded border border-white/20">ENTER</span>
                 </button>
@@ -752,7 +752,7 @@ export default function Home() {
           className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none"
           style={{
             background:
-              "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(20,184,166,0.08) 0%, transparent 70%)",
             filter: "blur(60px)",
           }}
         />
@@ -766,7 +766,7 @@ export default function Home() {
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             className="flex justify-center md:justify-start"
           >
-            <div className="photo-glow-wrapper shadow-2xl shadow-indigo-950/50">
+            <div className="photo-glow-wrapper shadow-2xl shadow-teal-950/50">
               <img
                 src="/me.jpg"
                 alt="Kushagra Pandey"
@@ -796,11 +796,11 @@ export default function Home() {
                 Kushagra Pandey,
               </span>{" "}
               a{" "}
-              <span className="font-medium bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
+              <span className="font-medium bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
                 full-stack engineer
               </span>{" "}
               with 2 years of professional experience. I've built production systems with real users, from {" "}
-              <span className="font-medium bg-gradient-to-r from-indigo-300 to-purple-400 bg-clip-text text-transparent">
+              <span className="font-medium bg-gradient-to-r from-teal-300 to-emerald-400 bg-clip-text text-transparent">
                 serverless APIs on AWS
               </span>{" "}
               to end-to-end web applications.
@@ -813,7 +813,7 @@ export default function Home() {
             <div className="flex gap-4 pt-2 flex-wrap">
               <Link
                 href="/resume"
-                className="px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-all duration-300 hover:shadow-[0_0_24px_rgba(99,102,241,0.4)]"
+                className="px-5 py-2.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white text-sm font-medium transition-all duration-300 hover:shadow-[0_0_24px_rgba(20,184,166,0.4)]"
               >
                 Read Resume →
               </Link>
@@ -1100,7 +1100,7 @@ export default function Home() {
             {/* Pulsing dot when active */}
             {devMode && (
               <motion.span
-                className="w-2 h-2 rounded-full bg-indigo-400 relative z-10"
+                className="w-2 h-2 rounded-full bg-teal-400 relative z-10"
                 animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
                 transition={{ duration: 1, repeat: Infinity }}
               />

@@ -1,10 +1,10 @@
 ---
 title: Firmlytic Solutions
-description: A full-stack legal operations platform modernizing how law firms manage cases, clients, and internal workflows.
-date: "2025-06-01"
+description: Founded a legal tech SaaS. Launched and scaled an AI legal platform on AWS to 1,000+ daily active users at 99.9% uptime.
+date: "2026-05-01"
 url: https://sainyamitra.in
 role: Founder
-tags: ["React", "Node.js", "AWS", "DynamoDB", "Lambda", "Cloudflare", "LegalTech", "AI"]
+tags: ["React", "Node.js", "AWS", "DynamoDB", "Lambda", "Cloudflare", "Anthropic Claude API"]
 status: "active"
 published: true
 ---
@@ -17,29 +17,24 @@ The Indian legal system is still largely paper-driven. A law firm handling dozen
 
 Clients on the other end have almost no visibility into their own cases. They receive updates sporadically and often have to call the office to find out what's happening. The gap between how complex legal proceedings actually are and how little structure exists around managing them is significant.
 
-## Solution
+## Solution & Infrastructure
 
 Firmlytic is a legal operations platform built to close that gap. Rather than digitizing paperwork, the goal was to rebuild the workflow from scratch, making it easier for both the firm and the client to navigate a case from intake to resolution.
 
-**Case Management Portal** : Each case gets its own workspace: documents, hearings, deadlines, assigned attorneys, and status history in one place. Lawyers can update case progress in real time, and clients see those updates through their own access-controlled view without needing to call in.
+- **AI-Powered Workflows**: Automated document intake, routing, and client workflows end to end as the sole founder, scaling the platform on **AWS (React, Node.js, DynamoDB)** to **1,000+ daily active users** at **99.9% uptime** in its beta phase.
+- **LLM Integrations**: Reduced attorneys' manual processing times by **40%** by deploying **Anthropic Claude APIs** for document summarization, tagging, precedent finding, and clause extractions. Iterated on model prompts and parameters to enhance accuracy in production.
+- **Enterprise Security**: Shielded confidential and sensitive legal data across all partner firms by deploying **Cloudflare WAF** at the network edge and enforcing strict **least-privilege IAM** access policies across all AWS services.
 
-**Live Case Updates** : The system pushes structured status updates to clients as cases progress through stages. Instead of a static status field, updates are logged chronologically with context, so a client can read exactly what happened at the last hearing and what's due next.
+## Key Outcomes
 
-**AI Research & Document Assistant** : An embedded assistant that lets lawyers query the case file or search for relevant precedents conversationally. It handles document summarization, clause extraction, and contextual Q&A across uploaded materials, reducing time spent on research without replacing the attorney's judgment.
+- **1,000+ Daily Active Users** across beta partner law firms.
+- **40% Reduction** in manual document processing times.
+- **99.9% System Uptime** achieved through serverless Lambda execution and auto-scaling database nodes.
+- **Network Edge Protection** utilizing Cloudflare WAF.
 
-**CRM & Client Management** : A purpose-built CRM tracking every client interaction: communication history, retainers, billing milestones, and case associations. Firms can see their full client portfolio at a glance without maintaining separate spreadsheets.
+**Stack:** React, Node.js, AWS (Lambda, DynamoDB, S3), Cloudflare, TypeScript, Anthropic Claude API
 
-**Payroll & Internal Operations** : Internally, the platform handles staff payroll processing and manages attorney workload distribution. Partners can assign cases, track associate capacity, and run billing reports from the same system rather than stitching together separate tools.
+## Current Status
 
-**Key Outcomes:**
+The platform is incorporated and in active production. Law firms are using it daily to manage live cases. Development continues in parallel, focusing on expanding AI research capabilities and integrating real-time notifications.
 
-- 500+ daily active users across beta law firms
-- ~50 documents processed per day through the document pipeline
-- Estimated 30% reduction in attorney time spent on non-legal coordination
-- Audit trail system used for professional liability compliance
-
-**Stack:** React, Node.js, AWS (Lambda, DynamoDB, S3), Cloudflare, TypeScript
-
-**Current Status**
-
-The platform is incorporated and in active production. Law firms are using it daily to manage live cases. Development continues in parallel, the core case management and client portal features are stable; AI research features are iterating based on attorney feedback.
