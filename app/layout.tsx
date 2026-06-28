@@ -9,13 +9,13 @@ export const metadata: Metadata = {
     default: "Kushagra Pandey",
     template: "%s | kushagrapandey.com",
   },
-  description: "Founder of Firmlytic Solutions. Developer based in Phoenix, AZ.",
+  description: "Software Engineer in Tempe, AZ, building AI-powered products end-to-end, from infrastructure to interface.",
   openGraph: {
-    title: "kushagrapandey.com",
+    title: "Kushagra Pandey",
     description:
-      "I am a developer based in Phoenix, AZ. Currently a Senior at Arizona State University-Tempe.",
+      "Software Engineer in Tempe, AZ, building AI-powered products end-to-end, from infrastructure to interface.",
     url: "https://kushagrapandey.com",
-    siteName: "kushagrapandey.com",
+    siteName: "Kushagra Pandey",
     images: [
       {
         url: "https://www.kushagrapandey.com/me.jpg",
