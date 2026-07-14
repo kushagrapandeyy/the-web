@@ -67,8 +67,8 @@ const PremiumCard: React.FC<{
     return (
       <div
         className={`relative rounded-xl border overflow-hidden transition-all duration-500 ${isMatched
-            ? "border-teal-500/50 shadow-[0_0_20px_rgba(20,184,166,0.15)] bg-zinc-950/90"
-            : "border-zinc-800/60 bg-zinc-950/45 hover:border-zinc-700/60"
+          ? "border-teal-500/50 shadow-[0_0_20px_rgba(20,184,166,0.15)] bg-zinc-950/90"
+          : "border-zinc-800/60 bg-zinc-950/45 hover:border-zinc-700/60"
           } ${isDimmed ? "opacity-30 saturate-50 scale-[0.98]" : "opacity-100 scale-100"} ${className}`}
         onMouseMove={(e) => {
           const { left, top } = e.currentTarget.getBoundingClientRect();
@@ -85,7 +85,7 @@ const PremiumCard: React.FC<{
 // ─── Data Definitions ────────────────────────────────────────────────────────
 
 const resumeSummary =
-  "Software engineer with over 2 years of experience building and shipping full-stack AI-integrated systems in production. Founded a legal tech SaaS scaled to over 1,000 daily active users at 99.9% uptime. Experienced across the full stack, from React and Node.js frontend interfaces to AWS cloud infrastructure, with hands-on experience in deploying LLMs via Anthropic Claude and OpenAI APIs into real production workflows.";
+  "Software engineer with over 2 years of experience building and shipping full-stack AI-integrated systems in production. Founded a legal tech SaaS scaled to over 500+ daily active users at 99.9% uptime. Experienced across the full stack, from React and Node.js frontend interfaces to AWS cloud infrastructure, with hands-on experience in deploying LLMs via Anthropic Claude and OpenAI APIs into real production workflows.";
 
 const experiences = [
   {
@@ -96,7 +96,7 @@ const experiences = [
     tags: ["React", "Node.js", "AWS", "DynamoDB", "Lambda", "Cloudflare", "Anthropic Claude API", "OpenAI API", "REST APIs", "TypeScript", "JavaScript"],
     color: "#14b8a6",
     highlights: [
-      "Launched and scaled an AI legal SaaS platform on AWS (React, Node.js, DynamoDB) as sole founder to 1,000+ daily active users at 99.9% uptime in beta phase, automating document intake, routing, and client workflows end to end.",
+      "Launched and scaled an AI legal SaaS platform on AWS (React, Node.js, DynamoDB) as sole founder to 500+ daily active users at 99.9% uptime in beta phase, automating document intake, routing, and client workflows end to end.",
       "Reduced attorney’s manual processing times by 40% by deploying Anthropic Claude APIs for document summarization, tagging, precedent finding, clause extractions, iterating on model outputs for enhancing results in production.",
       "Shielded confidential and sensitive legal data across all partner firms by deploying Cloudflare WAF at the network edge, and enforcing least-privilege IAM across all the AWS services."
     ],
@@ -359,8 +359,8 @@ const TimelineEntry: React.FC<{
                           onTagClick(tag);
                         }}
                         className={`text-[10px] font-mono px-2 py-0.5 rounded cursor-pointer border transition-colors ${tagMatched
-                            ? "bg-teal-950/80 border-teal-500 text-teal-300 font-bold"
-                            : "bg-zinc-900/60 border-zinc-800/60 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600"
+                          ? "bg-teal-950/80 border-teal-500 text-teal-300 font-bold"
+                          : "bg-zinc-900/60 border-zinc-800/60 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600"
                           }`}
                       >
                         {tag}
@@ -539,8 +539,8 @@ export default function ResumePage() {
                           key={skill}
                           onClick={() => handleTagClick(skill)}
                           className={`text-xs px-2.5 py-1 rounded-md transition-all duration-300 font-mono border ${isSelected
-                              ? "bg-teal-500/20 border-teal-400 text-teal-200 shadow-md shadow-teal-500/10 font-bold"
-                              : "bg-zinc-900/40 border-zinc-800/50 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600"
+                            ? "bg-teal-500/20 border-teal-400 text-teal-200 shadow-md shadow-teal-500/10 font-bold"
+                            : "bg-zinc-900/40 border-zinc-800/50 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600"
                             }`}
                         >
                           {skill}
@@ -562,8 +562,8 @@ export default function ResumePage() {
                           key={skill}
                           onClick={() => handleTagClick(skill)}
                           className={`text-xs px-2.5 py-1 rounded-md transition-all duration-300 font-mono border ${isSelected
-                              ? "bg-teal-500/20 border-teal-400 text-teal-200 shadow-md shadow-teal-500/10 font-bold"
-                              : "bg-zinc-900/40 border-zinc-800/50 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600"
+                            ? "bg-teal-500/20 border-teal-400 text-teal-200 shadow-md shadow-teal-500/10 font-bold"
+                            : "bg-zinc-900/40 border-zinc-800/50 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600"
                             }`}
                         >
                           {skill}
@@ -671,8 +671,8 @@ export default function ResumePage() {
                                 handleTagClick(tag);
                               }}
                               className={`text-[10px] font-mono px-2 py-0.5 rounded cursor-pointer border transition-colors ${tagMatched
-                                  ? "bg-teal-950/80 border-teal-500 text-teal-300 font-bold"
-                                  : "bg-zinc-900/60 border-zinc-800/60 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600"
+                                ? "bg-teal-950/80 border-teal-500 text-teal-300 font-bold"
+                                : "bg-zinc-900/60 border-zinc-800/60 text-zinc-500 hover:text-zinc-300 hover:border-zinc-600"
                                 }`}
                             >
                               {tag}
