@@ -85,7 +85,7 @@ const PremiumCard: React.FC<{
 // ─── Data Definitions ────────────────────────────────────────────────────────
 
 const resumeSummary =
-  "Software engineer with over 2 years of experience building and shipping full-stack AI-integrated systems in production. Founded a legal tech SaaS scaled to over 500+ daily active users at 99.9% uptime. Experienced across the full stack, from React and Node.js frontend interfaces to AWS cloud infrastructure, with hands-on experience in deploying LLMs via Anthropic Claude and OpenAI APIs into real production workflows.";
+  "Software engineer with over 2 years of experience building and shipping full-stack AI-integrated systems in production. Founded a legal tech SaaS scaled to over 1,000+ daily active users at 99.9% uptime. Experienced across the full stack, from React and Node.js frontend interfaces to AWS cloud infrastructure, with hands-on experience in deploying LLMs via Anthropic Claude and OpenAI APIs into real production workflows.";
 
 const experiences = [
   {
@@ -96,7 +96,7 @@ const experiences = [
     tags: ["React", "Node.js", "AWS", "DynamoDB", "Lambda", "Cloudflare", "Anthropic Claude API", "OpenAI API", "REST APIs", "TypeScript", "JavaScript"],
     color: "#14b8a6",
     highlights: [
-      "Launched and scaled an AI legal SaaS platform on AWS (React, Node.js, DynamoDB) as sole founder to 500+ daily active users at 99.9% uptime in beta phase, automating document intake, routing, and client workflows end to end.",
+      "Launched and scaled an AI legal SaaS platform on AWS (React, Node.js, DynamoDB) as sole founder to 1,000+ daily active users at 99.9% uptime in beta phase, automating document intake, routing, and client workflows end to end.",
       "Reduced attorney’s manual processing times by 40% by deploying Anthropic Claude APIs for document summarization, tagging, precedent finding, clause extractions, iterating on model outputs for enhancing results in production.",
       "Shielded confidential and sensitive legal data across all partner firms by deploying Cloudflare WAF at the network edge, and enforcing least-privilege IAM across all the AWS services."
     ],
