@@ -478,7 +478,7 @@ export default function ResumePage() {
                     kushagrapandeyy@gmail.com
                   </a>
                   <span className="text-zinc-700">|</span>
-                  <span className="hover:text-zinc-300 cursor-default">Tempe, AZ</span>
+                  <span className="hover:text-zinc-300 cursor-default">Brooklyn, NY</span>
                   <span className="text-zinc-700">|</span>
                   <a href="https://linkedin.com/in/kushagra--pandey" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1">
                     LinkedIn <ExternalLink size={10} />
@@ -487,6 +487,21 @@ export default function ResumePage() {
                   <a href="https://github.com/kushagrapandeyy" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1">
                     GitHub <ExternalLink size={10} />
                   </a>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.25}>
+                <div
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(52,211,153,0.08), rgba(52,211,153,0.03))",
+                    border: "1px solid rgba(52,211,153,0.2)",
+                    color: "#34d399",
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+                    style={{ boxShadow: "0 0 6px rgba(52,211,153,0.5)" }} />
+                  Open to SWE Roles · May 2026
                 </div>
               </Reveal>
             </div>
@@ -823,7 +838,7 @@ export default function ResumePage() {
         <div className="text-center pb-4 border-b border-zinc-300 space-y-1">
           <h1 className="text-2xl font-bold tracking-tight text-black">Kushagra Pandey</h1>
           <p className="text-[10px] text-zinc-700">
-            kushagrapandeyy@gmail.com | Tempe, AZ
+            kushagrapandeyy@gmail.com | Brooklyn, NY
           </p>
           <p className="text-[9px] text-zinc-500 font-mono">
             LinkedIn: linkedin.com/in/kushagra--pandey | GitHub: github.com/kushagrapandeyy | Web: www.kushagrapandey.com
