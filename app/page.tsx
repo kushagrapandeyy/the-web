@@ -1194,7 +1194,7 @@ export default function Home() {
             transition={{ delay: 0.5 }}
             className="mt-16 text-zinc-700 text-xs font-mono"
           >
-            Tempe, AZ · Arizona State University · CS '26
+            Brooklyn, NY · Arizona State University · CS '26
           </motion.p>
         </div>
       </section >
