@@ -97,7 +97,7 @@ const experiences = [
     color: "#14b8a6",
     highlights: [
       "Launched and scaled an AI legal SaaS platform on AWS (React, Node.js, DynamoDB) as sole founder to 1,000+ daily active users at 99.9% uptime in beta phase, automating document intake, routing, and client workflows end to end.",
-      "Reduced attorney’s manual processing times by 40% by deploying Anthropic Claude APIs for document summarization, tagging, precedent finding, clause extractions, iterating on model outputs for enhancing results in production.",
+      "Reduced attorney's manual processing times by 40% by deploying Anthropic Claude APIs for document summarization, tagging, and clause extraction in production, with precedent-finding capabilities currently in development under a dedicated provenance-training pipeline.",
       "Shielded confidential and sensitive legal data across all partner firms by deploying Cloudflare WAF at the network edge, and enforcing least-privilege IAM across all the AWS services."
     ],
   },
@@ -160,7 +160,7 @@ const academicProjects = [
     tags: ["PostgreSQL", "React", "Node.js", "Web Scraping", "Caching", "Database Management"],
     highlights: [
       "Led development of a full-stack price monitoring system tracking 50+ stores with real-time alerts.",
-      "Optimized PostgreSQL to handle 10,000+ daily price updates on items, delivering basket comparisons in under 200ms through indexed aggregations, smart caching, and a robust scraping engine."
+      "Optimized PostgreSQL to handle 1,000+ daily price updates on items, delivering basket comparisons in under 200ms through indexed aggregations, smart caching, and a robust scraping engine."
     ],
     href: "/projects/priceTracker"
   }
@@ -478,7 +478,7 @@ export default function ResumePage() {
                     kushagrapandeyy@gmail.com
                   </a>
                   <span className="text-zinc-700">|</span>
-                  <span className="hover:text-zinc-300 cursor-default">Brooklyn, NY</span>
+                  <span className="hover:text-zinc-300 cursor-default">New York, NY</span>
                   <span className="text-zinc-700">|</span>
                   <a href="https://linkedin.com/in/kushagra--pandey" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1">
                     LinkedIn <ExternalLink size={10} />
@@ -838,7 +838,7 @@ export default function ResumePage() {
         <div className="text-center pb-4 border-b border-zinc-300 space-y-1">
           <h1 className="text-2xl font-bold tracking-tight text-black">Kushagra Pandey</h1>
           <p className="text-[10px] text-zinc-700">
-            kushagrapandeyy@gmail.com | Brooklyn, NY
+            kushagrapandeyy@gmail.com | New York, NY
           </p>
           <p className="text-[9px] text-zinc-500 font-mono">
             LinkedIn: linkedin.com/in/kushagra--pandey | GitHub: github.com/kushagrapandeyy | Web: www.kushagrapandey.com

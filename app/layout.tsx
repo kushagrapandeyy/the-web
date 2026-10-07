@@ -9,11 +9,11 @@ export const metadata: Metadata = {
     default: "Kushagra Pandey",
     template: "%s | kushagrapandey.com",
   },
-  description: "Software Engineer in Tempe, AZ, building AI-powered products end-to-end, from infrastructure to interface.",
+  description: "Software Engineer in New York, NY, building AI-powered products end-to-end, from infrastructure to interface.",
   openGraph: {
     title: "Kushagra Pandey",
     description:
-      "Software Engineer in Tempe, AZ, building AI-powered products end-to-end, from infrastructure to interface.",
+      "Software Engineer in New York, NY, building AI-powered products end-to-end, from infrastructure to interface.",
     url: "https://kushagrapandey.com",
     siteName: "Kushagra Pandey",
     images: [

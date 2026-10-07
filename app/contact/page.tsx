@@ -259,7 +259,7 @@ export default function ContactPage() {
           transition={{ delay: 1.1, duration: 0.8 }}
           className="text-center text-zinc-700 text-xs font-mono mt-16"
         >
-          Brooklyn, NY · Arizona State University · CS '26
+          New York, NY · Arizona State University · CS '26
         </motion.p>
       </main>
     </div>
