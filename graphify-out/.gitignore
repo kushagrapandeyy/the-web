@@ -1,0 +1,4 @@
+# Machine-local extraction state
+cache/
+.graphify*
+needs_update
