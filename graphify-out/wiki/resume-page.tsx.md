@@ -27,10 +27,9 @@
 
 ## Relationships
 
-- [projects/page.tsx](projects-page.tsx.md) (8 shared connections)
+- [projects/page.tsx](projects-page.tsx.md) (12 shared connections)
 - [app/page.tsx](app-page.tsx.md) (7 shared connections)
-- [\[slug\]/page.tsx]([slug]-page.tsx.md) (4 shared connections)
-- [next](next.md) (3 shared connections)
+- [\[slug\]/page.tsx]([slug]-page.tsx.md) (3 shared connections)
 - [package.json](package.json.md) (1 shared connections)
 
 ## Source Files

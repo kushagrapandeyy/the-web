@@ -4,12 +4,12 @@
 - cluster-only mode — file stats not available
 
 ## Summary
-- 277 nodes · 359 edges · 29 communities (20 shown, 9 thin omitted)
+- 278 nodes · 360 edges · 28 communities (19 shown, 9 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0c76cdf6`
+- Built from commit: `26473ad9`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -25,7 +25,6 @@
 - app/layout.tsx
 - next
 - overrides
-- scripts
 - photoQuizGame.mdx
 - mdx.d.ts
 - startupPitch.mdx
@@ -66,15 +65,15 @@
 ## Import Cycles
 - None detected.
 
-## Communities (29 total, 9 thin omitted)
+## Communities (28 total, 9 thin omitted)
 
 ### Community 0 - "package.json"
-Cohesion: 0.06
-Nodes (30): computedFields, Page, Project, name, private, version, autoprefixer, contentlayer (+22 more)
+Cohesion: 0.05
+Nodes (35): computedFields, Page, Project, name, private, scripts, build, dev (+27 more)
 
 ### Community 1 - "projects/page.tsx"
-Cohesion: 0.14
-Nodes (15): Card(), DesignPage(), redis, revalidate, Article(), Props, ProjectsPage(), redis (+7 more)
+Cohesion: 0.11
+Nodes (21): Card(), DesignPage(), redis, revalidate, Article(), Props, ProjectsPage(), redis (+13 more)
 
 ### Community 2 - "app/page.tsx"
 Cohesion: 0.13
@@ -89,8 +88,8 @@ Cohesion: 0.11
 Nodes (19): dependencies, contentlayer, framer-motion, lucide-react, markdown-wasm, next, next-contentlayer, @next/font (+11 more)
 
 ### Community 5 - "[slug]/page.tsx"
-Cohesion: 0.16
-Nodes (12): Mdx(), Header(), Props, PostPage(), Props, redis, revalidate, ProjectScrollReveal() (+4 more)
+Cohesion: 0.17
+Nodes (11): Mdx(), Header(), Props, PostPage(), Props, redis, revalidate, ProjectScrollReveal() (+3 more)
 
 ### Community 6 - "devDependencies"
 Cohesion: 0.15
@@ -105,16 +104,12 @@ Cohesion: 0.28
 Nodes (6): Analytics(), calSans, inter, metadata, RootLayout(), @next/font
 
 ### Community 9 - "next"
-Cohesion: 0.14
-Nodes (11): clsx(), components, ImageLightbox(), MdxProps, nextConfig, config, incr(), redis (+3 more)
+Cohesion: 0.25
+Nodes (6): clsx(), components, ImageLightbox(), MdxProps, nextConfig, next-contentlayer
 
 ### Community 10 - "overrides"
 Cohesion: 0.22
 Nodes (9): @opentelemetry/api, @opentelemetry/core, @opentelemetry/exporter-trace-otlp-grpc, @opentelemetry/resources, @opentelemetry/sdk-trace-base, @opentelemetry/sdk-trace-node, @opentelemetry/semantic-conventions, pnpm (+1 more)
-
-### Community 11 - "scripts"
-Cohesion: 0.40
-Nodes (5): scripts, build, dev, fmt, start
 
 ### Community 12 - "photoQuizGame.mdx"
 Cohesion: 0.22
@@ -137,8 +132,8 @@ Cohesion: 0.40
 Nodes (4): Current Status, Key Outcomes, Solution & Infrastructure, The Problem
 
 ### Community 20 - "Capstone.mdx"
-Cohesion: 0.50
-Nodes (3): Architecture & Deployment, Database Design, Weighted Matchmaking Engine
+Cohesion: 0.40
+Nodes (4): Architecture & Deployment, ASU Capstone Showcase, Database Design, Weighted Matchmaking Engine
 
 ### Community 21 - "priceTracker.mdx"
 Cohesion: 0.50
@@ -150,23 +145,23 @@ Nodes (3): Key Learnings, Technical Architecture, What It Does
 
 ## Knowledge Gaps
 - **17 isolated node(s):** `autoprefixer`, `markdown-wasm`, `@next/mdx`, `@opentelemetry/api`, `postcss` (+12 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 183 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 184 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `next` connect `next` to `package.json`, `projects/page.tsx`, `app/page.tsx`, `[slug]/page.tsx`, `resume/page.tsx`, `app/layout.tsx`?**
-  _High betweenness centrality (0.112) - this node is a cross-community bridge._
+- **Why does `next` connect `projects/page.tsx` to `package.json`, `app/page.tsx`, `[slug]/page.tsx`, `resume/page.tsx`, `app/layout.tsx`, `next`?**
+  _High betweenness centrality (0.111) - this node is a cross-community bridge._
 - **What connects `autoprefixer`, `markdown-wasm`, `@next/mdx` to the rest of the system?**
   _17 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.05832147937411095 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05094130675526024 - nodes in this community are weakly interconnected._
 - **Why does `react` connect `app/page.tsx` to `package.json`, `projects/page.tsx`, `[slug]/page.tsx`, `resume/page.tsx`, `next`?**
   _High betweenness centrality (0.099) - this node is a cross-community bridge._
 - **Should `projects/page.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11330049261083744 - nodes in this community are weakly interconnected._
 - **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.086) - this node is a cross-community bridge._
+  _High betweenness centrality (0.085) - this node is a cross-community bridge._
 - **Should `app/page.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.1341991341991342 - nodes in this community are weakly interconnected._

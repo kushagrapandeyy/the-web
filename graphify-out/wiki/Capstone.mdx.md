@@ -1,11 +1,12 @@
 # Capstone.mdx
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- **Capstone.mdx** (3 connections) — `content/projects/Capstone.mdx`
+- **Capstone.mdx** (4 connections) — `content/projects/Capstone.mdx`
 - **Architecture & Deployment** (1 connections) — `content/projects/Capstone.mdx`
+- **ASU Capstone Showcase** (1 connections) — `content/projects/Capstone.mdx`
 - **Database Design** (1 connections) — `content/projects/Capstone.mdx`
 - **Weighted Matchmaking Engine** (1 connections) — `content/projects/Capstone.mdx`
 
@@ -19,7 +20,7 @@
 
 ## Audit Trail
 
-- EXTRACTED: 3 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

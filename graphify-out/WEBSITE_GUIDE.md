@@ -5,8 +5,8 @@ Reviewed on October 16, 2026 at commit `0c76cdf6`.
 ## Start here
 
 - `graph.html`: interactive Graphify code graph.
-- `graph.json`: queryable graph data (277 nodes, 359 edges).
-- `GRAPH_REPORT.md`: generated architecture report (29 communities).
+- `graph.json`: queryable graph data (278 nodes, 360 edges).
+- `GRAPH_REPORT.md`: generated architecture report (28 communities).
 - `wiki/index.md`: generated navigation index.
 
 Graphify 0.9.92 extracted code locally with tree-sitter; no model API was used.

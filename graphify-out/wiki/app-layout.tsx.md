@@ -16,7 +16,7 @@
 
 ## Relationships
 
-- [next](next.md) (1 shared connections)
+- [projects/page.tsx](projects-page.tsx.md) (1 shared connections)
 - [package.json](package.json.md) (1 shared connections)
 
 ## Source Files

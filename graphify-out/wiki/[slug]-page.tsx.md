@@ -1,12 +1,11 @@
 # [slug]/page.tsx
 
-> 19 nodes · cohesion 0.16
+> 18 nodes · cohesion 0.17
 
 ## Key Concepts
 
 - **[slug]/page.tsx** (19 connections) — `app/projects/[slug]/page.tsx`
 - **header.tsx** (7 connections) — `app/projects/[slug]/header.tsx`
-- **lucide-react** (7 connections) — `package.json`
 - **PostPage()** (6 connections) — `app/projects/[slug]/page.tsx`
 - **sidebar.tsx** (6 connections) — `app/projects/[slug]/sidebar.tsx`
 - **scroll-reveal.tsx** (4 connections) — `app/projects/[slug]/scroll-reveal.tsx`
@@ -26,11 +25,10 @@
 
 ## Relationships
 
-- [next](next.md) (5 shared connections)
+- [projects/page.tsx](projects-page.tsx.md) (6 shared connections)
 - [app/page.tsx](app-page.tsx.md) (4 shared connections)
-- [resume/page.tsx](resume-page.tsx.md) (4 shared connections)
-- [projects/page.tsx](projects-page.tsx.md) (4 shared connections)
-- [package.json](package.json.md) (1 shared connections)
+- [resume/page.tsx](resume-page.tsx.md) (3 shared connections)
+- [next](next.md) (2 shared connections)
 
 ## Source Files
 
@@ -40,11 +38,10 @@
 - `app/projects/[slug]/scroll-reveal.tsx`
 - `app/projects/[slug]/sidebar.tsx`
 - `app/projects/[slug]/view.tsx`
-- `package.json`
 
 ## Audit Trail
 
-- EXTRACTED: 46 (100%)
+- EXTRACTED: 41 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -2,7 +2,7 @@
 
 > God node · 7 connections · `package.json`
 
-**Community:** [\[slug\]/page.tsx]([slug]-page.tsx.md)
+**Community:** [projects/page.tsx](projects-page.tsx.md)
 
 ## Connections by Relation
 
