@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+cd "$(git rev-parse --show-toplevel)"
+node scripts/check-secret-files.cjs
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "Commit blocked: install Gitleaks (brew install gitleaks) before committing." >&2
+  exit 1
+fi
+exec gitleaks git --pre-commit --staged --redact --no-banner --ignore-gitleaks-allow --config .gitleaks.toml

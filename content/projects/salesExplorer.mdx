@@ -1,20 +1,39 @@
 ---
 title: Sales Analytics Dashboard
-description: Data visualization platform combining Python analysis with React frontend.
+description: "Regional comparisons and seasonal patterns in retail data, explored through Python analysis and an interactive React/D3.js dashboard."
 date: "2024-09-10"
 role: Developer & Data Analyst
 tags: ["React", "D3.js", "Python", "Pandas", "PostgreSQL"]
 published: true
+status: "analysis project"
 ---
 
-![](/ProjectPngs/chocolate-sales-explorer.png)
+<span id="evidence" />
 
-## Interactive Analytics Platform
+<span id="problem-and-intended-users" />
 
-**Frontend:** React + D3.js dashboards with multi-dimensional filtering (categories, regions, date ranges). Real-time chart updates, custom tooltips, responsive SVG visualizations.
+## Looking beyond total sales
 
-**Backend:** Python pipeline, Pandas for data transformation, statistical analysis (z-tests for regional differences, correlation for seasonality). NumPy for vectorized computation on 50K+ transactions.
+Total sales can hide differences between regions and seasons. I used a Kaggle retail transaction dataset to investigate those patterns, then built a dashboard that lets users inspect the comparisons.
 
-**Insights:** 40% Q4 sales lift (holiday spike), 20% summer decline, 3x higher LTV for repeat customers. Regional price elasticity varies by segment.
+<span id="role-and-ownership" />
+<span id="what-i-implemented" />
 
-**Why it matters:** Demonstrates full-stack data work, collection, transformation, statistical analysis, and visualization that drives decisions.
+## My contribution
+
+I handled the data preparation, statistical analysis, and frontend. I used regional z-tests and correlation analysis to explore seasonal patterns, then built chart interactions and filters for comparing periods and regions.
+
+<span id="architecture-and-decisions" />
+
+## Architecture
+
+**Python, Pandas, and NumPy** support data cleaning and statistical analysis. **PostgreSQL** provides structured storage. **React** manages dashboard state, and **D3.js** renders interactive charts and tooltips.
+
+Period and region filters let users examine how each slice of the dataset compares with the overall result.
+
+<span id="current-status" />
+<span id="limitations-and-next-steps" />
+
+## Status and next steps
+
+Completed as an academic analysis project. Conclusions depend on the dataset and assumptions, rather than establishing a business outcome. A shareable analysis notebook, dataset reference, and dashboard capture are the next additions; a public demo is not currently linked.

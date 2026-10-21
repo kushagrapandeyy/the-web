@@ -1,52 +1,47 @@
 ---
 title: WordFinder
-description: "A personal project developing a word search game interface, built to enhance mobile app design and development skills."
+description: "A mobile word-search concept, from topic selection to found-word feedback and replay. Designed as low-fidelity Figma wireframes."
 date: "2024-12-01"
 role: UI Designer
 tags: ["Figma", "Game UI", "Wireframing", "Interface Design"]
 category: design
 published: true
+status: "design prototype"
+image: /ProjectPngs/photoQuizGame.png
 ---
+
+<span id="evidence" />
 
 ![WordFinder - Game Board UI Design](/ProjectPngs/photoQuizGame.png)
 
-## Overview
+<span id="problem-and-intended-users" />
 
-WordFinder is a game I just made as a personal project, which is currently under development to make it functional, monetize it and then add it on the app store. It was kind of a pet project I did to boost my app interface designing skills as well as android and apple application development skills using Swift and Kotlin.
+## Making a word-search board readable
 
-## Role
+WordFinder explores the small decisions that make a mobile word-search game understandable: a readable grid, clear selection feedback, and a visible way to finish or replay a round.
 
-**Designer - personal project.** Responsible for concept, UI layout, and wireframes.
+<span id="role-and-ownership" />
+<span id="what-i-implemented" />
 
-## Tools
+## My contribution
 
-- Figma - low-fidelity wireframes and interface states
+I designed the layout and low-fidelity wireframes, including topic and difficulty choices, the game board, found-word feedback, score/timer presentation, and replay states.
 
-## Design Focus
+<span id="architecture-and-decisions" />
 
-### Game Board Layout
+## Design decisions
 
-The core design challenge was making a letter grid visually clean and easy to scan. Decisions made:
+Figma links the interface states. Monospaced grid cells keep letters aligned, and selection contrast distinguishes found words without disrupting the board.
 
-- Monospaced, evenly spaced grid cells for predictable eye movement across rows
-- High contrast between unselected letters and highlighted found-word sequences
-- Letter size calibrated so the full grid fits in a single viewport without scrolling
+<span id="current-status" />
+<span id="limitations-and-next-steps" />
 
-### Interface States
+## Status and next steps
 
-Four key UI states were designed end-to-end:
+The project is at the wireframe stage. The next step is a playable prototype with accessible input, followed by testing the selection gesture and game feedback.
 
-1. **Start Screen** - topic selection and difficulty, sets expectations before committing
-2. **Active Game** - live grid with word list sidebar, score, and timer visible simultaneously
-3. **Word Found** - momentary highlight animation on the found word, then list item checked off
-4. **Game Complete** - summary of score, time taken, and option to replay or share
+## Interactive prototype
 
-### Visual Restraint
+<iframe loading="lazy" title="Interactive project prototype" style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }} width="100%" height="450" src="https://embed.figma.com/design/jfI9EI724ga4rLqSh71lMs/Game-bois?node-id=137-54350&embed-host=share" allowFullScreen></iframe>
 
-The interface is deliberately minimal - a neutral palette with a single accent colour for selection highlights. This keeps the letter grid the clear focal point and prevents UI chrome from competing with gameplay.
-
-## Outcome
-
-A set of low-fidelity wireframes covering all four core interface states - demonstrating a complete, coherent game experience from start screen through completion.
-
-<iframe style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }} width="100%" height="450" src="https://embed.figma.com/design/jfI9EI724ga4rLqSh71lMs/Game-bois?node-id=137-54350&embed-host=share" allowFullScreen></iframe>
+[Open the interactive prototype in Figma](https://www.figma.com/design/jfI9EI724ga4rLqSh71lMs/Game-bois?node-id=137-54350).

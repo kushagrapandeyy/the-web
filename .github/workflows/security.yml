@@ -1,0 +1,41 @@
+name: Security
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  secrets:
+    name: Secrets
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install verified scanner
+        run: |
+          curl --fail --silent --show-error --location --output "$RUNNER_TEMP/gitleaks.tar.gz" https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  $RUNNER_TEMP/gitleaks.tar.gz" | sha256sum --check
+          tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP" gitleaks
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+      - name: Check tracked files and scanner rules
+        run: |
+          node scripts/check-secret-files.cjs
+          node scripts/check-security.cjs
+      - name: Scan current files
+        run: gitleaks dir --redact --no-banner --ignore-gitleaks-allow --config .gitleaks.toml .
+      - name: Scan every incoming commit
+        env:
+          SCAN_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          SCAN_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          if [ -z "$SCAN_BASE" ] || [ "$SCAN_BASE" = "0000000000000000000000000000000000000000" ]; then
+            SCAN_BASE=$(git merge-base "$SCAN_HEAD" origin/main)
+          fi
+          gitleaks git --log-opts="$SCAN_BASE..$SCAN_HEAD" --redact --no-banner --ignore-gitleaks-allow --config .gitleaks.toml

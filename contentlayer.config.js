@@ -22,6 +22,7 @@ export const Project = defineDocumentType(() => ({
 	contentType: "mdx",
 
 	fields: {
+		image: { type: "string" },
 		published: {
 			type: "boolean",
 		},
@@ -78,6 +79,8 @@ export default makeSource({
 	contentDirPath: "./content",
 	documentTypes: [Page, Project],
 	mdx: {
+		// Reuse the app's JSX runtime instead of bundling a separate development runtime.
+		mdxOptions: (options) => ({ ...options, development: false }),
 		remarkPlugins: [remarkGfm],
 		rehypePlugins: [
 			rehypeSlug,

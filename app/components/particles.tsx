@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import { useMousePosition } from "@/util/mouse";
+import { useReducedMotion } from "framer-motion";
 
 interface ParticlesProps {
 	className?: string;
@@ -22,7 +22,8 @@ export default function Particles({
 	const canvasContainerRef = useRef<HTMLDivElement>(null);
 	const context = useRef<CanvasRenderingContext2D | null>(null);
 	const circles = useRef<any[]>([]);
-	const mousePosition = useMousePosition();
+	const reduce = useReducedMotion();
+	const frame = useRef(0);
 	const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 	const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
 	const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
@@ -32,17 +33,21 @@ export default function Particles({
 			context.current = canvasRef.current.getContext("2d");
 		}
 		initCanvas();
-		animate();
+		const observer = new IntersectionObserver(([entry]) => {
+			cancelAnimationFrame(frame.current);
+			if (entry.isIntersecting && !reduce) animate();
+		});
+		if (canvasContainerRef.current) observer.observe(canvasContainerRef.current);
 		window.addEventListener("resize", initCanvas);
+		window.addEventListener("pointermove", onMouseMove);
 
 		return () => {
+			observer.disconnect();
 			window.removeEventListener("resize", initCanvas);
+			window.removeEventListener("pointermove", onMouseMove);
+			cancelAnimationFrame(frame.current);
 		};
-	}, []);
-
-	useEffect(() => {
-		onMouseMove();
-	}, [mousePosition.x, mousePosition.y]);
+	}, [reduce, quantity]);
 
 	useEffect(() => {
 		initCanvas();
@@ -53,12 +58,12 @@ export default function Particles({
 		drawParticles();
 	};
 
-	const onMouseMove = () => {
+	const onMouseMove = (event: PointerEvent) => {
 		if (canvasRef.current) {
 			const rect = canvasRef.current.getBoundingClientRect();
 			const { w, h } = canvasSize.current;
-			const x = mousePosition.x - rect.left - w / 2;
-			const y = mousePosition.y - rect.top - h / 2;
+			const x = event.clientX - rect.left - w / 2;
+			const y = event.clientY - rect.top - h / 2;
 			const inside = x < w / 2 && x > -w / 2 && y < h / 2 && y > -h / 2;
 			if (inside) {
 				mouse.current.x = x;
@@ -99,7 +104,7 @@ export default function Particles({
 		const translateX = 0;
 		const translateY = 0;
 		const size = Math.floor(Math.random() * 2) + 0.1;
-		const alpha = 0;
+		const alpha = reduce ? 0.3 : 0;
 		const targetAlpha = parseFloat((Math.random() * 0.6 + 0.1).toFixed(1));
 		const dx = (Math.random() - 0.5) * 0.2;
 		const dy = (Math.random() - 0.5) * 0.2;
@@ -223,7 +228,7 @@ export default function Particles({
 				);
 			}
 		});
-		window.requestAnimationFrame(animate);
+		frame.current = window.requestAnimationFrame(animate);
 	};
 
 	return (

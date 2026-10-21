@@ -10,6 +10,12 @@ module.exports = {
 
 	theme: {
 		extend: {
+            colors: {
+                accent: { 200: "#d7f2df", 300: "#bae8cc", 400: "#93d6b1" },
+                canvas: "#101211",
+                paper: "#f7f5ef",
+                sand: "#e8d6ba",
+            },
 			typography: {
 				DEFAULT: {
 					css: {

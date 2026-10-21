@@ -1,4 +1,5 @@
 import { withContentlayer } from "next-contentlayer";
+import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -8,4 +9,8 @@ const nextConfig = {
 	},
 };
 
-export default withContentlayer(nextConfig);
+export default (phase) => withContentlayer({
+	...nextConfig,
+	// Keep a running editor preview separate from production build output.
+	distDir: phase === PHASE_DEVELOPMENT_SERVER ? ".next-dev" : ".next",
+});

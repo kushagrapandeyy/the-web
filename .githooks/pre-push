@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+cd "$(git rev-parse --show-toplevel)"
+node scripts/check-secret-files.cjs
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "Push blocked: install Gitleaks (brew install gitleaks) before pushing." >&2
+  exit 1
+fi
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$local_sha" in 0000000000000000000000000000000000000000) continue ;; esac
+  case "$remote_sha" in
+    0000000000000000000000000000000000000000)
+      # A new branch shares reviewed history with main; a new remote gets a full scan.
+      if base=$(git merge-base "$local_sha" "refs/remotes/$1/main" 2>/dev/null); then
+        range="$base..$local_sha"
+      else
+        range="$local_sha"
+      fi ;;
+    *) range="$remote_sha..$local_sha" ;;
+  esac
+  gitleaks git --log-opts="$range" --redact --no-banner --ignore-gitleaks-allow --config .gitleaks.toml
+done

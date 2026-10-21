@@ -1,27 +1,49 @@
 ---
 title: kushagrapandey.com
-description: Personal Portfolio Website, you are on it!
+description: "Project stories, scroll-driven motion, a printable résumé, and Chronos, a playable canvas experiment. Designed and built with Next.js."
 date: "2025-01-15"
 url: https://kushagrapandey.com
 role: Designer & Full-Stack Developer
 tags: ["Next.js", "TypeScript", "Tailwind CSS", "MDX", "Contentlayer"]
 published: true
+status: "live portfolio"
+image: /ProjectPngs/portfolio.png
 ---
 
-[![](/ProjectPngs/portfolio.png)](https://kushagrapandey.com)
+<span id="evidence" />
 
-This site is built with Next.js 14 and TypeScript using the App Router. Content is stored as MDX files and compiled by Contentlayer at build time, this gives me type safety, automatic slug generation, and all the benefits of static generation.
+![Personal portfolio website](/ProjectPngs/portfolio.png)
 
-The design is minimal. Dark mode by default. Subtle animations (particles on homepage, scroll reveals as you navigate) enhance without distracting. The whole site is fast because it's pre-rendered static HTML served from Vercel's CDN.
+An earlier version of this portfolio.
 
-**Frontend Architecture**
+<span id="problem-and-intended-users" />
 
-App Router with dynamic route segments for project pages. Server components for fetching and rendering content, client components only where interactivity is needed. Tailwind CSS for styling. Framer Motion for animations.
+## Engineering work, with room to play
 
-**Content Layer**
+This site gives employers and collaborators a clear view of my engineering work, design explorations, and experience. Case studies explain what I owned and built. Motion and Chronos, an optional canvas game, show how I approach interaction.
 
-Project metadata and content live as `.mdx` files in `/content/projects`. Contentlayer compiles them at build time, generating a type-safe `allProjects` array. Add a new `.mdx` file and it's automatically available in the site, no need to manually register routes.
+<span id="role-and-ownership" />
+<span id="what-i-implemented" />
 
-**Performance**
+## My contribution
 
-Pre-rendered static HTML means instant page loads. Incremental Static Regeneration means I can update project descriptions and the site rebuilds in the background. Automatic preview deployments on every commit mean I catch mistakes before they hit production.
+I design and maintain the site, write the case studies, and manage deployment. I built the project galleries, MDX case-study pages, interactive résumé, and Chronos. The main navigation keeps work, résumé, and contact within reach; the game is an invitation to explore further.
+
+<span id="architecture-and-decisions" />
+
+## Architecture
+
+**Next.js App Router** serves the pages. **Contentlayer** compiles MDX into project data at build time, and **Tailwind CSS** provides the styling. **Framer Motion** connects the introductory typography, scroll-driven project panels, navigation feedback, and page transitions.
+
+**Upstash Redis** records project page views through an API that deduplicates by a hashed IP/project key. **Vercel** hosts the site. The game loads when requested, keeping it out of the initial experience.
+
+Static content and interaction code stay separate so the portfolio remains readable while enhancements load. Reduced-motion styles retain the content and navigation with less movement.
+
+[Source repository](https://github.com/kushagrapandeyy/the-web).
+
+<span id="current-status" />
+<span id="limitations-and-next-steps" />
+
+## Status and next steps
+
+The portfolio is live and maintained in Git. MDX changes require a new deployment. Ongoing work includes keeping screenshots current and checking mobile navigation, accessibility, and browser print output.

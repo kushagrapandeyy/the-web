@@ -1,27 +1,47 @@
 ---
 title: SS Pandey & Associates
-description: Migrated a legacy LAN document system to a secure Spring Boot microservice with JWT-secured REST APIs.
+description: "Giving staff remote access to a legacy legal-document workflow with Spring Boot, JWT-secured APIs, and request caching."
 date: "2024-01-15"
 url: https://sspandey.com
 role: Junior Developer
 tags: ["Spring Boot", "Java", "JWT", "REST APIs", "Caching"]
 published: true
+status: "completed contribution"
+image: /ProjectPngs/sspandey.png
 ---
 
-[![SS Pandey & Associates homepage](/ProjectPngs/sspandey.png)](https://sspandey.com)
+<span id="evidence" />
 
-Worked on modernizing the core document sharing and collaboration infrastructure for SS Pandey & Associates.
+![SS Pandey & Associates public website](/ProjectPngs/sspandey.png)
 
-## Firm & Public Website
+The firm’s public website. My engineering work focused on its internal document workflow.
 
-SS Pandey & Associates is a New Delhi law firm founded by Maj. Sudhanshu Shekhar Pandey (Retd.), a former officer in the Indian Army's Judge Advocate General's Department. Its practice covers military and service law alongside civil, commercial, and criminal matters.
+<span id="problem-and-intended-users" />
 
-The current [public website](https://sspandey.com) presents the firm's background, eight areas of practice, recent judgment case notes, legal updates, careers, and office contact information.
+## Document access beyond the office
 
-## Key Infrastructure Contributions
+A legal document workflow depended on the firm’s local network. Staff needed controlled access to the same legacy system while working remotely.
 
-- **Spring Boot Migration**: Migrated a legacy local area network (LAN)-based document collaboration and sharing system to a modern Spring Boot microservice.
-- **Security & Remote Access**: Implemented JWT-secured REST APIs, establishing robust role-based access control and enabling remote document access securely for the first time.
-- **Latency Reduction**: Successfully cut retrieval latency by **20%** following the Spring Boot microservice deployment and API optimizations.
-- **High-Throughput Ingestion**: Supported **1,000+ daily document transactions** securely through the newly engineered ingestion endpoints.
-- **Performance Tuning**: Improved overall system performance by **30%** by implementing smart request caching and optimizing hybrid cloud-based and on-premise infrastructures.
+<span id="role-and-ownership" />
+<span id="what-i-implemented" />
+
+## My contribution
+
+As a **Junior Developer**, I re-engineered document collaboration and retrieval into a Spring Boot service with JWT-secured REST APIs. This enabled remote access without requiring staff to stay on the LAN.
+
+I also diagnosed repeated-request latency, worked on document-ingestion endpoints, and introduced caching across the hybrid cloud and on-premise environment.
+
+<span id="architecture-and-decisions" />
+
+## Architecture
+
+**Java and Spring Boot** implement the service layer. **REST APIs** separate the application from the legacy storage workflow, and **JWT-based authorization** protects operations. Caching avoids repeated retrieval work.
+
+I kept the existing document workflow and added a service layer around it. Staff could access the system remotely without replacing the underlying process.
+
+<span id="current-status" />
+<span id="limitations-and-next-steps" />
+
+## Status and next steps
+
+I completed this contribution during my August 2023 to January 2024 role. The system handles internal legal documents; the public-site screenshot provides organizational context, not a view of that application. Repeatable retrieval tests and a redacted request-flow example would make the work easier to demonstrate.

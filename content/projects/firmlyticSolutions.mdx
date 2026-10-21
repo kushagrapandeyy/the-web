@@ -1,39 +1,62 @@
 ---
 title: Firmlytic Solutions
-description: Founded a legal tech SaaS. Launched and scaled an AI legal platform on AWS to 1000+ daily active users at 99.9% uptime.
+description: "My software company, developing Sainya Mitra, a legal platform in beta, and OCR Scanflow, a prospective-client prototype."
 date: "2026-05-01"
 url: https://firmlyticsolutions.com
 role: Founder
-tags: ["React", "Node.js", "AWS", "DynamoDB", "Lambda", "Cloudflare", "Anthropic Claude API"]
-status: "active"
+tags: ["React", "Node.js", "Hasura", "AWS", "Open-source OCR"]
+status: "Sainya Mitra: beta; OCR Scanflow: prototype"
 published: true
+image: /ProjectPngs/firmlyticSolutions.png
 ---
 
-[![Firmlytic Solutions homepage](/ProjectPngs/firmlyticSolutions.png)](https://firmlyticsolutions.com)
+<span id="evidence" />
 
-## The Problem
+![Firmlytic Solutions company website](/ProjectPngs/firmlyticSolutions.png)
 
-The Indian legal system is still largely paper-driven. A law firm handling dozens of active cases at once has no reliable way to centralize case files, communicate updates to clients, track internal assignments, or access precedents without physically digging through folders. Lawyers spend a disproportionate amount of time on coordination overhead, scheduling, billing, document retrieval, rather than legal work.
+<span id="problem-and-intended-users" />
 
-Clients on the other end have almost no visibility into their own cases. They receive updates sporadically and often have to call the office to find out what's happening. The gap between how complex legal proceedings actually are and how little structure exists around managing them is significant.
+## Software around the legal workflow
 
-## Solution & Infrastructure
+I founded **Firmlytic Solutions**, a software company building tools around business workflows. Its legal platform, **Sainya Mitra**, is in beta with a law firm. It addresses three connected needs: organizing case information, following case progress, and giving clients access to their records.
 
-Firmlytic is a legal operations platform built to close that gap. Rather than digitizing paperwork, the goal was to rebuild the workflow from scratch, making it easier for both the firm and the client to navigate a case from intake to resolution.
+The beta supports case records, case tracking, and linked client accounts. Creating a case also sets up the linked account, connecting the firm's internal workflow with client access.
 
-- **AI-Powered Workflows**: Automated document intake, routing, and client workflows end to end as the sole founder, scaling the platform on **AWS (React, Node.js, DynamoDB)** to **1000+ daily active users** at **99.9% uptime** in its beta phase.
-- **LLM Integrations**: Reduced attorney's manual processing times by **40%** by deploying **Anthropic Claude APIs** for document summarization, tagging, and clause extraction in production, with precedent-finding capabilities currently in development under a dedicated provenance-training pipeline.
-- **Enterprise Security**: Shielded confidential and sensitive legal data across all partner firms by deploying **Cloudflare WAF** at the network edge and enforcing strict **least-privilege IAM** access policies across all AWS services.
+<span id="role-and-ownership" />
+<span id="what-i-implemented" />
 
-## Key Outcomes
+## From product decisions to deployment
 
-- **1000+ Daily Active Users** across beta partner law firms.
-- **40% Reduction** in manual document processing times.
-- **99.9% System Uptime** achieved through serverless Lambda execution and auto-scaling database nodes.
-- **Network Edge Protection** utilizing Cloudflare WAF.
+As founder, I own product direction and lead engineering across the interface, backend services, and infrastructure. I work directly with stakeholders to understand the workflow, prioritize changes, and resolve issues during the beta.
 
-**Stack:** React, Node.js, AWS (Lambda, DynamoDB, S3), Cloudflare, TypeScript, Anthropic Claude API
+### Sainya Mitra: legal platform in beta
 
-## Current Status
+My work covers the React interface, backend services, case-management workflow, and cloud deployment. I use unit and integration tests alongside manual QA to check changes before release, and maintain architecture and deployment documentation as the system evolves.
 
-The platform is incorporated and in active production. Law firms are using it daily to manage live cases. Development continues in parallel, focusing on expanding AI research capabilities and integrating real-time notifications.
+### AI-assisted document processing
+
+I integrated the Claude API for document summaries, tagging, and clause extraction. The integrations are implemented; their usefulness and reliability in legal review remain under evaluation. They support the case workflow, with human review essential to interpreting the documents.
+
+### OCR Scanflow: a separate prototype
+
+I built **OCR Scanflow** with open-source OCR tools to explore a prospective client's document-processing workflow. It is a separate prototype within Firmlytic, intended to test the approach before deployment.
+
+<span id="architecture-and-decisions" />
+
+## How the system fits together
+
+- **React** provides the application interface for working with case information.
+- **Node.js and Hasura** support backend workflow logic and data access, respectively.
+- **AWS** hosts backend infrastructure. Least-privilege IAM and Cloudflare WAF support access and perimeter controls.
+- **Claude API** provides the document-analysis integration. Open-source OCR tools support the separate OCR Scanflow prototype.
+
+The public company website shown above presents Firmlytic and its work. [Sainya Mitra](https://sainyamitra.in) is the legal application itself.
+
+<span id="current-status" />
+<span id="limitations-and-next-steps" />
+
+## What comes next
+
+For Sainya Mitra, the next release depends on beta feedback, workflow reliability, access controls, and evaluation of AI output against real review needs. Precedent research remains exploratory.
+
+For OCR Scanflow, the next step is prospective-client validation: testing extraction quality against representative documents and confirming how the prototype fits the intended process.

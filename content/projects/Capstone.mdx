@@ -1,41 +1,49 @@
 ---
-title: Lyra - AI-Powered Matchmaking Platform
-description: Led architecture and development of Lyra as the primary engineer. Designed the weighted matchmaking engine, built and deployed the full stack, and integrated OpenAI APIs.
+title: Lyra
+description: "Weighted matching, conversation, and safety workflows for a dating platform. Primary engineer on a sponsored ASU capstone."
 date: "2026-05-01"
 url: https://showcase.asucapstone.com/survey/10558
 role: Primary Engineer
 tags: ["FastAPI", "PostgreSQL", "React", "Vercel", "Render", "OpenAI API", "Guardian AI"]
-status: "completed"
+status: "completed capstone"
 published: true
+image: /ProjectPngs/capstone-dating.png
 ---
 
-![Lyra matchmaking platform](/ProjectPngs/capstone-dating.png)
+<span id="evidence" />
 
-Lyra is a safety-focused dating app built for my senior Computer Science capstone at Arizona State University. It combines guided onboarding, matching, chat, shared-interest circles, and event sign-ups to help people build communities and connect in person.
+![Lyra application interface](/ProjectPngs/capstone-dating.png)
 
-I led architecture and development as the primary engineer, building the full stack and weighted matchmaking engine.
+<span id="problem-and-intended-users" />
 
-## ASU Capstone Showcase
+## From matching to community
 
-The [ASU Capstone Showcase project page](https://showcase.asucapstone.com/survey/10558) lists Lyra as a **Spring 2026** project:
+Lyra explores how a dating app can support the steps after an initial match. Guided onboarding, conversation, shared-interest circles, and events connect discovery with community and meeting in person, with safety considered throughout the experience.
 
-- **Project:** CS/E-078 — Endless Moments LLC — An Intelligent Safety-Focused Dating App
-- **Sponsor:** Jay Manwani
-- **Team:** Kushagra Pandey, Aditya Sharma, Erik Camacho, , and Chaitanya Krishna Yadav Sulam
+<span id="role-and-ownership" />
+<span id="what-i-implemented" />
 
-## Architecture & Deployment
+## My contribution
 
-- **Full-Stack Implementation**: Designed and built the entire system using **FastAPI** for a fast, modern backend and **React** (with **TypeScript**) for a highly responsive, type-safe user interface.
-- **Production Infrastructure**: Containerized and deployed services using **Vercel** for the frontend and **Render** for the API server, backed by a persistent **PostgreSQL** database.
-- **Sole Contact**: Served as the sole technical point of contact for the project sponsor, managing requirements gathering, timeline commitments, and milestone delivery.
+I served as the **primary engineer** on a four-person ASU Computer Science capstone team, leading architecture and full-stack development and acting as the sponsor’s primary technical contact.
 
-## Weighted Matchmaking Engine
+I built the React/TypeScript interface and FastAPI backend, implemented weighted matching, and integrated OpenAI for recommendations and the Guardian AI safety workflow. Unit tests, integration tests, and manual QA supported validation of the matching engines.
 
-- **Algorithmic Scoring**: Designed and built a custom weighted matchmaking engine in Python. The algorithm computes compatibility scores across multiple user preference dimensions.
-- **Intelligent Recommendations**: Integrated **OpenAI API** to power a natural recommendation engine that identifies matches based on conversational profiles and behavioral cues.
-- **Guardian AI**: Incorporated safety protocols and automated moderation (Guardian AI) using LLMs to scan and maintain community guidelines within messaging interfaces.
+The Spring 2026 project, **CS/E-078**, was sponsored by **Jay Manwani of Endless Moments LLC**. Our team was Kushagra Pandey, Aditya Sharma, Erik Camacho, and Chaitanya Krishna Yadav Sulam.
 
-## Database Design
+<span id="architecture-and-decisions" />
 
-- Optimized PostgreSQL schemas to handle complex user preferences, swiping histories, and real-time conversation records.
-- Implemented robust index structures and transactional isolation levels to ensure data integrity during simultaneous reads and writes.
+## Architecture
+
+**React and TypeScript** handle the interface. **FastAPI** exposes application operations and runs the Python matching logic. **PostgreSQL** stores preferences, match history, and conversation records. **Vercel** hosts the frontend; **Render** hosts the API.
+
+Weighted scoring keeps matching criteria explicit and adjustable. AI-assisted recommendations complement that scoring; the safety workflow requires separate evaluation.
+
+[ASU Capstone Showcase](https://showcase.asucapstone.com/survey/10558) includes the project description, sponsor, and team credentials.
+
+<span id="current-status" />
+<span id="limitations-and-next-steps" />
+
+## Status and next steps
+
+Completed as a Spring 2026 ASU capstone. Further release work would focus on privacy, real-world matching quality, and safety evaluation with representative users. The next engineering step is to extend repeatable tests around those behaviors.

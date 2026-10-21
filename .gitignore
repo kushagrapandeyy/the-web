@@ -10,6 +10,7 @@
 
 # next.js
 /.next/
+/.next-dev/
 /out/
 
 # production
@@ -26,7 +27,33 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
+.env.*
 .env*.local
+*.env
+!.env.example
+
+# Credentials, private keys, and local cloud configuration
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+id_rsa*
+id_ed25519*
+credentials*.json
+service-account*.json
+*service_account*.json
+secrets*.json
+secrets*.yaml
+secrets*.yml
+*.tfstate*
+.aws/
+.ssh/
+.kube/
+
+# Security reports can contain findings; keep them off GitHub.
+gitleaks-report*
 
 # vercel
 .vercel
