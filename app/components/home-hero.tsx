@@ -1,8 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Link from "next/link";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { animate, motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import { ScrambleName } from "./scramble-name";
@@ -45,12 +44,8 @@ export function HomeHero() {
       <h1 aria-label="Kushagra Pandey" className="hero-name mx-auto w-fit font-display tracking-[-0.05em] text-paper"><ScrambleName animate={false} /></h1>
       <div className="hero-return-copy scroll-art">
         <div className="hero-introduction">
-          <p className="mx-auto mt-7 max-w-xl text-base leading-relaxed text-zinc-400 sm:text-lg">{introduction}</p>
-          <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-zinc-400">Arizona State University · Computer Science ’26<br />Minor in Film & Media Production</p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
-            <a href="#selected-work" className="text-link group">Explore selected work <ArrowDown size={16} aria-hidden="true" className="transition-transform group-hover:translate-y-1" /></a>
-            <Link href="/resume" className="text-link group">Résumé <ArrowUpRight size={16} aria-hidden="true" className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link>
-          </div>
+          <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-zinc-400 [text-wrap:balance] sm:text-lg">{introduction}</p>
+          <a href="#selected-work" className="text-link group mt-8">View selected work <ArrowDown size={16} aria-hidden="true" className="transition-transform group-hover:translate-y-1" /></a>
         </div>
       </div>
     </motion.div>

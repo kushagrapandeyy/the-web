@@ -29,7 +29,7 @@ export default async function incr(req: NextRequest): Promise<NextResponse> {
   if (!publishedSlugs.has(slug)) return new NextResponse("Project not found", { status: 404 });
   if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) return new NextResponse(null, { status: 204 });
   try {
-    const redis = Redis.fromEnv({ retry: { retries: 0 }, signal: () => AbortSignal.timeout(1200) });
+    const redis = Redis.fromEnv({ retry: { retries: 0 }, signal: AbortSignal.timeout(1200) });
     const forwardedFor = req.headers.get("x-forwarded-for");
     const ip = forwardedFor ? forwardedFor.split(",")[0].trim() : undefined;
     if (ip) {

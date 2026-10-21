@@ -16,7 +16,7 @@ const Redis = { fromEnv(config) {
       calls.push(["mget", ...args]);
       if (fail) throw Error("Unavailable");
       if (hang) return new Promise((_, reject) => {
-        const signal = config.signal();
+        const signal = config.signal;
         signal.addEventListener("abort", () => reject(signal.reason), { once: true });
       });
       return args.map(() => 2);
@@ -62,10 +62,12 @@ const request = (body, headers = {}) => new Request("https://example.test/api/in
   assert.match(calls[0][1], /^deduplicate:[a-f0-9]{64}:Capstone$/);
   assert.equal(calls[0][3].nx, true); assert.equal(calls[0][3].ex, 86400);
   assert.equal(calls[1][1], "pageviews:projects:Capstone");
-  assert.equal(options.retry.retries, 0); assert.ok(options.signal() instanceof AbortSignal);
+  assert.equal(options.retry.retries, 0); assert.ok(options.signal instanceof AbortSignal);
+  const firstSignal = options.signal;
   calls = []; duplicate = true;
   assert.equal((await api(request('{"slug":"Capstone"}', { "x-forwarded-for": "192.0.2.1" }))).status, 202);
   assert.equal(calls.length, 1, "Duplicate views must not increment");
+  assert.notEqual(options.signal, firstSignal, "Each request needs a fresh timeout signal");
   duplicate = false; fail = true;
   assert.equal((await api(request('{"slug":"Capstone"}'))).status, 503);
   calls = []; fail = false;

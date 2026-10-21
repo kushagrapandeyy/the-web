@@ -14,7 +14,7 @@ export async function ProjectList({ category }: { category: "engineering" | "des
   let views: Record<string, number> = {};
   try {
     if (projects.length && process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-      const redis = Redis.fromEnv({ retry: { retries: 0 }, signal: () => AbortSignal.timeout(1200) });
+      const redis = Redis.fromEnv({ retry: { retries: 0 }, signal: AbortSignal.timeout(1200) });
       const counts = await redis.mget<(number | null)[]>(...projects.map(p => `pageviews:projects:${p.slug}`));
       views = Object.fromEntries(projects.map((p, i) => [p.slug, counts[i] ?? 0]));
     }
