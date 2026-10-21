@@ -27,8 +27,9 @@ function boot({ pathname = "/", hash = "", scrollY = 0, reduced = false, seen = 
   return { document, timeout };
 }
 assert.equal(boot().document.documentElement.dataset.intro, "pending");
+assert.equal(boot({ seen: true }).document.documentElement.dataset.intro, "pending", "A fresh document must replay the intro even with the old session flag");
 assert.equal(boot({ blockedStorage: true }).document.documentElement.dataset.intro, "pending");
-for (const options of [{ pathname: "/resume" }, { hash: "#stack" }, { scrollY: 500 }, { reduced: true }, { seen: true }, { blockedStorage: true, hash: "#playground" }]) {
+for (const options of [{ pathname: "/resume" }, { hash: "#stack" }, { scrollY: 500 }, { reduced: true }, { blockedStorage: true, hash: "#playground" }]) {
   assert.equal(boot(options).document.documentElement.dataset.intro, "done", JSON.stringify(options));
 }
 const timedOut = boot(); timedOut.timeout();

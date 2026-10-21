@@ -33,7 +33,6 @@ export function SiteEntrance({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!visible) return;
     if (document.documentElement.dataset.intro !== "pending" || reduce) { finish(); return; }
-    try { sessionStorage.setItem("kp-intro-seen", "1"); } catch { /* Storage may be disabled. */ }
     const fallback = window.setTimeout(finish, 9000);
     return () => window.clearTimeout(fallback);
   }, [reduce, finish, visible]);

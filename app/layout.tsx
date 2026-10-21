@@ -61,8 +61,8 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth" className={[inter.variable, calSans.variable].join(" ")}>
       <head>
-        {/* Set before paint so returning visitors never flash the intro. */}
-        <script id="intro-preference" dangerouslySetInnerHTML={{ __html: `(()=>{const eligible=location.pathname==="/"&&!location.hash&&scrollY<=1&&!matchMedia("(prefers-reduced-motion: reduce)").matches;let seen=false;try{seen=!!sessionStorage.getItem("kp-intro-seen")}catch{}document.documentElement.dataset.intro=eligible&&!seen?"pending":"done";setTimeout(()=>{if(document.documentElement.dataset.intro==="pending")document.documentElement.dataset.intro="done"},10000)})()` }} />
+        {/* A fresh document gets an intro; client-side navigation keeps its completed state. */}
+        <script id="intro-preference" dangerouslySetInnerHTML={{ __html: `(()=>{const eligible=location.pathname==="/"&&!location.hash&&scrollY<=1&&!matchMedia("(prefers-reduced-motion: reduce)").matches;document.documentElement.dataset.intro=eligible?"pending":"done";setTimeout(()=>{if(document.documentElement.dataset.intro==="pending")document.documentElement.dataset.intro="done"},10000)})()` }} />
         <Analytics />
       </head>
       <body>
