@@ -103,6 +103,7 @@
 @media (prefers-reduced-motion: reduce), (max-height: 600px), print {
   .chronos-story-animated { display: none; }
   .chronos-story-static { @apply not-sr-only grid gap-6 sm:grid-cols-2; }
+  .chronos-story-controls { display: block; }
 }
 
 .resume-section-title { @apply mb-6 border-b border-white/10 pb-3 text-sm font-medium text-zinc-300; }

@@ -70,6 +70,21 @@ media.matches = false; resize();
 assert.deepEqual(states, [false, false], "Reduced motion or narrow width disables the desktop effects");
 cleanup(); assert.equal(disconnected, true);
 
+// The final Play controls become interactive only at the end of the scroll story.
+let storyChange;
+const storyReadyChanges = [];
+load("app/components/chronos-story.tsx", {
+  react: { useRef: value => ({ current: value }), useState: () => [false, value => storyReadyChanges.push(value)] },
+  "framer-motion": {
+    motion: { div: "div", svg: "svg", circle: "circle", text: "text" },
+    useReducedMotion: () => false, useScroll: () => ({ scrollYProgress: {} }),
+    useTransform: () => ({}), useMotionValueEvent: (_value, _event, callback) => { storyChange = callback; },
+  },
+  "./game-launcher": { GameLauncher: "button" },
+}, {}).ChronosStory();
+for (const value of [0, 0.5, 0.83, 0.85, 0.9, 1, 0.83, 0]) storyChange(value);
+assert.deepEqual(storyReadyChanges, [true, false], "Play controls should activate once, then deactivate on reverse scrolling");
+
 // A stationary pointer must not undo keyboard selection as the highlight moves.
 let stackActive = 1;
 const Stack = load("app/components/technical-stack.tsx", {
