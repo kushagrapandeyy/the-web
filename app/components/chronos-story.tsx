@@ -22,7 +22,7 @@ function Moment({ moment, progress }: { moment: typeof moments[number]; progress
 }
 
 function PlayInvitation() {
-  return <><h3 className="font-display text-[clamp(2.6rem,5.6vw,5.5rem)] leading-[1.08] tracking-tight text-paper">Chronos.</h3><p className="mt-3 text-sm text-zinc-400">React · TypeScript · Canvas</p><div className="mt-4"><GameLauncher /></div><a href="https://github.com/kushagrapandeyy/the-web/blob/main/app/components/chronos-game.tsx" target="_blank" rel="noopener noreferrer" className="text-link">Read the game code</a></>;
+  return <><h3 className="font-display text-[clamp(2.6rem,5.6vw,5.5rem)] leading-[1.08] tracking-tight text-paper">Chronos.</h3><p className="chronos-invitation-meta mt-3 text-sm text-zinc-400">React · TypeScript · Canvas</p><div className="mt-4"><GameLauncher /></div><a href="https://github.com/kushagrapandeyy/the-web/blob/main/app/components/chronos-game.tsx" target="_blank" rel="noopener noreferrer" className="text-link">Read the game code</a></>;
 }
 
 export function ChronosStory() {
@@ -52,10 +52,10 @@ export function ChronosStory() {
     <div id="chronos-preview" className="chronos-story-animated relative">
       <span id="chronos-play" className="pointer-events-none absolute bottom-[calc(100svh-6rem)] scroll-mt-0" />
       <motion.div className="chronos-story-stage" style={{ "--story-drift": drift } as MotionStyle}>
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-1"><p className="text-sm text-zinc-300">Chronos · Scroll to move</p><a href="#chronos-play" className="text-link relative z-10">Skip to the game</a></div>
-        <div aria-hidden="true" className="mb-4 h-px overflow-hidden bg-white/10"><motion.div className="h-full origin-left bg-accent-300" style={{ scaleX: progress }} /></div>
-        <div className="grid items-center gap-4 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-8">
-          <div className="chronos-story-copy relative min-w-0"><div className="relative h-[200px] lg:h-[300px]"><div aria-hidden="true">{moments.slice(0, 3).map(moment => <Moment key={moment.title} moment={moment} progress={progress} />)}</div><motion.div className="absolute inset-0 flex flex-col justify-center" style={{ opacity: invitationOpacity }} inert={!ready} aria-hidden={!ready}><PlayInvitation /></motion.div></div></div>
+        <div className="chronos-story-header mb-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-1"><p className="text-sm text-zinc-300">Chronos · Scroll to move</p><a href="#chronos-play" className="text-link relative z-10">Skip to the game</a></div>
+        <div aria-hidden="true" className="chronos-story-progress mb-4 h-px overflow-hidden bg-white/10"><motion.div className="h-full origin-left bg-accent-300" style={{ scaleX: progress }} /></div>
+        <div className="chronos-story-layout grid items-center gap-4 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-8">
+          <div className="chronos-story-copy relative min-w-0"><div className="chronos-story-captions relative h-[200px] lg:h-[300px]"><div aria-hidden="true">{moments.slice(0, 3).map(moment => <Moment key={moment.title} moment={moment} progress={progress} />)}</div><motion.div className="absolute inset-0 flex flex-col justify-center" style={{ opacity: invitationOpacity }} inert={!ready} aria-hidden={!ready}><PlayInvitation /></motion.div></div></div>
           <div className="chronos-story-field relative h-[clamp(180px,30svh,380px)] min-w-0 lg:h-[clamp(280px,48svh,480px)]">
             <motion.svg aria-hidden="true" viewBox="0 0 800 500" className="h-full w-full" style={{ scale: reduce ? 1 : zoom }}>
               <path d="M0 100H800M0 200H800M0 300H800M0 400H800M160 0V500M320 0V500M480 0V500M640 0V500" fill="none" stroke="currentColor" strokeOpacity="0.06" vectorEffect="non-scaling-stroke" />

@@ -100,7 +100,29 @@
   .chronos-story-copy { transform: translateY(calc(1px * var(--story-drift, 0))); }
   .chronos-story-field { transform: translateY(calc(-1px * var(--story-drift, 0))); }
 }
-@media (prefers-reduced-motion: reduce), (max-height: 600px), print {
+@media (max-height: 600px) {
+  .chronos-story-stage { top: 5rem; }
+  .chronos-story-header { margin-bottom: 0; }
+  .chronos-story-progress { margin-bottom: 12px; }
+  .chronos-story-layout { grid-template-columns: 1fr 1fr; gap: 1rem; padding-block: 0; }
+  .chronos-story-captions { height: 160px; }
+  .chronos-story-copy h3 { font-size: 2rem; }
+  .chronos-story-copy p { font-size: 0.75rem; line-height: 1.5; }
+  .chronos-invitation-meta { display: none; }
+  .chronos-story-field { height: clamp(100px, calc(100svh - 340px), 180px); }
+  .chronos-story-copy { transform: translateY(calc(0.25px * var(--story-drift, 0))); }
+  .chronos-story-field { transform: translateY(calc(-0.25px * var(--story-drift, 0))); }
+}
+@media (max-height: 600px) and (min-width: 640px) {
+  .chronos-story-layout { grid-template-columns: 0.9fr 1.1fr; gap: 2rem; }
+  .chronos-story-field { height: clamp(140px, calc(100svh - 180px), 320px); }
+}
+@media (max-height: 600px) and (max-width: 639px) {
+  .chronos-story-copy h3 { font-size: 1.5rem; }
+  .chronos-story-copy .button-primary { padding-inline: 12px; font-size: 0.75rem; }
+  .chronos-story-copy .text-link { font-size: 0.75rem; }
+}
+@media (prefers-reduced-motion: reduce), print {
   .chronos-story-animated { display: none; }
   .chronos-story-static { @apply not-sr-only grid gap-6 sm:grid-cols-2; }
   .chronos-story-controls { display: block; }

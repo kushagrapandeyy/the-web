@@ -15,6 +15,8 @@ function load(file, mocks, globals) {
   return module.exports;
 }
 
+assert.doesNotMatch(read("global.css"), /@media[^\{]*max-height[^\{]*\{\s*\.chronos-story-animated\s*\{\s*display:\s*none/, "Resizing must retain the animated story");
+
 // Native scroll timelines need explicit endpoints to hold completed phases at zero.
 const storySource = read("app/components/chronos-story.tsx");
 assert.match(read("global.css"), /translateY\(calc\(-1px \* var\(--story-drift, 0\)\)\)/, "Opposing scroll values need CSS length units");
