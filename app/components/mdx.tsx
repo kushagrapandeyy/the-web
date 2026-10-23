@@ -26,9 +26,9 @@ function ImageLightbox({ src, alt = "" }: ComponentProps<"img">) {
       </motion.button>
       {open && createPortal(
         <dialog ref={dialog} className="image-dialog" aria-label={alt || "Project image"} onClose={() => setOpen(false)} onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
-          <button type="button" autoFocus onClick={() => dialog.current?.close()} aria-label="Close image" className="ml-auto mb-3 flex h-11 w-11 items-center justify-center rounded-lg border border-white/15 text-zinc-200"><X size={20} /></button>
-          <img src={src} alt={alt} className="max-h-[75dvh] w-auto max-w-full object-contain" />
-          {alt && <p className="mt-4 text-center text-sm text-zinc-400">{alt}</p>}
+          <button type="button" autoFocus onClick={() => dialog.current?.close()} aria-label="Close image" className="ml-auto mb-3 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/15 text-zinc-200"><X size={20} /></button>
+          <img src={src} alt={alt} className="min-h-0 w-full min-w-0 flex-1 object-contain" />
+          {alt && <p className="mt-4 w-full shrink-0 text-center text-sm text-zinc-400">{alt}</p>}
         </dialog>, document.body
       )}
     </>

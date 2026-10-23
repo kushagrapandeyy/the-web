@@ -11,10 +11,11 @@ module.exports = {
 	theme: {
 		extend: {
             colors: {
-                accent: { 200: "#d7f2df", 300: "#bae8cc", 400: "#93d6b1" },
-                canvas: "#101211",
-                paper: "#f7f5ef",
-                sand: "#e8d6ba",
+                accent: { 200: "#c9ddf1", 300: "#a9c7e8", 400: "#83acd8" },
+                canvas: "#111315",
+                surface: "#1b1e22",
+                paper: "#f4f1e9",
+                sand: "#eeeae2",
             },
 			typography: {
 				DEFAULT: {

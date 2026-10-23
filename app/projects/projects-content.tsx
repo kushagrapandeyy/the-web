@@ -27,7 +27,7 @@ export function ProjectsContent({ projects, views, category }: Props) {
         {projects.map((project, index) => (
           <Reveal key={project.slug} as="article" className="min-w-0">
             <Link href={`/projects/${project.slug}`} className={`group flex h-full min-w-0 flex-col ${project.image ? "" : "rounded-lg border border-white/10 bg-white/[0.02] p-6 sm:p-8"}`}>
-              {project.image && <WorkPreview className="rounded-lg border border-white/10 bg-[#191c1a] transition-colors duration-200 group-hover:border-accent-300/40"><Image src={project.image} alt={`${project.title} project preview`} fill sizes="(max-width: 768px) 100vw, 50vw" priority={index < 2} className="object-contain p-3 sm:p-4" /></WorkPreview>}
+              {project.image && <WorkPreview className="rounded-lg border border-white/10 bg-surface transition-colors duration-200 group-hover:border-accent-300/40"><Image src={project.image} alt={`${project.title} project preview`} fill sizes="(max-width: 768px) 100vw, 50vw" priority={index < 2} className="object-contain p-3 sm:p-4" /></WorkPreview>}
               <div className={`flex flex-1 flex-col ${project.image ? "pt-5" : "justify-center"}`}>
                 <p className="mb-3 text-sm text-accent-300">{project.role}</p>
                 <div className="flex items-start justify-between gap-4"><h2 className="min-w-0 font-display text-2xl leading-tight tracking-tight text-zinc-100">{project.title}</h2><ArrowUpRight size={20} aria-hidden="true" className="mt-1 shrink-0 text-zinc-400 transition-colors duration-200 group-hover:text-accent-300" /></div>

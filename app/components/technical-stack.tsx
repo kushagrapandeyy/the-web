@@ -25,7 +25,7 @@ export function TechnicalStack() {
   const pointerY = useMotionValue(0);
   const x = useSpring(pointerX, { stiffness: 180, damping: 30 });
   const y = useSpring(pointerY, { stiffness: 180, damping: 30 });
-  const light = useMotionTemplate`radial-gradient(300px circle at ${x}px ${y}px, rgba(186,232,204,0.09), transparent 80%)`;
+  const light = useMotionTemplate`radial-gradient(300px circle at ${x}px ${y}px, color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 80%)`;
 
   return <section id="stack" aria-labelledby="stack-title" className="page-width section-space border-t border-white/15">
     <div className="mb-10 grid items-end gap-5 md:grid-cols-2 md:gap-12">
@@ -62,7 +62,7 @@ export function TechnicalStack() {
                   <Icon size={44} strokeWidth={1} aria-hidden="true" className="hidden shrink-0 text-accent-300/50 sm:block" />
                 </div>
                 <motion.ul aria-label={`${selected.label} technologies`} initial="hidden" animate="visible" variants={{ hidden: {}, visible: { transition: { staggerChildren: reduce ? 0 : 0.035 } } }} className="mt-5 grid grid-cols-2 gap-x-5 gap-y-2 sm:gap-x-10">
-                  {selected.skills.map(skill => <motion.li key={skill} variants={{ hidden: { opacity: 0, y: reduce ? 0 : 6 }, visible: { opacity: 1, y: 0 } }} transition={{ duration: reduce ? 0 : 0.2 }} whileHover={reduce ? undefined : { x: 4 }} className="flex min-h-[40px] min-w-0 items-center border-b border-white/10 text-sm leading-5 text-zinc-200 last:odd:col-span-2 last:odd:justify-center sm:text-base">{skill}</motion.li>)}
+                  {selected.skills.map(skill => <motion.li key={skill} variants={{ hidden: { opacity: 0, y: reduce ? 0 : 6 }, visible: { opacity: 1, y: 0 } }} transition={{ duration: reduce ? 0 : 0.2 }} whileHover={reduce ? undefined : { x: 4 }} className="flex min-h-[40px] min-w-0 items-center border-b border-white/10 text-sm leading-5 text-zinc-200 sm:text-base">{skill}</motion.li>)}
                 </motion.ul>
               </motion.div>
             </AnimatePresence>

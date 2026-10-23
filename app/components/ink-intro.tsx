@@ -8,7 +8,6 @@ type Fragment = { from: Point; mark: Point; to: Point; row: number; rank: number
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const smooth = (value: number) => { const t = clamp(value); return t * t * (3 - 2 * t); };
 const mix = (a: number, b: number, t: number) => a + (b - a) * t;
-const colors = ["#f7f5ef", "#bae8cc"];
 
 export function InkIntro({ onReveal, onComplete }: { onReveal: () => void; onComplete: () => void }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -44,6 +43,8 @@ export function InkIntro({ onReveal, onComplete }: { onReveal: () => void; onCom
       const markContext = mark.getContext("2d", { willReadFrequently: true });
       if (!fullContext || !markContext) { onComplete(); return; }
       fullContext.scale(dpr, dpr);
+      const palette = getComputedStyle(document.documentElement);
+      const colors = [palette.getPropertyValue("--color-paper").trim(), palette.getPropertyValue("--color-accent").trim()];
       const style = getComputedStyle(cells[0]);
       const tracking = parseFloat(style.letterSpacing) || 0;
       const size = parseFloat(style.fontSize);

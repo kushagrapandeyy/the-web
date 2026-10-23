@@ -15,6 +15,16 @@ function load(file, mocks, globals) {
   return module.exports;
 }
 
+// Native scroll timelines need explicit endpoints to hold completed phases at zero.
+const storySource = read("app/components/chronos-story.tsx");
+const storyMoments = vm.runInNewContext(storySource.match(/const moments = (\[[\s\S]*?\n\]);/)[1]);
+for (const moment of storyMoments) {
+  assert.equal(moment.range[0], 0);
+  assert.equal(moment.range.at(-1), 1);
+  assert.equal(moment.range.length, moment.opacity.length);
+  assert.equal(moment.opacity.at(-1), moment.title === "Your turn." ? 1 : 0);
+}
+
 const bootstrap = read("app/layout.tsx").match(/id="intro-preference"[\s\S]*?__html: `([^`]+)`/)[1];
 function boot({ pathname = "/", hash = "", scrollY = 0, reduced = false, seen = false, blockedStorage = false } = {}) {
   const document = { documentElement: { dataset: {} } };
@@ -41,7 +51,7 @@ const pointer = { ...media };
 let cleanup, resize, disconnected = false, rootSize = 16, stateIndex = 0;
 const viewport = { innerHeight: 709, matchMedia: query => query.includes("pointer") ? pointer : media, addEventListener() {}, removeEventListener() {} };
 load("app/components/selected-work.tsx", {
-  react: { useRef: () => ({ current: { querySelectorAll: () => panels } }), useState: initial => { const index = stateIndex++; states[index] = initial; return [initial, value => { states[index] = value; }]; }, useEffect: effect => { cleanup = effect(); } },
+  react: { createRef: () => ({ current: null }), useMemo: factory => factory(), useRef: () => ({ current: { querySelectorAll: () => panels } }), useState: initial => { const index = stateIndex++; states[index] = initial; return [initial, value => { states[index] = value; }]; }, useEffect: effect => { cleanup = effect(); } },
   "framer-motion": { useScroll: () => ({ scrollYProgress: {} }), useSpring: value => value },
   "next/image": {}, "next/link": {}, "lucide-react": {}, "./text-reveal": {},
 }, {
@@ -106,7 +116,7 @@ assert.equal(stackButtons().filter(button => button["aria-pressed"]).length, 1);
     load("app/components/ink-intro.tsx", {
       react: { useRef: () => ({ current: canvas() }), useEffect: effect => { unmount = effect(); } },
       "framer-motion": { animate: (_from, _to, options) => { animation = options; return { stop: () => { stopped = true; } }; } },
-    }, { document, window, location: { hash }, innerWidth: 100, innerHeight: 100, devicePixelRatio: 1, clearTimeout() {}, getComputedStyle: () => ({ letterSpacing: "0", fontSize: "10", fontFamily: "sans-serif", fontWeight: "400" }) })
+    }, { document, window, location: { hash }, innerWidth: 100, innerHeight: 100, devicePixelRatio: 1, clearTimeout() {}, getComputedStyle: () => ({ getPropertyValue: key => key === "--color-paper" ? "#f4f1e9" : "#a9c7e8", letterSpacing: "0", fontSize: "10", fontFamily: "sans-serif", fontWeight: "400" }) })
       .InkIntro({ onReveal: () => { reveals++; }, onComplete: () => { completes++; } });
     await Promise.resolve(); start();
     return { document, animation, window, unmount, result: () => ({ stopped, completes, reveals }) };
