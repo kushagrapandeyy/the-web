@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 // Keep MDX out of the edge bundle; check-analytics verifies this list against published projects.
 const publishedSlugs = new Set([
-  "Capstone", "OnlineBrand", "bookstore", "checkoutRedesign", "firmlyticSolutions",
+  "Capstone", "bookstore", "checkoutRedesign", "firmlyticSolutions",
   "kushagrapandey", "photoQuizGame", "priceTracker", "salesExplorer", "sspandey",
   "startupPitch", "tempeCameraRedesign",
 ]);

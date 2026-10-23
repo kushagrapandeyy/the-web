@@ -95,24 +95,38 @@
 
 .resume-section-title { @apply mb-6 border-b border-white/10 pb-3 text-sm font-medium text-zinc-300; }
 @media print {
-  @page { size: letter; margin: 0.55in; }
-  .resume { max-width: none; padding: 0 !important; font-size: 10pt; }
+  @page { size: letter; margin: 0.45in; }
+  .resume { max-width: none; padding: 0 !important; font-family: Arial, sans-serif; font-size: 10pt; }
   .resume * { color: #18181b !important; border-color: #d4d4d8 !important; }
-  .resume h1 { font-size: 25pt; }
-  .resume h2 { font-size: 12pt; margin: 0 0 10pt; padding-bottom: 4pt; break-after: avoid; }
-  .resume h3 { font-size: 11pt; break-after: avoid; }
-  .resume p, .resume li, .resume dt, .resume dd { font-size: 9pt; line-height: 1.35; }
-  .resume-heading { padding-bottom: 10pt; }
-  .resume-intro { margin-top: 8pt; max-width: none; }
-  .resume-contact { margin-top: 5pt; gap: 4pt 12pt; font-size: 8pt; }
+  .resume h1 { font-family: Arial, sans-serif; font-size: 23pt; line-height: 1; letter-spacing: 0; }
+  .resume h2 { margin: 0 0 3pt; padding-bottom: 2pt; border-bottom: 0.5pt solid #d4d4d8; font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.15; letter-spacing: 0; break-after: avoid; }
+  .resume h3 { font-size: 10pt; line-height: 1.16; letter-spacing: 0; break-after: avoid; }
+  .resume p, .resume li, .resume dt, .resume dd { font-size: 10pt; line-height: 1.16; }
+  .resume-heading { padding-bottom: 5pt; }
+  .resume-intro { margin-top: 4pt; max-width: none; }
+  .resume-contact { margin-top: 4pt; gap: 0 12pt; }
   .resume-contact a { min-height: 0; }
-  .resume-grid { display: block; margin-top: 16pt; }
-  .resume-entry { break-inside: avoid; margin-top: 12pt !important; }
-  .resume-entry ul { margin-top: 5pt; }
-  .resume-entry li { margin-top: 3pt; }
-  .resume section { margin-top: 18pt; }
-  .resume aside { margin-top: 16pt; display: grid; grid-template-columns: 1fr 1fr; gap: 14pt 20pt; }
-  .resume aside > section { margin-top: 0 !important; break-inside: avoid; }
-  .resume aside p, .resume aside dd { margin-top: 4pt; }
-  .resume aside dl > div, .resume aside section > div > div { margin-top: 6pt !important; }
+  .resume-contact p, .resume-contact a, .resume-contact span { font-size: 9pt; }
+  .resume-grid { display: block; margin-top: 6pt; }
+  .resume-entry { break-inside: avoid; margin-top: 5pt !important; }
+  .resume-entry:first-child { margin-top: 0 !important; }
+  .resume-entry h3 + p, .resume-entry h3 + p + p.text-xs { display: inline; margin: 0 6pt 0 0; font-size: 9pt; }
+  .resume-entry ul { margin: 2pt 0 0; padding-left: 12pt; }
+  .resume-entry li { margin-top: 1pt; }
+  .resume-entry p:last-child { margin-top: 2pt; }
+  .resume section { margin-top: 6pt; padding-top: 0; }
+  .resume #experience { margin-top: 0; }
+  .resume aside { display: block; margin-top: 0; }
+  .resume aside > section { break-inside: avoid; }
+  .resume aside p, .resume aside dd { margin-top: 1pt; }
+  .resume #education > div { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+  .resume #education p { margin-top: 1pt; }
+  .resume #education > div > div:last-child > p:last-child { display: none; }
+  .resume #skills dl { display: block; }
+  .resume #skills dl > div { display: block; margin-top: 1pt; }
+  .resume #skills dt, .resume #skills dd { display: inline; margin: 0; }
+  .resume #skills dt::after { content: ": "; }
+  .resume #credentials > div { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+  .resume #credentials a { min-height: 0; font-size: 10pt; }
+  .resume #credentials p { margin-top: 1pt; font-size: 9pt; }
 }

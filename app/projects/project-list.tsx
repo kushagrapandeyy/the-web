@@ -4,7 +4,7 @@ import { ProjectsContent } from "./projects-content";
 
 export async function ProjectList({ category }: { category: "engineering" | "design" }) {
   const order = category === "engineering"
-    ? ["firmlyticSolutions", "Capstone", "sspandey", "priceTracker", "kushagrapandey", "bookstore", "OnlineBrand", "salesExplorer"]
+    ? ["firmlyticSolutions", "Capstone", "sspandey", "priceTracker", "kushagrapandey", "bookstore", "salesExplorer"]
     : ["tempeCameraRedesign", "startupPitch", "photoQuizGame", "checkoutRedesign"];
   const projects = allProjects.filter(p => p.published && (p.category === "design") === (category === "design"))
     .sort((a, b) => {

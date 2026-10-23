@@ -9,12 +9,12 @@ import { introduction } from "./profile";
 
 export const metadata: Metadata = {
   title: {
-    default: "Kushagra Pandey",
+    default: "Kushagra Pandey | Software Engineer",
     template: "%s | kushagrapandey.com",
   },
   description: introduction,
   openGraph: {
-    title: "Kushagra Pandey",
+    title: "Kushagra Pandey | Software Engineer",
     description: introduction,
     url: "https://kushagrapandey.com",
     siteName: "Kushagra Pandey",

@@ -59,6 +59,40 @@ media.matches = false; resize();
 assert.deepEqual(states, [false, false], "Reduced motion or narrow width disables the desktop effects");
 cleanup(); assert.equal(disconnected, true);
 
+// A stationary pointer must not undo keyboard selection as the highlight moves.
+let stackActive = 1;
+const Stack = load("app/components/technical-stack.tsx", {
+  react: { useState: () => [stackActive, value => { stackActive = value; }] },
+  "framer-motion": {
+    motion: Object.fromEntries(["button", "span", "div", "ul", "li"].map(tag => [tag, tag])),
+    AnimatePresence: "div", LayoutGroup: "div", useReducedMotion: () => false,
+    useMotionValue: () => ({ set() {} }), useSpring: value => value, useMotionTemplate: () => "",
+  },
+  "../profile": load("app/profile.ts", {}, {}),
+  "./reveal": { Reveal: "div" }, "./text-reveal": { TextReveal: "h2" },
+}, {}).TechnicalStack;
+function stackButtons() {
+  const buttons = [];
+  function visit(node) {
+    if (Array.isArray(node)) { node.forEach(visit); return; }
+    if (!node?.props) return;
+    if (node.props.id?.startsWith("stack-category-")) buttons.push(node.props);
+    visit(node.props.children);
+  }
+  visit(Stack()); return buttons;
+}
+let buttons = stackButtons(); assert.equal(buttons.length, 6);
+buttons[0].onFocus(); buttons = stackButtons();
+buttons[1].onFocus();
+buttons[0].onPointerEnter?.({ pointerType: "mouse" });
+assert.equal(stackActive, 1, "Highlight movement under a stationary mouse must preserve keyboard focus selection");
+buttons[4].onPointerMove({ pointerType: "mouse" });
+assert.equal(stackActive, 4, "Actual mouse movement must still select a category");
+buttons[0].onPointerMove({ pointerType: "touch" });
+assert.equal(stackActive, 4, "Touch movement must not act as hover");
+buttons[5].onClick(); assert.equal(stackActive, 5, "A tap must select its category");
+assert.equal(stackButtons().filter(button => button["aria-pressed"]).length, 1);
+
 (async () => {
   async function intro({ hash = "", scrollY = 0, top = 10 } = {}) {
     let start, animation, stopped = false, completes = 0, reveals = 0, unmount;
@@ -92,5 +126,5 @@ cleanup(); assert.equal(disconnected, true);
   const normal = await intro(); normal.animation.onUpdate(4.1);
   assert.equal(normal.result().reveals, 1, "A normal entrance must retain its reveal handoff");
   normal.unmount(); assert.equal(normal.result().stopped, true);
-  console.log("Motion checks passed: first-entry eligibility, intro timeout/scroll guards, fitting sticky cards, independent hover, and cleanup.");
+  console.log("Motion checks passed: first-entry eligibility, intro timeout/scroll guards, fitting sticky cards, independent hover, stack keyboard/pointer selection, and cleanup.");
 })().catch(error => { console.error(error); process.exitCode = 1; });

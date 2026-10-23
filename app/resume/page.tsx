@@ -9,35 +9,33 @@ const experiences = [
   {
     company: "Firmlytic Solutions", title: "Founder", period: "Jan 2024 - Present", location: "New Delhi, India", href: "/projects/firmlyticSolutions",
     highlights: [
-      "Founded Firmlytic Solutions and lead product direction and full-stack engineering for Sainya Mitra, a legal platform in beta with case records, case tracking, and linked client accounts.",
-      "Build across React interfaces, Node.js services, Hasura data access, and AWS infrastructure. Integrated Claude for document summarization, tagging, and clause extraction, with unit tests, integration tests, and manual QA; legal-workflow use remains under evaluation.",
-      "Work with stakeholders to prioritize fixes and troubleshoot workflows. Configure Cloudflare WAF and least-privilege IAM, and maintain architecture and deployment documentation.",
-      "Built OCR Scanflow, a separate document-processing prototype for a prospective client using open-source OCR tools.",
+      "Lead product and engineering for Sainya Mitra, an AI legal SaaS in beta with a law firm. The beta supports case records, tracking, and linked client accounts.",
+      "Build React interfaces, Node.js services, Hasura data access, and AWS infrastructure. Integrated Claude for document summaries, tagging, and clause extraction. AI output is under evaluation. Human review is essential.",
+      "Maintain tests, deployment documentation, Cloudflare WAF, and IAM access controls. Built OCR Scanflow, a separate document-processing prototype for a prospective client.",
     ],
   },
   {
-    company: "Arizona State University", title: "Production Assistant, Enterprise Brand & Strategy Management", period: "Oct 2024 - May 2026", location: "Tempe, Arizona", href: undefined,
-    highlights: ["Proposed NAS-based file sharing and used Wrike, AudioNetwork, and SRT workflows to support production handoffs across the creative team."],
+    company: "Arizona State University", title: "Production Assistant, Enterprise Brand & Strategy Management", period: "Oct 2024 - May 2026", location: "Tempe, AZ", href: undefined,
+    highlights: ["Supported production handoffs with Wrike, AudioNetwork, and SRT workflows. Proposed NAS-based file sharing."],
   },
   {
     company: "SS Pandey & Associates", title: "Junior Developer", period: "Aug 2023 - Jan 2024", location: "New Delhi, India (Hybrid)", href: "/projects/sspandey",
     highlights: [
-      "Re-engineered a LAN-dependent document workflow into a Spring Boot service with JWT-secured REST APIs, enabling remote access to a legacy system.",
-      "Diagnosed repeated-request latency and implemented caching across a hybrid cloud and on-premise infrastructure.",
+      "Rebuilt a LAN-dependent document workflow as a Spring Boot service with JWT-secured REST APIs for remote access.",
+      "Added caching to address repeated-request latency across cloud and on-premise systems.",
     ],
   },
   {
     company: "CyberSophy", title: "Software Intern", period: "Jun 2023 - Aug 2023", location: "Hyderabad, India", href: undefined,
     highlights: [
-      "Built a Python data-collection pipeline with Selenium and BeautifulSoup to process profiles from multiple sources.",
-      "Improved MongoDB retrieval through schema design and indexing, and reduced redundant storage through deduplication.",
+      "Built a Python data-collection pipeline with Selenium and BeautifulSoup. Used MongoDB indexing and deduplication to improve retrieval and avoid redundant storage.",
     ],
   },
 ];
 const projects = [
-  { name: "Lyra", role: "Primary Engineer, Sponsored ASU Capstone", period: "Aug 2025 - May 2026", href: "/projects/Capstone", detail: "Led architecture and full-stack development of a safety-focused dating platform using React, FastAPI, and PostgreSQL, deployed on Vercel and Render. Built weighted matching and AI-assisted recommendations, validated matching engines through unit, integration, and manual tests, and served as the sponsor’s primary technical contact." },
-  { name: "Grocery Price Tracker", role: "Database Management Project", period: "Jan 2025 - May 2025", href: "/projects/priceTracker", detail: "Built a course-scoped monitoring and alerting system with React, Node.js, and PostgreSQL. Implemented price ingestion, basket comparisons, indexed aggregations, and caching; exercised alert behavior with simulated updates." },
-  { name: "Sales Analytics Dashboard", role: "Developer & Data Analyst", period: "Sep 2024", href: "/projects/salesExplorer", detail: "Analyzed a Kaggle retail dataset with Pandas and NumPy, using regional z-tests and correlation analysis to explore seasonality. Presented findings through interactive React and D3.js visualizations." },
+  { name: "Lyra", role: "Primary Engineer, Sponsored ASU Capstone", period: "Aug 2025 - May 2026", href: "/projects/Capstone", detail: "Primary engineer for the completed Spring 2026 ASU capstone, sponsored by Jay Manwani of Endless Moments LLC. Built a React, FastAPI, and PostgreSQL application with weighted matching and AI-assisted recommendations." },
+  { name: "Grocery Price Tracker", role: "Database Management Project", period: "Jan 2025 - May 2025", href: "/projects/priceTracker", detail: "Built a course-scoped price tracker with React, Node.js, and PostgreSQL. Implemented basket comparisons, caching, and alerts tested with simulated price updates." },
+  { name: "Sales Analytics Dashboard", role: "Developer & Data Analyst", period: "Sep 2024", href: "/projects/salesExplorer", detail: "Analyzed a Kaggle retail dataset with Pandas and NumPy. Presented seasonality, regional comparisons, and correlations in React and D3.js." },
 ];
 const certifications = [
   { name: "Vertex Pipelines: Qwik Start", url: "https://coursera.org/share/5a994ca1be192c787bc488cc9c37eade", detail: "Modular ML pipelines using Kubeflow on Vertex AI, including training, evaluation, and conditional deployment." },
@@ -52,7 +50,6 @@ export default function ResumePage() {
           <p className="resume-intro mt-6 max-w-3xl text-lg leading-relaxed text-zinc-400">{resumeSummary}</p>
           <div className="resume-contact mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-400">
             <a className="inline-flex min-h-[44px] items-center hover:text-accent-300" href="mailto:kushagrapandeyy@gmail.com">kushagrapandeyy@gmail.com</a>
-            <a className="inline-flex min-h-[44px] items-center hover:text-accent-300" href="tel:+16232816677">+1 (623) 281-6677</a>
             <span>New York, NY</span>
             <a className="inline-flex min-h-[44px] items-center hover:text-accent-300" href="https://www.linkedin.com/in/kushagra--pandey/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             <a className="inline-flex min-h-[44px] items-center hover:text-accent-300" href="https://github.com/kushagrapandeyy" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -94,7 +91,7 @@ export default function ResumePage() {
               <section id="education" className="scroll-mt-8 border-t border-white/10 pt-10 lg:scroll-mt-0 print:border-0 print:pt-0" aria-labelledby="education-heading">
                 <h2 id="education-heading" className="mb-8 font-display text-2xl tracking-tight text-paper">Education</h2>
                 <div className="grid gap-6 sm:grid-cols-2 sm:gap-10 print:block">
-                  <div><h3 className="text-xl font-semibold tracking-tight text-zinc-100">Arizona State University</h3><p className="mt-2 text-sm leading-6 text-zinc-400">Ira A. Fulton Schools of Engineering</p><p className="mt-4 text-sm text-accent-300">Graduated May 2026</p><p className="mt-2 text-sm text-zinc-400">GPA 3.2</p></div>
+                  <div><h3 className="text-xl font-semibold tracking-tight text-zinc-100">Arizona State University</h3><p className="mt-2 text-sm leading-6 text-zinc-400">Ira A. Fulton Schools of Engineering</p><p className="mt-4 text-sm text-accent-300">Graduated May 2026</p></div>
                   <div><p className="text-sm leading-6 text-zinc-300">B.S. Computer Science<br />Minor in Film and Media Production</p><p className="mt-4 text-sm leading-7 text-zinc-400">Coursework: Data Structures & Algorithms, Database Management Systems, Artificial Intelligence, Operating Systems, Human-Computer Interaction, Theoretical Computer Science.</p></div>
                 </div>
               </section>

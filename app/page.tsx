@@ -24,7 +24,7 @@ export default function Home() {
               <h2 className="section-title">An engineer with an eye for the whole product.</h2>
               <p className="mt-6 leading-relaxed text-zinc-400">I work from the interface down to the API, database, and infrastructure. At Firmlytic Solutions, that means turning conversations with a legal practice into software, then staying with the testing, deployment, and fixes that follow.</p>
               <p className="mt-4 leading-relaxed text-zinc-400">Before founding Firmlytic, I worked on legacy document systems at SS Pandey & Associates and data pipelines at CyberSophy. I graduated from Arizona State University in May 2026 with a B.S. in Computer Science and a minor in Film and Media Production.</p>
-              <p className="mt-4 leading-relaxed text-zinc-400">That mix of engineering and visual storytelling shapes how I build: understand the workflow, make it clear, and get the details right.</p>
+              <p className="mt-4 leading-relaxed text-zinc-400">I’m based in New York, NY, and open to relocation for new grad or entry-level software engineering roles.</p>
             </Reveal>
           </div>
         </section>
@@ -36,7 +36,7 @@ export default function Home() {
         <section className="page-width section-space border-t border-white/10">
           <Reveal>
             <h2 className="work-heading max-w-3xl font-display tracking-tight text-paper">Have something in mind?</h2>
-            <p className="mt-5 text-zinc-400">Open to software engineering roles and thoughtful collaborations.</p>
+            <p className="mt-5 text-zinc-400">Looking for new grad and entry-level software engineering roles. Open to relocation.</p>
             <a href="mailto:kushagrapandeyy@gmail.com" className="mt-6 inline-flex min-h-[44px] items-center gap-3 break-all text-lg text-accent-300 hover:text-accent-200 sm:text-2xl">kushagrapandeyy@gmail.com <ArrowUpRight size={22} aria-hidden="true" className="shrink-0" /></a>
           </Reveal>
         </section>
