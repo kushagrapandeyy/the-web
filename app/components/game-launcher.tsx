@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 
-const Chronos = dynamic(() => import("./chronos-game"), { ssr: false, loading: () => <p role="status" className="text-sm text-zinc-400">Loading Chronos…</p> });
+const Chronos = dynamic(() => import("./chronos-game"), { ssr: false, loading: () => <p role="status" className="text-sm text-secondary">Loading Chronos…</p> });
 
 export function GameLauncher() {
   const [open, setOpen] = useState(false);

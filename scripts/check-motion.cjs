@@ -28,6 +28,23 @@ for (const moment of storyMoments) {
   assert.equal(moment.opacity.at(-1), moment.title === "Your turn." ? 1 : 0);
 }
 
+const themeBootstrap = read("app/layout.tsx").match(/id="theme-preference"[\s\S]*?__html: `([^`]+)`/)[1];
+for (const saved of [null, "light", "dark", "invalid", "blocked"]) {
+  const document = { documentElement: { dataset: {} } };
+  vm.runInNewContext(themeBootstrap, { document, localStorage: { getItem() { if (saved === "blocked") throw Error("Storage denied"); return saved; } } });
+  assert.equal(document.documentElement.dataset.theme, saved === "light" ? "light" : "dark");
+}
+let selectedTheme = "dark";
+const themeDocument = { documentElement: { dataset: { theme: "dark" } } };
+const ThemeToggle = load("app/components/theme-toggle.tsx", {
+  react: { useState: () => [selectedTheme, value => { selectedTheme = value; }], useEffect: effect => effect() },
+  "lucide-react": { Sun: "svg", Moon: "svg" },
+}, { document: themeDocument, localStorage: { setItem() { throw Error("Storage denied"); } } }).ThemeToggle;
+ThemeToggle().props.onClick();
+assert.equal(themeDocument.documentElement.dataset.theme, "light", "Switching must work even when persistence is blocked");
+assert.equal(ThemeToggle().props["aria-label"], "Switch to dark mode");
+ThemeToggle().props.onClick(); assert.equal(themeDocument.documentElement.dataset.theme, "dark");
+
 const bootstrap = read("app/layout.tsx").match(/id="intro-preference"[\s\S]*?__html: `([^`]+)`/)[1];
 function boot({ pathname = "/", hash = "", scrollY = 0, reduced = false, seen = false, blockedStorage = false } = {}) {
   const document = { documentElement: { dataset: {} } };

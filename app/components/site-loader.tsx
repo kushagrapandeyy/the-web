@@ -56,7 +56,7 @@ export function SiteEntrance({ children }: { children: React.ReactNode }) {
     {visible && <section data-intro-loader aria-label="Welcome to Kushagra Pandey’s portfolio" className="intro-loader pointer-events-none fixed inset-0 z-50 print:hidden">
       <motion.div className="absolute inset-0 bg-canvas" initial={false} animate={{ opacity: phase === "entering" ? 0 : 1 }} transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }} />
       <InkIntro onReveal={reveal} onComplete={finish} />
-      <motion.button type="button" onClick={finish} tabIndex={phase === "entering" ? -1 : 0} animate={{ opacity: phase === "entering" ? 0 : 1 }} transition={{ duration: 0.2 }} style={{ pointerEvents: phase === "entering" ? "none" : "auto" }} className="pointer-events-auto absolute right-6 top-5 inline-flex min-h-[44px] items-center px-3 text-sm text-zinc-400 hover:text-paper">Skip intro</motion.button>
+      <motion.button type="button" onClick={finish} tabIndex={phase === "entering" ? -1 : 0} animate={{ opacity: phase === "entering" ? 0 : 1 }} transition={{ duration: 0.2 }} style={{ pointerEvents: phase === "entering" ? "none" : "auto" }} className="pointer-events-auto absolute right-6 top-5 inline-flex min-h-[44px] items-center px-3 text-sm text-secondary hover:text-paper">Skip intro</motion.button>
     </section>}
   </>;
 }

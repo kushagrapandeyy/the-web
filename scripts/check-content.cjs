@@ -80,4 +80,26 @@ for (const file of ["app/components/technical-stack.tsx", "app/resume/page.tsx"]
   assert.match(text, /import\s*\{[^}]*\btechnicalSkills\b[^}]*\}\s*from\s*["'][^"']*\/profile["']/, `${file}: use the shared skill source`);
   assert.match(text, /technicalSkills\.map\(/, `${file}: shared skills are not rendered`);
 }
+function luminance(hex) {
+  return [0.2126, 0.7152, 0.0722].reduce((sum, weight, index) => {
+    const value = parseInt(hex.slice(1 + index * 2, 3 + index * 2), 16) / 255;
+    return sum + weight * (value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+  }, 0);
+}
+function contrast(first, second) {
+  const [dark, light] = [luminance(first), luminance(second)].sort((a, b) => a - b);
+  return (light + 0.05) / (dark + 0.05);
+}
+const themeCss = read("global.css");
+for (const selector of [":root", ':root[data-theme="light"]']) {
+  const block = themeCss.slice(themeCss.indexOf(selector)).split("}")[0];
+  const colors = Object.fromEntries([...block.matchAll(/--palette-([\w-]+):\s*(\d+) (\d+) (\d+)/g)].map(([, name, ...rgb]) => [name, "#" + rgb.map(value => Number(value).toString(16).padStart(2, "0")).join("")]));
+  assert.equal(Object.keys(colors).length, 11, "Both themes must define all palette roles");
+  for (const background of [colors.canvas, colors.surface, colors.raised]) {
+    for (const text of [colors.paper, colors.secondary]) assert.ok(contrast(text, background) >= 7, `${selector}: primary and body text must meet AAA contrast`);
+    for (const text of [colors.muted, colors.accent]) assert.ok(contrast(text, background) >= 4.5, `${selector}: metadata and links must meet AA contrast`);
+  }
+  assert.ok(contrast(colors["cta-ink"], colors.accent) >= 4.5, `${selector}: CTA text must meet AA contrast`);
+}
+
 console.log(`Content checks passed: ${projects.size} case studies, ${[...projects.values()].filter(project => project.fields.published === "true").length} published routes, local links/images, section anchors, Figma fallbacks, and ${groups.length} shared skill groups.`);

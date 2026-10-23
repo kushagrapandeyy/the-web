@@ -21,14 +21,14 @@ function ImageLightbox({ src, alt = "" }: ComponentProps<"img">) {
   }, [open]);
   return (
     <>
-      <motion.button type="button" onClick={() => setOpen(true)} aria-label={`Enlarge image: ${alt}`} className="reveal group my-3 block w-full cursor-zoom-in overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40" initial={{ opacity: reduce ? 1 : 0, y: reduce ? 0 : 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.12 }} transition={{ duration: reduce ? 0 : 0.48, ease: [0.22, 1, 0.36, 1] }}>
+      <motion.button type="button" onClick={() => setOpen(true)} aria-label={`Enlarge image: ${alt}`} className="reveal group my-3 block w-full cursor-zoom-in overflow-hidden rounded-2xl border border-paper/10 bg-raised" initial={{ opacity: reduce ? 1 : 0, y: reduce ? 0 : 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.12 }} transition={{ duration: reduce ? 0 : 0.48, ease: [0.22, 1, 0.36, 1] }}>
         <img src={src} alt={alt} loading="lazy" decoding="async" width={1600} height={1000} className="aspect-[16/10] w-full object-contain transition-opacity group-hover:opacity-90" />
       </motion.button>
       {open && createPortal(
         <dialog ref={dialog} className="image-dialog" aria-label={alt || "Project image"} onClose={() => setOpen(false)} onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
-          <button type="button" autoFocus onClick={() => dialog.current?.close()} aria-label="Close image" className="ml-auto mb-3 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/15 text-zinc-200"><X size={20} /></button>
+          <button type="button" autoFocus onClick={() => dialog.current?.close()} aria-label="Close image" className="ml-auto mb-3 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-paper/15 text-paper"><X size={20} /></button>
           <img src={src} alt={alt} className="min-h-0 w-full min-w-0 flex-1 object-contain" />
-          {alt && <p className="mt-4 w-full shrink-0 text-center text-sm text-zinc-400">{alt}</p>}
+          {alt && <p className="mt-4 w-full shrink-0 text-center text-sm text-secondary">{alt}</p>}
         </dialog>, document.body
       )}
     </>

@@ -15,7 +15,7 @@ export function ResumeEntry({ children, className = "" }: PropsWithChildren<{ cl
   const y = useTransform(scrollYProgress, [0, 0.3], [14, 0]);
   const active = hovered || focused;
   return <motion.article ref={element} className={`resume-entry reveal group relative isolate ${className}`} style={{ y: reduce ? 0 : y }} initial="rest" animate={active ? "active" : "rest"} variants={{ rest: { x: 0 }, active: { x: reduce ? 0 : 4 } }} onHoverStart={() => setHovered(true)} onHoverEnd={() => setHovered(false)} onFocusCapture={() => setFocused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false); }} transition={{ type: "spring", stiffness: 180, damping: 28 }}>
-    <motion.span aria-hidden="true" className="pointer-events-none absolute -inset-x-3 -inset-y-4 -z-10 rounded-lg bg-white/[0.035] print:hidden" variants={{ rest: { opacity: 0 }, active: { opacity: 1 } }} transition={{ duration: 0.2 }} />
+    <motion.span aria-hidden="true" className="pointer-events-none absolute -inset-x-3 -inset-y-4 -z-10 rounded-lg bg-paper/[0.035] print:hidden" variants={{ rest: { opacity: 0 }, active: { opacity: 1 } }} transition={{ duration: 0.2 }} />
     <span aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 top-9 w-px sm:left-[164px] sm:top-0 motion-reduce:hidden print:hidden">
       <motion.span className="absolute inset-0 origin-top bg-accent-300" style={{ scaleY: progress }} variants={{ rest: { opacity: 0.45 }, active: { opacity: 1 } }} />
       <motion.span className="absolute -left-[2px] top-0 h-[5px] w-[5px] rounded-full bg-accent-300" variants={{ rest: { scale: 0.8, opacity: 0.45 }, active: { scale: 1.35, opacity: 1 } }} transition={{ type: "spring", stiffness: 300, damping: 24 }} />
@@ -37,8 +37,8 @@ export function ResumeCaseLink({ href, children }: PropsWithChildren<{ href: str
 
 export function ResumeSkill({ label, skills }: { label: string; skills: string[] }) {
   const reduce = useReducedMotion();
-  return <motion.div whileHover={{ x: reduce ? 0 : 4 }} transition={{ type: "spring", stiffness: 240, damping: 30 }} className="reveal group border-l border-white/10 pl-5 transition-colors hover:border-accent-300/70 print:border-0 print:pl-0">
-    <dt className="text-sm font-medium text-zinc-200 transition-colors group-hover:text-accent-300">{label}</dt>
-    <dd className="mt-2 text-sm leading-7 text-zinc-400">{skills.join(", ")}</dd>
+  return <motion.div whileHover={{ x: reduce ? 0 : 4 }} transition={{ type: "spring", stiffness: 240, damping: 30 }} className="reveal group border-l border-paper/10 pl-5 transition-colors hover:border-paper/[0.18] print:border-0 print:pl-0">
+    <dt className="text-sm font-medium text-paper">{label}</dt>
+    <dd className="mt-2 text-sm leading-7 text-secondary">{skills.join(", ")}</dd>
   </motion.div>;
 }

@@ -44,7 +44,7 @@ export function InkIntro({ onReveal, onComplete }: { onReveal: () => void; onCom
       if (!fullContext || !markContext) { onComplete(); return; }
       fullContext.scale(dpr, dpr);
       const palette = getComputedStyle(document.documentElement);
-      const colors = [palette.getPropertyValue("--color-paper").trim(), palette.getPropertyValue("--color-accent").trim()];
+      const colors = [palette.getPropertyValue("--color-paper").trim(), palette.getPropertyValue("--color-paper").trim()];
       const style = getComputedStyle(cells[0]);
       const tracking = parseFloat(style.letterSpacing) || 0;
       const size = parseFloat(style.fontSize);

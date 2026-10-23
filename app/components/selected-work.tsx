@@ -95,37 +95,37 @@ function ProjectPanel({ project, index, panelRef, nextRef, enhanced, tilt }: {
       <motion.div className="project-reel-depth scroll-art origin-top" style={{ scale: enhanced && !focused ? scale : 1 }}>
         <motion.div ref={pointerFrame} className="project-reel-pointer scroll-art" style={{ perspective: 1200 }} initial={{ y: reduce ? 0 : 12 }} whileInView={{ y: 0 }} viewport={{ once: true, amount: 0.12 }} transition={{ duration: reduce ? 0 : 0.48, ease: [0.22, 1, 0.36, 1] }} onPointerMove={movePointer} onPointerEnter={event => { if (event.pointerType === "mouse") setHovered(true); }} onPointerLeave={resetPointer}>
           <motion.div
-            className="project-reel-surface scroll-art rounded-2xl"
-            style={{ rotateX: tilt && !focused ? rotateX : 0, rotateY: tilt && !focused ? rotateY : 0 }}
-            animate={{ boxShadow: active ? "0 24px 60px -28px rgba(0,0,0,0.65)" : "0 12px 32px -24px rgba(0,0,0,0.4)" }}
+            className="project-reel-surface scroll-art rounded-2xl transition-shadow duration-200"
+            style={{ rotateX: tilt && !focused ? rotateX : 0, rotateY: tilt && !focused ? rotateY : 0, boxShadow: active ? "var(--project-shadow-active)" : "var(--project-shadow)" }}
+            animate={{ y: active && !reduce ? -3 : 0 }}
             transition={{ duration: reduce ? 0 : 0.25 }}
           >
             <Link
               href={`/projects/${project.slug}`}
               aria-labelledby={`work-${project.slug}-title`}
               aria-describedby={`work-${project.slug}-description`}
-              className="group grid overflow-hidden rounded-2xl border border-white/15 bg-surface transition-colors duration-200 hover:border-accent-300/60 focus-visible:border-accent-300 lg:min-h-[32rem] lg:grid-cols-[0.82fr_1.18fr]"
+              className="group grid overflow-hidden rounded-2xl border border-line bg-surface transition-colors duration-200 hover:border-paper/[0.18] focus-visible:border-accent-300 lg:min-h-[32rem] lg:grid-cols-[0.82fr_1.18fr]"
             >
               <div className="flex min-w-0 flex-col p-5 sm:p-8">
-                <p className="text-xs leading-5 text-accent-300 sm:text-sm">{project.role}</p>
+                <p className="text-xs leading-5 text-secondary sm:text-sm">{project.role}</p>
                 <div className="mt-3 flex items-start justify-between gap-3 sm:mt-4 sm:gap-4">
                   <h3 id={`work-${project.slug}-title`} className="min-w-0 font-display text-[1.65rem] leading-[1.08] tracking-tight text-paper sm:text-3xl lg:text-4xl">{project.title}</h3>
                   <motion.span aria-hidden="true" className="mt-1 shrink-0 text-accent-300" animate={{ x: active && !reduce ? 3 : 0, y: active && !reduce ? -3 : 0 }} transition={{ type: "spring", stiffness: 340, damping: 36 }}><ArrowUpRight size={22} /></motion.span>
                 </div>
-                <p id={`work-${project.slug}-description`} className="mt-4 text-sm leading-6 text-zinc-300 sm:mt-5 sm:text-base sm:leading-7">{project.description}</p>
-                <div className="mt-6 hidden border-t border-white/10 pt-5 sm:block">
-                  <p className="text-xs text-zinc-400">Architecture</p>
-                  <p className="mt-2 text-sm leading-6 text-zinc-300">{project.architecture}</p>
+                <p id={`work-${project.slug}-description`} className="mt-4 text-sm leading-6 text-secondary sm:mt-5 sm:text-base sm:leading-7">{project.description}</p>
+                <div className="mt-6 hidden border-t border-paper/10 pt-5 sm:block">
+                  <p className="text-xs text-secondary">Architecture</p>
+                  <p className="mt-2 text-sm leading-6 text-secondary">{project.architecture}</p>
                 </div>
-                <p className="mt-auto pt-5 text-xs leading-5 text-accent-300 sm:pt-6">{project.status}</p>
+                <p className="mt-auto pt-5 text-xs leading-5 text-secondary sm:pt-6">{project.status}</p>
               </div>
               <figure className="order-first flex min-w-0 flex-col justify-center px-4 pt-4 sm:px-8 sm:pt-8 lg:order-none lg:py-8 lg:pl-0">
-                <div ref={mediaFrame} className="relative aspect-[16/10] overflow-hidden rounded-lg border border-white/10 bg-canvas">
+                <div ref={mediaFrame} className="relative aspect-[16/10] overflow-hidden rounded-lg border border-paper/10 bg-canvas">
                   <motion.div className="project-reel-media scroll-art absolute inset-0" initial={{ clipPath: reduce ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)" }} animate={{ clipPath: mediaVisible || reduce ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)" }} transition={{ duration: reduce ? 0 : 0.8, ease: [0.22, 1, 0.36, 1] }} style={{ x: tilt && !focused ? imageX : 0, y: tilt && !focused ? imageY : 0 }}>
                     <Image src={project.image} alt={project.alt} fill sizes="(max-width: 1023px) 100vw, 60vw" className="object-contain p-3 sm:p-5" />
                   </motion.div>
                 </div>
-                <figcaption className="mt-3 text-xs leading-5 text-zinc-400">{project.caption}</figcaption>
+                <figcaption className="mt-3 text-xs leading-5 text-secondary">{project.caption}</figcaption>
               </figure>
             </Link>
           </motion.div>
@@ -167,7 +167,7 @@ export function SelectedWork() {
   }, []);
 
   return (
-    <section ref={section} id="selected-work" className="project-reel work-section page-width section-space border-t border-white/15" data-reel-motion={enhanced ? "on" : "off"}>
+    <section ref={section} id="selected-work" className="project-reel work-section page-width section-space border-t border-paper/15" data-reel-motion={enhanced ? "on" : "off"}>
       <TextReveal className="work-heading mb-10 font-display tracking-tight text-paper">Selected work.</TextReveal>
       <div className="project-reel-list grid gap-8">
         {projects.map((project, index) => <ProjectPanel key={project.slug} project={project} index={index} panelRef={panelRefs[index]} nextRef={panelRefs[index + 1]} enhanced={enhanced} tilt={tilt} />)}

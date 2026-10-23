@@ -61,6 +61,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth" className={[inter.variable, calSans.variable].join(" ")}>
       <head>
+        <script id="theme-preference" dangerouslySetInnerHTML={{ __html: `(()=>{let theme="dark";try{const saved=localStorage.getItem("portfolio-theme");if(saved==="light"||saved==="dark")theme=saved}catch{}document.documentElement.dataset.theme=theme})()` }} />
         {/* A fresh document gets an intro; client-side navigation keeps its completed state. */}
         <script id="intro-preference" dangerouslySetInnerHTML={{ __html: `(()=>{const eligible=location.pathname==="/"&&!location.hash&&scrollY<=1&&!matchMedia("(prefers-reduced-motion: reduce)").matches;document.documentElement.dataset.intro=eligible?"pending":"done";setTimeout(()=>{if(document.documentElement.dataset.intro==="pending")document.documentElement.dataset.intro="done"},10000)})()` }} />
         <Analytics />

@@ -11,11 +11,15 @@ module.exports = {
 	theme: {
 		extend: {
             colors: {
-                accent: { 200: "#c9ddf1", 300: "#a9c7e8", 400: "#83acd8" },
-                canvas: "#111315",
-                surface: "#1b1e22",
-                paper: "#f4f1e9",
-                sand: "#eeeae2",
+                accent: { 200: "rgb(var(--palette-accent-200) / <alpha-value>)", 300: "rgb(var(--palette-accent) / <alpha-value>)", 400: "rgb(var(--palette-accent-400) / <alpha-value>)" },
+                canvas: "rgb(var(--palette-canvas) / <alpha-value>)",
+                surface: "rgb(var(--palette-surface) / <alpha-value>)",
+                raised: "rgb(var(--palette-raised) / <alpha-value>)",
+                line: "rgb(var(--palette-line) / <alpha-value>)",
+                secondary: "rgb(var(--palette-secondary) / <alpha-value>)",
+                muted: "rgb(var(--palette-muted) / <alpha-value>)",
+                paper: "rgb(var(--palette-paper) / <alpha-value>)",
+                "cta-ink": "rgb(var(--palette-cta-ink) / <alpha-value>)",
             },
 			typography: {
 				DEFAULT: {

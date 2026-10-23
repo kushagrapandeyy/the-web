@@ -38,6 +38,6 @@ export function ScrambleName({ onComplete, duration = 720, animate = true, revea
   }, [reduce, onComplete, duration, animate, reveal]);
 
   return <span ref={ref} aria-hidden="true" className="block font-display tracking-[-0.05em]">
-    {words.map((word, row) => <span key={word} className={`block overflow-hidden pb-[0.1em] -mb-[0.1em] ${row === 1 ? "text-accent-300" : ""}`}><motion.span className="entrance-word block" initial={reveal ? { y: "110%" } : false} animate={{ y: 0 }} transition={{ duration: 1.1, delay: row * 0.14, ease: [0.22, 1, 0.36, 1] }}>{word.split("").map((letter, index) => <span key={index} className="relative inline-block"><span className="invisible">{letter}</span><span data-glyph={letter} data-locked="true" className="decode-glyph absolute inset-0 flex items-center justify-center">{letter}</span></span>)}</motion.span></span>)}
+    {words.map((word, row) => <span key={word} className="block overflow-hidden pb-[0.1em] -mb-[0.1em]"><motion.span className="entrance-word block" initial={reveal ? { y: "110%" } : false} animate={{ y: 0 }} transition={{ duration: 1.1, delay: row * 0.14, ease: [0.22, 1, 0.36, 1] }}>{word.split("").map((letter, index) => <span key={index} className="relative inline-block"><span className="invisible">{letter}</span><span data-glyph={letter} data-locked="true" className="decode-glyph absolute inset-0 flex items-center justify-center">{letter}</span></span>)}</motion.span></span>)}
   </span>;
 }

@@ -39,12 +39,12 @@ export function HomeHero() {
   }, [reduce]);
 
   return <section ref={ref} id="hero-section" className="home-hero relative flex min-h-[min(900px,100dvh)] items-center justify-center overflow-hidden px-6 pb-20 pt-24">
-    <Particles className="pointer-events-none absolute inset-0 opacity-30" quantity={45} staticity={80} />
+    <Particles className="hero-particles pointer-events-none absolute inset-0 opacity-30" quantity={45} staticity={80} />
     <motion.div className="hero-content scroll-art relative mx-auto w-full max-w-4xl text-center" style={reduce ? undefined : { y, scale, opacity }}>
       <h1 aria-label="Kushagra Pandey" className="hero-name mx-auto w-fit font-display tracking-[-0.05em] text-paper"><ScrambleName animate={false} /></h1>
       <div className="hero-return-copy scroll-art">
         <div className="hero-introduction">
-          <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-zinc-400 [text-wrap:balance] sm:text-lg">{introduction}</p>
+          <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-secondary [text-wrap:balance] sm:text-lg">{introduction}</p>
           <a href="#selected-work" className="text-link group mt-8">View selected work <ArrowDown size={16} aria-hidden="true" className="transition-transform group-hover:translate-y-1" /></a>
         </div>
       </div>
