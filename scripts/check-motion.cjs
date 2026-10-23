@@ -17,6 +17,7 @@ function load(file, mocks, globals) {
 
 // Native scroll timelines need explicit endpoints to hold completed phases at zero.
 const storySource = read("app/components/chronos-story.tsx");
+assert.match(read("global.css"), /translateY\(calc\(-1px \* var\(--story-drift, 0\)\)\)/, "Opposing scroll values need CSS length units");
 const storyMoments = vm.runInNewContext(storySource.match(/const moments = (\[[\s\S]*?\n\]);/)[1]);
 for (const moment of storyMoments) {
   assert.equal(moment.range[0], 0);

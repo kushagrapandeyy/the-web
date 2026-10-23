@@ -96,6 +96,10 @@
 
 .chronos-story-animated { height: 260svh; min-height: 1100px; }
 .chronos-story-stage { position: sticky; top: 7rem; }
+@media (min-width: 1024px) {
+  .chronos-story-copy { transform: translateY(calc(1px * var(--story-drift, 0))); }
+  .chronos-story-field { transform: translateY(calc(-1px * var(--story-drift, 0))); }
+}
 @media (prefers-reduced-motion: reduce), (max-height: 600px), print {
   .chronos-story-animated { display: none; }
   .chronos-story-static { @apply not-sr-only grid gap-6 sm:grid-cols-2; }

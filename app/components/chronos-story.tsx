@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue, type MotionStyle } from "framer-motion";
 
 const moments = [
   { title: "Move.", text: "Scroll to move the player. It carries momentum as it changes direction.", range: [0, 0.20, 0.28, 1], opacity: [1, 1, 0, 0] },
@@ -14,7 +14,7 @@ function Moment({ moment, progress }: { moment: typeof moments[number]; progress
   const opacity = useTransform(progress, moment.range, moment.opacity);
   const y = useTransform(opacity, [0, 1], [12, 0]);
   return <motion.div className="absolute inset-0 flex flex-col justify-center" style={{ opacity, y }}>
-    <h3 className="max-w-sm font-display text-[clamp(1.8rem,3.2vw,3rem)] leading-[1.08] tracking-tight text-paper">{moment.title}</h3>
+    <h3 className="max-w-sm font-display text-[clamp(2.6rem,5.6vw,5.5rem)] leading-[1.08] tracking-tight text-paper">{moment.title}</h3>
     <p className="mt-4 max-w-sm text-sm leading-6 text-zinc-300 sm:text-base sm:leading-7">{moment.text}</p>
   </motion.div>;
 }
@@ -33,15 +33,18 @@ export function ChronosStory() {
   const riftY = useTransform(progress, [0, 0.46, 0.82, 1], [140, 140, 190, 190]);
   const zoom = useTransform(progress, [0, 0.78, 1], [1, 1, 1.08]);
 
+  const drift = useTransform(progress, [0, 1], [-32, 32]);
+
   return <section ref={section} id="chronos-preview" aria-label="Chronos scroll preview" className="relative section-space border-t border-white/15">
     <div className="chronos-story-animated">
-      <div className="chronos-story-stage rounded-2xl border border-white/15 bg-surface p-5 sm:p-8">
+      <motion.div className="chronos-story-stage" style={{ "--story-drift": drift } as MotionStyle}>
         <div className="mb-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-1"><p className="text-sm text-zinc-300">Chronos · Scroll to move</p><a href="#chronos-play" className="text-link relative z-10">Skip to the game</a></div>
         <div aria-hidden="true" className="mb-6 h-px overflow-hidden bg-white/10"><motion.div className="h-full origin-left bg-accent-300" style={{ scaleX: progress }} /></div>
-        <div aria-hidden="true" className="grid items-center gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-10">
-          <div className="relative h-[120px] lg:h-[260px]">{moments.map(moment => <Moment key={moment.title} moment={moment} progress={progress} />)}</div>
-          <div className="relative h-[clamp(180px,30svh,380px)] min-w-0 overflow-hidden rounded-xl border border-white/10 bg-canvas lg:h-[clamp(280px,48svh,480px)]">
+        <div aria-hidden="true" className="grid items-center gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-8">
+          <div className="chronos-story-copy relative min-w-0"><div className="relative h-[150px] lg:h-[300px]">{moments.map(moment => <Moment key={moment.title} moment={moment} progress={progress} />)}</div></div>
+          <div className="chronos-story-field relative h-[clamp(180px,30svh,380px)] min-w-0 lg:h-[clamp(280px,48svh,480px)]">
             <motion.svg viewBox="0 0 800 500" className="h-full w-full" style={{ scale: reduce ? 1 : zoom }}>
+              <path d="M0 100H800M0 200H800M0 300H800M0 400H800M160 0V500M320 0V500M480 0V500M640 0V500" fill="none" stroke="currentColor" strokeOpacity="0.06" vectorEffect="non-scaling-stroke" />
               <motion.circle cx={440} cy={180} r={18} className="fill-accent-300 stroke-accent-300" strokeWidth={12} vectorEffect="non-scaling-stroke" style={{ opacity: fragmentOpacity }} />
               <motion.circle cx={440} cy={180} r={collectedRadius} fill="none" className="stroke-accent-300" strokeWidth={2} vectorEffect="non-scaling-stroke" style={{ opacity: collectedOpacity }} />
               <motion.text x={440} y={130} textAnchor="middle" className="fill-accent-300 text-3xl" style={{ opacity: collectedOpacity }}>+10</motion.text>
@@ -50,7 +53,7 @@ export function ChronosStory() {
             </motion.svg>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
     <ol className="chronos-story-static sr-only">{moments.map(moment => <li key={moment.title}><h3 className="font-display text-2xl text-paper">{moment.title}</h3><p className="mt-3 text-sm leading-7 text-zinc-300">{moment.text.replace("Scroll to move", "Move").replace("Keep scrolling to collect", "Collect")}</p></li>)}</ol>
     <noscript><style>{`.chronos-story-animated { display: none !important; } .chronos-story-static { position: static !important; width: auto !important; height: auto !important; margin: 0 !important; overflow: visible !important; clip: auto !important; white-space: normal !important; display: grid !important; gap: 1.5rem; }`}</style></noscript>
