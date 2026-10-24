@@ -25,7 +25,7 @@ export function TechnicalStack() {
   const pointerY = useMotionValue(0);
   const x = useSpring(pointerX, { stiffness: 180, damping: 30 });
   const y = useSpring(pointerY, { stiffness: 180, damping: 30 });
-  const light = useMotionTemplate`radial-gradient(300px circle at ${x}px ${y}px, color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 80%)`;
+  const light = useMotionTemplate`radial-gradient(300px circle at ${x}px ${y}px, var(--stack-highlight), transparent 80%)`;
 
   return <section id="stack" aria-labelledby="stack-title" className="page-width section-space border-t border-paper/15">
     <div className="mb-10 grid items-end gap-5 md:grid-cols-2 md:gap-12">
