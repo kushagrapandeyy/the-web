@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { Project } from "contentlayer/generated";
 import { WorkPreview } from "../components/work-preview";
 import { Reveal } from "../components/reveal";
-import { Playground } from "../components/playground";
+import { GameLauncher } from "../components/game-launcher";
 
 type Props = {
   projects: Project[];
@@ -39,7 +39,7 @@ export function ProjectsContent({ projects, views, category }: Props) {
         ))}
       </div>
       {projects.length === 0 && <p className="py-12 text-secondary">Projects will appear here as they are published.</p>}
-      {category === "engineering" && <div className="mt-16"><Playground /></div>}
+      {category === "engineering" && <div className="mt-16"><GameLauncher /></div>}
     </main>
   );
 }
