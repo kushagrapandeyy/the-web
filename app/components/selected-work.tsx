@@ -14,10 +14,10 @@ const projects = [
     role: "Founder · Product & engineering",
     image: "/ProjectPngs/firmlyticSolutions.png",
     alt: "Firmlytic Solutions company website, separate from the private legal beta",
-    description: "From a legal practice’s daily workflow to a working beta. I founded Firmlytic and build Sainya Mitra, bringing case records, tracking, and client access together.",
+    description: "I founded Firmlytic Solutions and build Sainya Mitra, its legal-tech product. Currently in beta, it brings case records, tracking and client access into one platform, with 1,000+ registered cases across High Court and Supreme Court forums.",
     architecture: "React handles the case interface, Hasura supports data access, and AWS hosts the backend infrastructure.",
     status: "Sainya Mitra · Beta",
-    caption: "Company website. The legal application is a separate beta.",
+    caption: "Company website. The legal application is Sainya Mitra, in beta.",
   },
   {
     slug: "Capstone",

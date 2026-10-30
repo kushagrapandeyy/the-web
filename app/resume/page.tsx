@@ -9,7 +9,7 @@ const experiences = [
   {
     company: "Firmlytic Solutions", title: "Founder", period: "Jan 2024 - Present", location: "New Delhi, India", href: "/projects/firmlyticSolutions",
     highlights: [
-      "Lead product and engineering for Sainya Mitra, an AI legal SaaS in beta with a law firm. The beta supports case records, tracking, and linked client accounts.",
+      "Founded Firmlytic Solutions and lead product and engineering for Sainya Mitra, its flagship AI legal SaaS. Currently in beta with 1,000+ registered cases across High Court and Supreme Court forums, it supports case records, tracking and linked client accounts.",
       "Build React interfaces, Node.js services, Hasura data access, and AWS infrastructure. Integrated Claude for document summaries, tagging, and clause extraction. AI output is under evaluation. Human review is essential.",
       "Maintain tests, deployment documentation, Cloudflare WAF, and IAM access controls. Built OCR Scanflow, a separate document-processing prototype for a prospective client.",
     ],
